@@ -56,7 +56,6 @@ export type Service = {
   ja: string;
   description: string;
   image: string;
-  tone: "light" | "dark";
 };
 
 export const services: Service[] = [
@@ -64,33 +63,29 @@ export const services: Service[] = [
     no: "01",
     title: "Re-Palette",
     ja: "美容福祉事業",
-    description: "美容の力で、社会的孤立の状態にある若者の社会参加と自己肯定感の回復を支援します。",
+    description: "美容を通じて、社会的孤立状態にある\n若者の社会復帰を支援します。",
     image: "/images/service-repalette.jpg",
-    tone: "light",
   },
   {
     no: "02",
     title: "Education",
     ja: "教育事業",
-    description: "人の可能性を広げる学びの場をつくり、未来の選択肢を増やします。",
+    description: "人の可能性を広げる教育を通じて、\n未来の選択肢を増やします。",
     image: "/images/service-education.jpg",
-    tone: "light",
   },
   {
     no: "03",
     title: "Community & Events",
     ja: "コミュニティ・イベント事業",
-    description: "世代や立場を超えて人がつながり、刺激し合う場から新しい価値を生み出します。",
+    description: "人と人がつながり、挑戦し合う場をつくり、\n新しい価値を生み出します。",
     image: "/images/service-community.jpg",
-    tone: "dark",
   },
   {
     no: "04",
     title: "AI & Technology",
     ja: "AI・IT事業",
-    description: "テクノロジーで美容・教育・福祉の可能性を拡張し、社会実装まで届けます。",
+    description: "テクノロジーで、教育・美容・福祉の\n可能性を広げます。",
     image: "/images/service-ai.jpg",
-    tone: "dark",
   },
 ];
 

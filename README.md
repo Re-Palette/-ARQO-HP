@@ -44,7 +44,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | -------- | ---- |
 | Hero     | フルスクリーンの人物写真。ゆっくりズームイン → スクロールでパララックス、光の反射。白文字のロゴは線を描くアニメーション、ヘッダーも写真上では白 |
 | About    | フルスクリーンの写真に白文字（右寄せ）。スクロールに合わせてズームアウトするパララックス、見出しのテキストリビール、下に3つのプリンシプル |
-| Services | 4枚の大型カード。デスクトップはホバーでカードが広がり画像がズーム、モバイルは横スクロールスナップ |
+| Services | 横長の写真カード4枚（文字は写真下部にオーバーレイ）。ホバーで浮き上がり＋画像ズーム、タブレット2列、モバイルは横スクロール |
 | Brands   | ダークセクション。Re-Palette / Nuance Lounge / NEWTONE。ホバーで詳細が展開（タッチ端末では常時表示） |
 | Vision   | 夕景の都市。スクロールに合わせてインセットのカードがフルブリードへ開き、背景がゆっくりズーム |
 | News     | ガラスモーフィズムのカード4件 |
@@ -54,7 +54,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 
 ## Images (dummy)
 
-`hero.jpg` / `about.jpg` / `og.jpg` は本番写真です（生成スクリプトの対象外なので上書きされません）。
+`hero.jpg` / `about.jpg` / `service-*.jpg` / `og.jpg` は本番写真です（生成スクリプトの対象外なので上書きされません）。
 それ以外の `public/images/*.jpg` は `npm run images` で SVG から生成したダミーです（外部依存・ライセンスなし）。
 同じファイル名・近いアスペクト比の写真で置き換えるだけで本番画像に差し替えられます。
 
@@ -62,7 +62,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | ---- | ---- | ---- |
 | `hero.jpg` | Hero 背景（人物・空・都市）※本番写真 | 16:9 |
 | `about.jpg` | About 背景（建築・夕景の都市）※本番写真 | 16:9 |
-| `service-*.jpg` | Services カード | 5:7 |
+| `service-*.jpg` | Services カード ※本番写真 | 3:2 |
 | `brand-*.jpg` | Brands カード | 3:4 |
 | `vision.jpg` / `footer.jpg` | 夕景の都市 | 16:9 |
 | `news-*.jpg` | News サムネイル | 16:10 |

@@ -5,7 +5,7 @@
  * project works offline and carries no licensing risk. Replace any file in
  * /public/images with real photography of the same name and aspect ratio.
  *
- * hero.jpg, about.jpg and og.jpg are real photography and are intentionally not
+ * hero.jpg, about.jpg, service-*.jpg and og.jpg are real photography and are intentionally not
  * generated here, so re-running this script never overwrites them.
  *
  *   npm run images
@@ -328,10 +328,6 @@ function bloom(w, h, seed = 12) {
 await mkdir(OUT, { recursive: true });
 console.log("Generating placeholders →", path.relative(process.cwd(), OUT));
 
-await write("service-repalette.jpg", 1000, 1400, prism(1000, 1400, 1));
-await write("service-education.jpg", 1000, 1400, interior(1000, 1400, { seed: 2 }));
-await write("service-community.jpg", 1000, 1400, stage(1000, 1400, { seed: 3, hue: "violet" }));
-await write("service-ai.jpg", 1000, 1400, network(1000, 1400, 5));
 await write("brand-repalette.jpg", 900, 1200, prism(900, 1200, 7));
 await write("brand-nuance.jpg", 900, 1200, interior(900, 1200, { seed: 6, green: true }));
 await write("brand-newtone.jpg", 900, 1200, stage(900, 1200, { seed: 13, hue: "blue" }));
