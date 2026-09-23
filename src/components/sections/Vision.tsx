@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
-import { TextReveal } from "@/components/motion/TextReveal";
+import { ScrubText } from "@/components/motion/ScrubText";
 
 export function Vision() {
   const ref = useRef<HTMLElement>(null);
@@ -37,10 +37,9 @@ export function Vision() {
           <Reveal>
             <p className="eyebrow justify-center text-white/75">Our Vision</p>
           </Reveal>
-          <TextReveal
+          <ScrubText
             id="vision-heading"
             lines={["美容・教育・コミュニティ・テクノロジーで、", "誰もが自分らしく生きられる", "社会をつくる。"]}
-            stagger={0.18}
             className="heading-ja mx-auto mt-12 text-[clamp(1.3rem,3vw,2.75rem)] leading-[1.85] text-white [text-shadow:0_4px_40px_rgba(20,20,50,0.35)]"
             lineClassName="md:whitespace-nowrap"
           />

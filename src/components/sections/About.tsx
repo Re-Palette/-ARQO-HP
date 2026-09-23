@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollDrift } from "@/components/motion/ScrollDrift";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
@@ -30,7 +31,7 @@ export function About() {
         </div>
 
         <div className="container-x flex flex-1 items-end pb-24 pt-32 md:items-center md:justify-end md:pb-0">
-          <div className="max-w-[560px] [text-shadow:0_1px_3px_rgba(6,20,46,0.6),0_4px_30px_rgba(6,20,46,0.55)] md:mr-[2%] md:-mt-[6vh]">
+          <ScrollDrift distance={70} minWidth={768} className="max-w-[560px] [text-shadow:0_1px_3px_rgba(6,20,46,0.6),0_4px_30px_rgba(6,20,46,0.55)] md:mr-[2%] md:-mt-[6vh]">
             <Reveal>
               <p className="eyebrow text-white">About</p>
             </Reveal>
@@ -54,7 +55,7 @@ export function About() {
                 詳しく見る
               </ArrowLink>
             </Reveal>
-          </div>
+          </ScrollDrift>
         </div>
 
         <div aria-hidden className="absolute bottom-8 left-[clamp(1.25rem,4.5vw,4.5rem)] hidden flex-col items-center gap-3 text-[0.625rem] uppercase tracking-[0.3em] text-white/85 md:flex">

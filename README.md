@@ -49,7 +49,19 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | News     | ガラスモーフィズムのカード4件 |
 | Footer   | Contact CTA、ナビ、巨大な ARQO ワードマーク（線描アニメーション） |
 
-`prefers-reduced-motion` を尊重し、その場合は Lenis・パララックスを無効化します。
+### スクロール同期アニメーション
+
+| 場所 | 動き |
+| ---- | ---- |
+| ページ上端 | スクロール量に応じて伸びるプログレスバー |
+| Hero / About / Vision | 背景写真のパララックス＋ズーム、About の文章は写真より速く上がる |
+| Vision | 見出しの文字がスクロールに合わせて一文字ずつ点灯（`ScrubText`） |
+| Services / News | カードごとに移動量を変えた奥行きのあるドリフト（1280px 以上） |
+| Footer | 「Let's build」が横からスライド、巨大ロゴがページ末尾でちょうど定位置に収まる |
+
+部品は `src/components/motion/`（`ScrollProgress` / `ScrollDrift` / `ScrubText` / `Parallax`）。
+
+`prefers-reduced-motion` を尊重し、その場合は Lenis・パララックス・スクロール同期の動きをすべて無効化します。
 
 ## Images (dummy)
 

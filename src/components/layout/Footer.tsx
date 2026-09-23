@@ -1,16 +1,30 @@
 "use client";
 
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { Arrow } from "@/components/ui/ArrowLink";
 import { Logo } from "@/components/ui/Logo";
 import { nav, site, socials } from "@/lib/content";
 
 export function Footer() {
+  const ref = useRef<HTMLElement>(null);
+  const allowed = useMotionAllowed();
+  // The wordmark rises and settles exactly as the page reaches its end.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const logoY = useTransform(scrollYProgress, [0.35, 1], allowed ? ["28%", "0%"] : ["0%", "0%"]);
+  // Function form keeps this on the JS path; the accelerated opacity path ignored this offset range.
+  const logoOpacity = useTransform(scrollYProgress, (v) =>
+    allowed ? 0.2 + 0.8 * Math.min(1, Math.max(0, (v - 0.35) / 0.55)) : 1,
+  );
+  const ctaX = useTransform(scrollYProgress, [0, 0.6], allowed ? [-60, 0] : [0, 0]);
+
   return (
-    <footer id="contact" className="relative isolate overflow-hidden bg-night text-white">
+    <footer ref={ref} id="contact" className="relative isolate overflow-hidden bg-night text-white">
       <div aria-hidden className="absolute inset-0 -z-10">
         <Image src="/images/footer.jpg" alt="" fill sizes="100vw" className="object-cover object-bottom opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night/20" />
@@ -22,7 +36,7 @@ export function Footer() {
           <p className="eyebrow text-white/60">Contact</p>
         </Reveal>
         <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
-          <div>
+          <motion.div style={{ x: ctaX }}>
             <TextReveal
               as="h2"
               lines={["Let’s build", "what’s next."]}
@@ -33,7 +47,7 @@ export function Footer() {
                 事業提携・取材・採用・協賛のご相談は、お気軽にお問い合わせください。
               </p>
             </Reveal>
-          </div>
+          </motion.div>
           <Reveal delay={0.4}>
             <a
               href={`mailto:${site.contactEmail}`}
@@ -83,7 +97,9 @@ export function Footer() {
 
       {/* Giant wordmark */}
       <div className="container-x pb-8">
-        <Logo className="h-auto w-full text-white/90" stroke={1.4} draw title={`${site.name} wordmark`} />
+        <motion.div style={{ y: logoY, opacity: logoOpacity }}>
+          <Logo className="h-auto w-full text-white/90" stroke={1.4} draw title={`${site.name} wordmark`} />
+        </motion.div>
         <div className="mt-8 flex flex-col justify-between gap-3 text-[0.625rem] uppercase tracking-[0.24em] text-white/45 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} {site.legalName} All rights reserved.</p>
           <p>{site.missionEn}</p>

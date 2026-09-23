@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollDrift } from "@/components/motion/ScrollDrift";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { Arrow, ArrowLink } from "@/components/ui/ArrowLink";
 import { news } from "@/lib/content";
 
 const fmt = (iso: string) => iso.replaceAll("-", ".");
+
+// Per-card scroll drift (px) — staggered for depth on the 4-up desktop row.
+const DRIFT = [8, 30, 16, 42];
 
 export function News() {
   return (
@@ -40,6 +44,7 @@ export function News() {
         <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-9 xl:grid-cols-4">
           {news.map((n, i) => (
             <li key={n.title}>
+              <ScrollDrift distance={DRIFT[i % DRIFT.length]} minWidth={1280} className="h-full">
               <Reveal delay={i * 0.1} y={36} className="h-full">
                 <article className="glass group relative flex h-full flex-col overflow-hidden rounded-[10px] p-3 transition-transform duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5">
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[6px]">
@@ -69,6 +74,7 @@ export function News() {
                   </div>
                 </article>
               </Reveal>
+              </ScrollDrift>
             </li>
           ))}
         </ul>

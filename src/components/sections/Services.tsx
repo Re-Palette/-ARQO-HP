@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollDrift } from "@/components/motion/ScrollDrift";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { Arrow, ArrowLink } from "@/components/ui/ArrowLink";
 import { services } from "@/lib/content";
+
+// Per-card scroll drift (px) — staggered so the row gains depth as it passes.
+const DRIFT = [10, 38, 18, 50];
 
 export function Services() {
   return (
@@ -51,6 +55,7 @@ export function Services() {
         >
           {services.map((s, i) => (
             <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
+              <ScrollDrift distance={DRIFT[i % DRIFT.length]} minWidth={1280} className="h-full">
               <Reveal delay={i * 0.1} y={36} amount={0.05} className="h-full">
                 <a
                   href="#vision"
@@ -91,6 +96,7 @@ export function Services() {
                   </div>
                 </a>
               </Reveal>
+              </ScrollDrift>
             </li>
           ))}
         </ul>
