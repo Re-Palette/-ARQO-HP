@@ -22,7 +22,7 @@ npm run lint
 npm run typecheck
 ```
 
-`NEXT_PUBLIC_SITE_URL` に本番URLを設定すると、canonical / OGP / sitemap / robots に反映されます（`.env.example` 参照）。
+`NEXT_PUBLIC_SITE_URL` に本番URLを設定すると、canonical / OGP / sitemap / robots に反映されます（`.env.example` 参照）。未設定・空・不正な値の場合は Vercel のシステム環境変数（`VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL`）、最後に `http://localhost:3000` にフォールバックします。
 
 ## Structure
 

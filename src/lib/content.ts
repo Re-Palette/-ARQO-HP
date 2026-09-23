@@ -3,10 +3,33 @@
  * Everything visitors read lives here so it can later be moved to a CMS.
  */
 
+/**
+ * Canonical origin. Falls back to Vercel's system env vars, then localhost.
+ * Empty or scheme-less values (e.g. "arqo.jp") are tolerated.
+ */
+function resolveSiteUrl(): string {
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_URL,
+  ];
+  for (const raw of candidates) {
+    const value = raw?.trim();
+    if (!value) continue;
+    const withScheme = /^https?:\/\//.test(value) ? value : `https://${value}`;
+    try {
+      return new URL(withScheme).origin;
+    } catch {
+      // ignore malformed values and try the next candidate
+    }
+  }
+  return "http://localhost:3000";
+}
+
 export const site = {
   name: "ARQO",
   legalName: "ARQO Inc.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: resolveSiteUrl(),
   mission: "人と可能性の間に架け橋をつくる。",
   missionEn: "Building bridges between people and possibility.",
   description:
