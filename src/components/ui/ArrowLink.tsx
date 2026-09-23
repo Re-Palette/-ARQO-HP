@@ -18,7 +18,7 @@ export function Arrow({ className }: { className?: string }) {
 }
 
 export function ArrowLink({ href, children, className = "", circle = false, tone = "ink" }: ArrowLinkProps) {
-  const border = tone === "ink" ? "border-ink/25" : "border-white/35";
+  const border = tone === "ink" ? "border-ink/25" : "border-white/80";
   return (
     <Link
       href={href}

@@ -171,6 +171,13 @@ html.lenis body {
   100% { transform: scaleX(0); transform-origin: right; }
 }
 
+@keyframes scroll-line-y {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
 @keyframes drift {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   50% { transform: translate3d(2%, -3%, 0) rotate(4deg); }

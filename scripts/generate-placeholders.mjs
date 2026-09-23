@@ -5,7 +5,7 @@
  * project works offline and carries no licensing risk. Replace any file in
  * /public/images with real photography of the same name and aspect ratio.
  *
- * hero.jpg and og.jpg are real photography and are intentionally not
+ * hero.jpg, about.jpg and og.jpg are real photography and are intentionally not
  * generated here, so re-running this script never overwrites them.
  *
  *   npm run images
@@ -91,43 +91,6 @@ async function write(name, w, h, markup, quality = 78) {
 /* ------------------------------------------------------------------ */
 /* scenes                                                             */
 /* ------------------------------------------------------------------ */
-
-/** White curved architecture ("sail") against a soft sky (About). */
-function architecture(w, h) {
-  const defs = `
-    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#b9d4ee"/>
-      <stop offset="0.55" stop-color="#dbe7f4"/>
-      <stop offset="1" stop-color="#f3dfe6"/>
-    </linearGradient>
-    <linearGradient id="sail" x1="0" y1="0" x2="1" y2="0.3">
-      <stop offset="0" stop-color="#f7f8fa"/>
-      <stop offset="0.45" stop-color="#e3e8ef"/>
-      <stop offset="0.7" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#cfd8e4"/>
-    </linearGradient>
-    <linearGradient id="sail2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#c7d3e2" stop-opacity="0.8"/>
-    </linearGradient>
-    <radialGradient id="flare" cx="0.62" cy="0.18" r="0.35">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    ${cloudFilter("clouds", { freq: 0.003, seed: 31, cut: -0.66, gain: 2.4 })}
-    ${blur("b2", 2)}${blur("b30", 30)}
-    ${grain("grain", 0.06)}`;
-  const body = `
-    <rect width="${w}" height="${h}" fill="url(#sky)"/>
-    <rect width="${w}" height="${h}" filter="url(#clouds)" opacity="0.8"/>
-    <path d="M${-w * 0.05} ${-h * 0.05} C ${w * 0.25} ${h * 0.1}, ${w * 0.45} ${h * 0.35}, ${w * 0.55} ${h * 1.05} L ${-w * 0.05} ${h * 1.05} Z" fill="url(#sail)"/>
-    <path d="M${-w * 0.05} ${-h * 0.05} C ${w * 0.25} ${h * 0.1}, ${w * 0.45} ${h * 0.35}, ${w * 0.55} ${h * 1.05}" fill="none" stroke="#ffffff" stroke-width="3" filter="url(#b2)"/>
-    <path d="M${w * 0.1} ${-h * 0.05} C ${w * 0.35} ${h * 0.02}, ${w * 0.62} ${h * 0.12}, ${w * 0.8} ${h * 0.4} L ${w * 0.62} ${h * 0.42} C ${w * 0.5} ${h * 0.2}, ${w * 0.3} ${h * 0.06}, ${w * 0.1} ${-h * 0.05} Z" fill="url(#sail2)" opacity="0.85"/>
-    <line x1="${w * 0.3}" y1="${h * 0.36}" x2="${w * 0.3}" y2="${h * 1.05}" stroke="#8a97a8" stroke-width="5" opacity="0.6"/>
-    <rect width="${w}" height="${h}" fill="url(#flare)"/>
-    <rect width="${w}" height="${h}" filter="url(#grain)"/>`;
-  return svg(w, h, body, defs);
-}
 
 /** Pastel prism / light-leak portrait mood (Re-Palette). */
 function prism(w, h, seed = 1) {
@@ -365,7 +328,6 @@ function bloom(w, h, seed = 12) {
 await mkdir(OUT, { recursive: true });
 console.log("Generating placeholders →", path.relative(process.cwd(), OUT));
 
-await write("about-architecture.jpg", 1600, 1200, architecture(1600, 1200));
 await write("service-repalette.jpg", 1000, 1400, prism(1000, 1400, 1));
 await write("service-education.jpg", 1000, 1400, interior(1000, 1400, { seed: 2 }));
 await write("service-community.jpg", 1000, 1400, stage(1000, 1400, { seed: 3, hue: "violet" }));
