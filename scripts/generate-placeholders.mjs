@@ -400,19 +400,6 @@ function bloom(w, h, seed = 12) {
   return svg(w, h, body, defs);
 }
 
-/** Pale dawn gradient used as a soft section background. */
-function aura(w, h) {
-  const defs = `${blur("b", 140)}`;
-  const body = `
-    <rect width="${w}" height="${h}" fill="#f7f7f5"/>
-    <g filter="url(#b)">
-      <ellipse cx="${w * 0.15}" cy="${h * 0.3}" rx="${w * 0.3}" ry="${h * 0.35}" fill="#cfe2f5"/>
-      <ellipse cx="${w * 0.6}" cy="${h * 0.7}" rx="${w * 0.35}" ry="${h * 0.3}" fill="#e3dcf7"/>
-      <ellipse cx="${w * 0.9}" cy="${h * 0.25}" rx="${w * 0.25}" ry="${h * 0.3}" fill="#f7dde2"/>
-    </g>`;
-  return svg(w, h, body, defs);
-}
-
 /* ------------------------------------------------------------------ */
 
 await mkdir(OUT, { recursive: true });
@@ -434,7 +421,6 @@ await write("news-event.jpg", 1000, 640, interior(1000, 640, { seed: 9, green: t
 await write("news-brand.jpg", 1000, 640, bloom(1000, 640, 12));
 await write("news-tech.jpg", 1000, 640, network(1000, 640, 21));
 await write("news-community.jpg", 1000, 640, stage(1000, 640, { seed: 30, hue: "violet" }));
-await write("aura.jpg", 1600, 1000, aura(1600, 1000), 85);
 await write("og.jpg", 1200, 630, heroSky(1200, 630), 82);
 
 console.log("Done.");
