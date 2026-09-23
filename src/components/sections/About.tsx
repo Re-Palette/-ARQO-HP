@@ -6,15 +6,9 @@ import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
-const principles = [
-  { no: "01", en: "Access", ja: "機会へのアクセスを、誰にでも。" },
-  { no: "02", en: "Design", ja: "美しい体験で、人の行動を変える。" },
-  { no: "03", en: "Scale", ja: "テクノロジーで、仕組みとして広げる。" },
-];
-
 export function About() {
   return (
-    <section id="about" aria-labelledby="about-heading" className="relative bg-white">
+    <section id="about" aria-labelledby="about-heading" className="relative">
       {/* Full-bleed scene */}
       <div className="relative isolate flex min-h-[100svh] overflow-hidden text-white">
         <div className="absolute inset-0 -z-10">
@@ -69,23 +63,6 @@ export function About() {
           </span>
           Scroll
         </div>
-      </div>
-
-      {/* Principles */}
-      <div className="container-x py-24 md:py-36">
-        <ul className="grid gap-px overflow-hidden rounded-[4px] bg-line md:grid-cols-3">
-          {principles.map((p, i) => (
-            <li key={p.no} className="bg-white">
-              <Reveal delay={i * 0.12} className="flex h-full flex-col gap-10 px-2 py-10 md:px-10 md:py-14">
-                <span className="text-[0.6875rem] tracking-[0.24em] text-ink/40">{p.no}</span>
-                <div>
-                  <p className="font-display text-4xl text-ink md:text-5xl">{p.en}</p>
-                  <p className="heading-ja mt-4 text-sm text-ink-2">{p.ja}</p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
