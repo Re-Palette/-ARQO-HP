@@ -62,7 +62,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | ---- | ---- | ---- |
 | `hero.jpg` | Hero 背景（人物・空・都市）※本番写真 | 16:9 |
 | `about.jpg` | About 背景（建築・夕景の都市）※本番写真 | 16:9 |
-| `service-*.jpg` | Services カード ※本番写真 | 3:2 |
+| `service-*.jpg` | Services カード ※本番写真 | 5:6（縦長） |
 | `brand-*.jpg` | Brands カード | 3:4 |
 | `vision.jpg` / `footer.jpg` | 夕景の都市 | 16:9 |
 | `news-*.jpg` | News サムネイル | 16:10 |
