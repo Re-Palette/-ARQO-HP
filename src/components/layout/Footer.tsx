@@ -21,7 +21,13 @@ export function Footer() {
   const logoOpacity = useTransform(scrollYProgress, (v) =>
     allowed ? 0.2 + 0.8 * Math.min(1, Math.max(0, (v - 0.35) / 0.55)) : 1,
   );
-  const ctaX = useTransform(scrollYProgress, [0, 0.6], allowed ? [-60, 0] : [0, 0]);
+  const ctaX = useTransform(scrollYProgress, [0, 0.6], allowed ? [-120, 0] : [0, 0]);
+  // Letters start spread apart and close ranks as the page reaches its end.
+  const spread = useTransform(scrollYProgress, (v) => (allowed ? 1 - Math.min(1, Math.max(0, (v - 0.3) / 0.7)) : 0));
+  const gA = useTransform(spread, (s) => s * -90);
+  const gR = useTransform(spread, (s) => s * -35);
+  const gQ = useTransform(spread, (s) => s * 35);
+  const gO = useTransform(spread, (s) => s * 90);
 
   return (
     <footer ref={ref} id="contact" className="relative isolate overflow-hidden bg-night text-white">
@@ -98,7 +104,13 @@ export function Footer() {
       {/* Giant wordmark */}
       <div className="container-x pb-8">
         <motion.div style={{ y: logoY, opacity: logoOpacity }}>
-          <Logo className="h-auto w-full text-white/90" stroke={1.4} draw title={`${site.name} wordmark`} />
+          <Logo
+            className="h-auto w-full overflow-visible text-white/90"
+            stroke={1.4}
+            draw
+            title={`${site.name} wordmark`}
+            glyphX={[gA, gR, gQ, gO]}
+          />
         </motion.div>
         <div className="mt-8 flex flex-col justify-between gap-3 text-[0.625rem] uppercase tracking-[0.24em] text-white/45 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} {site.legalName} All rights reserved.</p>

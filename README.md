@@ -51,15 +51,19 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 
 ### スクロール同期アニメーション
 
+すべてスクロール位置に直結（時間ではなくスクロール量で進む）。
+
 | 場所 | 動き |
 | ---- | ---- |
 | ページ上端 | スクロール量に応じて伸びるプログレスバー |
-| Hero / About / Vision | 背景写真のパララックス＋ズーム、About の文章は写真より速く上がる |
-| Vision | 見出しの文字がスクロールに合わせて一文字ずつ点灯（`ScrubText`） |
-| Services / News | カードごとに移動量を変えた奥行きのあるドリフト（1280px 以上） |
-| Footer | 「Let's build」が横からスライド、巨大ロゴがページ末尾でちょうど定位置に収まる |
+| Hero → About | Hero は画面に固定され、角丸カードに縮みながら暗くなって奥へ。上から About のパネルが重なってくる |
+| About（ピン留め） | 小さな窓の写真がスクロールに合わせて全画面へ広がり、写真はズームアウト。その後コピーが一行ずつ横からスライド＋ぼかし解除で登場 |
+| Services | カードが傾き・縮小した状態から一枚ずつ立ち上がって整列（768px 以上）。下に巨大なアウトライン文字が左右逆方向に流れる |
+| Vision（ピン留め） | 枠が全画面に開いた後、画面に固定されたまま街がゆっくりズームアウトし、見出しが一文字ずつ点灯 → 英文が浮かぶ |
+| News | カードが右から時間差でスライドイン（1024px 以上） |
+| Footer | 「Let's build」が横からスライド、巨大ロゴは散らばった文字が寄り集まってページ末尾で完成 |
 
-部品は `src/components/motion/`（`ScrollProgress` / `ScrollDrift` / `ScrubText` / `Parallax`）。
+部品は `src/components/motion/`（`ScrollProgress` / `ScrubText` / `ScrollMarquee` / `Parallax`）と各セクション内。
 
 `prefers-reduced-motion` を尊重し、その場合は Lenis・パララックス・スクロール同期の動きをすべて無効化します。
 

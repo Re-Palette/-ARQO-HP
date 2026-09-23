@@ -11,16 +11,30 @@ type ScrubTextProps = {
   lineClassName?: string;
   /** Opacity of characters that have not been reached yet. */
   dim?: number;
+  /** Drive the lighting from an external progress value (e.g. a pinned section) instead of the headline's own pass. */
+  progress?: MotionValue<number>;
+  /** Portion of `progress` over which the characters light up. */
+  range?: [number, number];
 };
 
 /**
  * Headline whose characters light up one by one in step with the scroll
  * position — the reading pace follows the reader's scroll.
  */
-export function ScrubText({ lines, id, className, lineClassName, dim = 0.18 }: ScrubTextProps) {
+export function ScrubText({
+  lines,
+  id,
+  className,
+  lineClassName,
+  dim = 0.18,
+  progress,
+  range: [from, to] = [0, 1],
+}: ScrubTextProps) {
   const ref = useRef<HTMLHeadingElement>(null);
   const allowed = useMotionAllowed();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 88%", "end 45%"] });
+  const { scrollYProgress: own } = useScroll({ target: ref, offset: ["start 88%", "end 45%"] });
+  const source = progress ?? own;
+  const scrollYProgress = useTransform(source, (v) => Math.min(1, Math.max(0, (v - from) / (to - from))));
 
   const total = lines.reduce((n, l) => n + l.length, 0);
   let index = 0;
@@ -59,8 +73,9 @@ function Char({
   range: [number, number];
   dim: number;
 }) {
-  const opacity = useTransform(progress, range, [dim, 1]);
-  const y = useTransform(progress, range, dim < 1 ? ["0.12em", "0em"] : ["0em", "0em"]);
+  const t = useTransform(progress, (v) => Math.min(1, Math.max(0, (v - range[0]) / (range[1] - range[0]))));
+  const opacity = useTransform(t, (v) => dim + (1 - dim) * v);
+  const y = useTransform(t, (v) => (dim < 1 ? `${(1 - v) * 0.12}em` : "0em"));
   return (
     <motion.span style={{ opacity, y }} className="inline-block whitespace-pre">
       {char}

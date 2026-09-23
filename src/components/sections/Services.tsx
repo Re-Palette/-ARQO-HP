@@ -1,16 +1,21 @@
 "use client";
 
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
-import { ScrollDrift } from "@/components/motion/ScrollDrift";
+import { ScrollMarquee } from "@/components/motion/ScrollMarquee";
+import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { Arrow, ArrowLink } from "@/components/ui/ArrowLink";
 import { services } from "@/lib/content";
 
-// Per-card scroll drift (px) — staggered so the row gains depth as it passes.
-const DRIFT = [10, 38, 18, 50];
-
 export function Services() {
+  const listRef = useRef<HTMLUListElement>(null);
+  // Cards on tablet/desktop rise into place in step with the scroll; phones keep a simple reveal.
+  const allowed = useMotionAllowed(768);
+  const { scrollYProgress: p } = useScroll({ target: listRef, offset: ["start end", "start 30%"] });
+
   return (
     <section
       id="service"
@@ -50,13 +55,13 @@ export function Services() {
 
         {/* Portrait photo cards: swipe on mobile, 2-up on tablet, 4-up on desktop */}
         <ul
+          ref={listRef}
           data-lenis-prevent-touch
           className="-mx-[clamp(1.25rem,4.5vw,4.5rem)] mt-12 flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,4.5vw,4.5rem)] gap-4 overflow-x-auto px-[clamp(1.25rem,4.5vw,4.5rem)] pb-4 [scrollbar-width:none] md:mx-0 md:mt-14 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden"
         >
           {services.map((s, i) => (
             <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
-              <ScrollDrift distance={DRIFT[i % DRIFT.length]} minWidth={1280} className="h-full">
-              <Reveal delay={i * 0.1} y={36} amount={0.05} className="h-full">
+              <RiseIn p={p} index={i} allowed={allowed}>
                 <a
                   href="#vision"
                   className="group relative isolate flex aspect-[5/6] flex-col justify-between overflow-hidden rounded-[3px] p-5 text-white shadow-[0_24px_60px_-30px_rgba(40,50,90,0.45)] transition-[transform,box-shadow] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-30px_rgba(40,50,90,0.55)] md:p-6"
@@ -95,12 +100,54 @@ export function Services() {
                     </span>
                   </div>
                 </a>
-              </Reveal>
-              </ScrollDrift>
+              </RiseIn>
             </li>
           ))}
         </ul>
       </div>
+
+      {/* Oversized outlined type sliding with the scroll */}
+      <ScrollMarquee
+        words={["Beauty", "Education", "Community", "Technology"]}
+        className="mt-20 font-display text-[clamp(4.5rem,13vw,13rem)] leading-[1.02] text-transparent [-webkit-text-stroke:1px_rgba(38,39,44,0.22)] md:mt-28"
+      />
     </section>
+  );
+}
+
+/**
+ * Card entrance scrubbed by the list's scroll progress: rises from below with a
+ * slight tilt and scale, each card offset so the row assembles left to right.
+ */
+function RiseIn({
+  p,
+  index,
+  allowed,
+  children,
+}: {
+  p: MotionValue<number>;
+  index: number;
+  allowed: boolean;
+  children: React.ReactNode;
+}) {
+  const start = index * 0.12;
+  const t = useTransform(p, (v) => Math.min(1, Math.max(0, (v - start) / 0.55)));
+  const ease = useTransform(t, (v) => 1 - Math.pow(1 - v, 3));
+  const y = useTransform(ease, (v) => (1 - v) * 220);
+  const rotate = useTransform(ease, (v) => (1 - v) * (index % 2 ? -5 : 5));
+  const scale = useTransform(ease, (v) => 0.86 + v * 0.14);
+  const opacity = useTransform(ease, (v) => 0.15 + v * 0.85);
+
+  if (!allowed) {
+    return (
+      <Reveal delay={index * 0.1} y={36} amount={0.05} className="h-full">
+        {children}
+      </Reveal>
+    );
+  }
+  return (
+    <motion.div style={{ y, rotate, scale, opacity }} className="h-full origin-bottom will-change-transform">
+      {children}
+    </motion.div>
   );
 }

@@ -13,8 +13,11 @@ export default function Home() {
       <ScrollProgress />
       <Header />
       <main id="main">
-        <Hero />
-        <About />
+        {/* Hero stays pinned and recedes while About slides up over it */}
+        <div className="relative">
+          <Hero />
+          <About />
+        </div>
         <Services />
         <Vision />
         <News />

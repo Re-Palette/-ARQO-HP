@@ -5,27 +5,42 @@ import Image from "next/image";
 import { useRef } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { Arrow } from "@/components/ui/ArrowLink";
 import { Logo } from "@/components/ui/Logo";
 import { domains } from "@/lib/content";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const allowed = useMotionAllowed();
+  // The hero is sticky, so progress is measured in viewport heights scrolled from the top.
+  const { scrollY } = useScroll();
+  const p = useTransform(scrollY, (v) =>
+    typeof window === "undefined" ? 0 : Math.min(1, Math.max(0, v / window.innerHeight)),
+  );
+  const m = (from: number, to: number) => (allowed ? [from, to] : [from, from]);
 
-  // Scroll-synced depth: the photo drifts slower than the copy.
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  // Scroll-synced depth: photo drifts and zooms, copy lifts away faster, and the
+  // whole stage recedes into a rounded card while About slides over it.
+  const bgY = useTransform(p, [0, 1], allowed ? ["0%", "10%"] : ["0%", "0%"]);
+  const bgScale = useTransform(p, [0, 1], m(1, 1.12));
+  const copyY = useTransform(p, [0, 1], m(0, -180));
+  const copyOpacity = useTransform(p, (v) => (allowed ? Math.max(0, 1 - v / 0.55) : 1));
+  const stageScale = useTransform(p, [0, 1], m(1, 0.88));
+  const stageRadius = useTransform(p, [0, 1], m(0, 36));
+  const dim = useTransform(p, (v) => (allowed ? v * 0.6 : 0));
 
   return (
     <section
       id="top"
       ref={ref}
       aria-label="ARQO — 人と可能性の間に架け橋をつくる。"
-      className="relative isolate h-[100svh] min-h-[640px] overflow-hidden bg-sky-deep text-white"
+      className="sticky top-0 z-0 h-[100svh] min-h-[640px] overflow-hidden bg-night text-white"
     >
+      <motion.div
+        style={{ scale: stageScale, borderRadius: stageRadius }}
+        className="relative isolate h-full origin-[50%_30%] overflow-hidden bg-sky-deep will-change-transform"
+      >
       {/* Photo — slow settle-in zoom, then scroll parallax */}
       <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 -z-20">
         <motion.div
@@ -132,6 +147,10 @@ export function Hero() {
           </span>
           A Social Venture for What&rsquo;s Next
         </span>
+      </motion.div>
+
+      {/* Darkens as the stage recedes behind the next section */}
+      <motion.div aria-hidden style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-night" />
       </motion.div>
     </section>
   );

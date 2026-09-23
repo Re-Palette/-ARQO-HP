@@ -1,18 +1,22 @@
 "use client";
 
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
-import { ScrollDrift } from "@/components/motion/ScrollDrift";
+import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { Arrow, ArrowLink } from "@/components/ui/ArrowLink";
 import { news } from "@/lib/content";
 
 const fmt = (iso: string) => iso.replaceAll("-", ".");
 
-// Per-card scroll drift (px) — staggered for depth on the 4-up desktop row.
-const DRIFT = [8, 30, 16, 42];
 
 export function News() {
+  const listRef = useRef<HTMLUListElement>(null);
+  const allowed = useMotionAllowed(1024);
+  const { scrollYProgress: p } = useScroll({ target: listRef, offset: ["start end", "start 35%"] });
+
   return (
     <section
       id="news"
@@ -41,11 +45,10 @@ export function News() {
           </Reveal>
         </div>
 
-        <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-9 xl:grid-cols-4">
+        <ul ref={listRef} className="grid gap-5 sm:grid-cols-2 lg:col-span-9 xl:grid-cols-4">
           {news.map((n, i) => (
             <li key={n.title}>
-              <ScrollDrift distance={DRIFT[i % DRIFT.length]} minWidth={1280} className="h-full">
-              <Reveal delay={i * 0.1} y={36} className="h-full">
+              <SlideIn p={p} index={i} allowed={allowed}>
                 <article className="glass group relative flex h-full flex-col overflow-hidden rounded-[10px] p-3 transition-transform duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5">
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[6px]">
                     <Image
@@ -73,12 +76,44 @@ export function News() {
                     </span>
                   </div>
                 </article>
-              </Reveal>
-              </ScrollDrift>
+              </SlideIn>
             </li>
           ))}
         </ul>
       </div>
     </section>
+  );
+}
+
+/** Cards glide in from the right, staggered and scrubbed by the list's scroll progress. */
+function SlideIn({
+  p,
+  index,
+  allowed,
+  children,
+}: {
+  p: MotionValue<number>;
+  index: number;
+  allowed: boolean;
+  children: React.ReactNode;
+}) {
+  const t = useTransform(p, (v) => {
+    const k = Math.min(1, Math.max(0, (v - index * 0.1) / 0.6));
+    return 1 - Math.pow(1 - k, 3);
+  });
+  const x = useTransform(t, (v) => (1 - v) * (160 + index * 90));
+  const opacity = useTransform(t, (v) => v);
+
+  if (!allowed) {
+    return (
+      <Reveal delay={index * 0.1} y={36} className="h-full">
+        {children}
+      </Reveal>
+    );
+  }
+  return (
+    <motion.div style={{ x, opacity }} className="h-full will-change-transform">
+      {children}
+    </motion.div>
   );
 }
