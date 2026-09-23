@@ -86,7 +86,11 @@ export function Header() {
               : "border-b border-transparent"
           }`}
         >
-          <div className="container-x flex h-[72px] items-center justify-between md:h-[88px]">
+          <div
+            className={`container-x flex h-[72px] items-center justify-between md:h-[88px] ${
+              light ? "[text-shadow:0_1px_10px_rgba(8,24,52,0.4)]" : ""
+            }`}
+          >
             <Link href="#top" aria-label={`${site.name} ホーム`} className={`relative z-10 transition-colors duration-700 ${light ? "text-white" : "text-ink"}`}>
               <Logo className="h-[22px] w-auto md:h-[26px]" stroke={1.3} />
             </Link>
@@ -103,7 +107,7 @@ export function Header() {
                           light
                             ? isActive
                               ? "text-white"
-                              : "text-white/70 hover:text-white"
+                              : "text-white/85 hover:text-white"
                             : isActive
                               ? "text-ink"
                               : "text-ink/55 hover:text-ink"

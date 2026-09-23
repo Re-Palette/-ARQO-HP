@@ -48,8 +48,9 @@ export function Hero() {
 
       {/* Legibility + light layers */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1d3f6e]/35 via-[#1d3f6e]/5 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#1b2c4a]/70 via-[#1b2c4a]/20 to-transparent md:h-1/3 md:from-[#1b2c4a]/35" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,36,72,0.58)_0%,rgba(14,36,72,0.34)_32%,rgba(14,36,72,0.08)_55%,rgba(14,36,72,0)_68%)]" />
+        <div className="absolute left-0 top-1/2 h-[80%] w-[60%] -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(12,30,62,0.32),transparent)] max-md:hidden" />
+        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#0f2240]/85 via-[#0f2240]/35 to-transparent md:h-1/3 md:from-[#0f2240]/45" />
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#1d3f6e]/20 to-transparent" />
         {/* Passing light reflection across a glass plane */}
         <div className="absolute -right-[15%] -top-[25%] h-[150%] w-[40%] rotate-[24deg] overflow-hidden">
@@ -62,7 +63,7 @@ export function Hero() {
         style={{ y: copyY, opacity: copyOpacity }}
         className="container-x relative flex h-full flex-col justify-end pb-28 pt-24 md:justify-center md:pb-0"
       >
-        <div className="max-w-[620px] [text-shadow:0_2px_24px_rgba(20,50,100,0.25)]">
+        <div className="max-w-[620px] [text-shadow:0_1px_2px_rgba(8,24,52,0.45),0_4px_28px_rgba(8,24,52,0.4)]">
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -70,8 +71,8 @@ export function Hero() {
           >
             <h1 className="sr-only">ARQO</h1>
             <Logo
-              className="h-auto w-[clamp(200px,27vw,390px)] drop-shadow-[0_2px_18px_rgba(20,50,100,0.25)]"
-              stroke={1.8}
+              className="h-auto w-[clamp(200px,27vw,390px)] drop-shadow-[0_2px_16px_rgba(8,24,52,0.45)]"
+              stroke={2.2}
               draw
             />
           </motion.div>
@@ -81,14 +82,14 @@ export function Hero() {
             immediate
             delay={0.9}
             lines={["人と可能性の間に", "架け橋をつくる。"]}
-            className="heading-ja mt-8 text-[clamp(1.4rem,2.3vw,2.1rem)] leading-[1.75] tracking-[0.24em] md:mt-12"
+            className="heading-ja mt-8 text-[clamp(1.5rem,2.4vw,2.25rem)] font-medium leading-[1.75] tracking-[0.22em] md:mt-12"
           />
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: EASE, delay: 1.5 }}
-            className="mt-7 font-mincho text-[0.8125rem] leading-[2.2] tracking-[0.12em] text-white/90 md:whitespace-nowrap md:text-sm"
+            className="mt-7 font-mincho text-sm font-medium leading-[2.1] tracking-[0.1em] text-white md:whitespace-nowrap md:text-[0.9375rem]"
           >
             私たちは、美容・教育・コミュニティ・テクノロジーを通じて、<br className="hidden md:block" />
             {"一人ひとりが新しい一歩を踏み出せる機会を創造します。"}
@@ -99,10 +100,10 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 2 }}
-            className="group mt-10 inline-flex items-center gap-6 text-[0.6875rem] uppercase tracking-[0.3em] text-white/90 md:mt-14"
+            className="group mt-10 inline-flex items-center gap-6 text-[0.6875rem] uppercase tracking-[0.3em] text-white md:mt-14"
             aria-label="Aboutセクションへスクロール"
           >
-            <span className="relative grid size-14 place-items-center overflow-hidden rounded-full border border-white/70 transition-[transform,background-color,color] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-110 group-hover:bg-white group-hover:text-sky-deep md:size-16">
+            <span className="relative grid size-14 place-items-center overflow-hidden rounded-full border border-white/90 bg-white/10 backdrop-blur-sm transition-[transform,background-color,color] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-110 group-hover:bg-white group-hover:text-sky-deep md:size-16">
               <Arrow className="w-5 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
             </span>
             Scroll
@@ -115,7 +116,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 2.2 }}
-        className="container-x absolute inset-x-0 bottom-6 flex items-end justify-between text-[0.625rem] uppercase tracking-[0.3em] text-white/75 md:bottom-8"
+        className="container-x absolute inset-x-0 bottom-6 flex items-end justify-between text-[0.625rem] uppercase tracking-[0.3em] text-white/90 [text-shadow:0_1px_12px_rgba(8,24,52,0.5)] md:bottom-8"
       >
         <ul className="hidden items-center gap-4 sm:flex">
           {domains.map((d, i) => (
