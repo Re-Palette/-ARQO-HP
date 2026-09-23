@@ -92,42 +92,6 @@ async function write(name, w, h, markup, quality = 78) {
 /* scenes                                                             */
 /* ------------------------------------------------------------------ */
 
-/** Pastel prism / light-leak portrait mood (Re-Palette). */
-function prism(w, h, seed = 1) {
-  const defs = `
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f6e4ea"/>
-      <stop offset="0.5" stop-color="#e6ddf5"/>
-      <stop offset="1" stop-color="#dfe9f7"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="0.55" cy="0.35" r="0.5">
-      <stop offset="0" stop-color="#fff5ef" stop-opacity="0.95"/>
-      <stop offset="1" stop-color="#fff5ef" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#ffc4d0" stop-opacity="0"/>
-      <stop offset="0.25" stop-color="#ffd6c2" stop-opacity="0.8"/>
-      <stop offset="0.45" stop-color="#fff2c4" stop-opacity="0.7"/>
-      <stop offset="0.6" stop-color="#c9f0e4" stop-opacity="0.6"/>
-      <stop offset="0.78" stop-color="#c7d4ff" stop-opacity="0.8"/>
-      <stop offset="1" stop-color="#e2c8ff" stop-opacity="0"/>
-    </linearGradient>
-    ${blur("b60", 60)}${blur("b20", 20)}${blur("b120", 120)}
-    ${grain("grain", 0.06)}`;
-  const body = `
-    <rect width="${w}" height="${h}" fill="url(#bg)"/>
-    <ellipse cx="${w * 0.52}" cy="${h * 0.36}" rx="${w * 0.24}" ry="${h * 0.22}" fill="#f2d3d6" filter="url(#b120)" opacity="0.9"/>
-    <ellipse cx="${w * 0.5}" cy="${h * 0.9}" rx="${w * 0.45}" ry="${h * 0.25}" fill="#e9d8ef" filter="url(#b120)"/>
-    <rect width="${w}" height="${h}" fill="url(#glow)"/>
-    <g filter="url(#b20)" transform="rotate(-28 ${w / 2} ${h / 2})">
-      <rect x="${-w * 0.2}" y="${h * 0.52}" width="${w * 1.4}" height="${h * 0.07}" fill="url(#rainbow)"/>
-      <rect x="${-w * 0.2}" y="${h * 0.66}" width="${w * 1.4}" height="${h * 0.035}" fill="url(#rainbow)" opacity="0.7"/>
-    </g>
-    <g filter="url(#b60)">${bokeh(w, h, 16, { seed: seed + 40, colors: ["#ffffff", "#ffe3ea", "#e5dcff"], rMin: 20, rMax: 110, oMax: 0.55 })}</g>
-    <rect width="${w}" height="${h}" filter="url(#grain)"/>`;
-  return svg(w, h, body, defs);
-}
-
 /** Warm daylight interior with window light (Education / Nuance Lounge). */
 function interior(w, h, { seed = 2, green = false } = {}) {
   const r = rng(seed);
@@ -328,9 +292,6 @@ function bloom(w, h, seed = 12) {
 await mkdir(OUT, { recursive: true });
 console.log("Generating placeholders →", path.relative(process.cwd(), OUT));
 
-await write("brand-repalette.jpg", 900, 1200, prism(900, 1200, 7));
-await write("brand-nuance.jpg", 900, 1200, interior(900, 1200, { seed: 6, green: true }));
-await write("brand-newtone.jpg", 900, 1200, stage(900, 1200, { seed: 13, hue: "blue" }));
 await write("vision.jpg", 2400, 1400, sunset(2400, 1400, { seed: 8 }), 80);
 await write("footer.jpg", 2400, 1200, sunset(2400, 1200, { seed: 17, deep: true }), 78);
 await write("news-event.jpg", 1000, 640, interior(1000, 640, { seed: 9, green: true }));

@@ -42,7 +42,6 @@ export const nav = [
   { label: "Home", href: "#top" },
   { label: "About", href: "#about" },
   { label: "Service", href: "#service" },
-  { label: "Brands", href: "#brands" },
   { label: "Vision", href: "#vision" },
   { label: "News", href: "#news" },
   { label: "Contact", href: "#contact" },
@@ -86,41 +85,6 @@ export const services: Service[] = [
     ja: "AI・IT事業",
     description: "テクノロジーで、教育・美容・福祉の\n可能性を広げます。",
     image: "/images/service-ai.jpg",
-  },
-];
-
-export type Brand = {
-  name: string;
-  category: string;
-  tagline: string;
-  description: string;
-  image: string;
-};
-
-export const brands: Brand[] = [
-  {
-    name: "Re-Palette",
-    category: "Beauty & Welfare",
-    tagline: "美容を通じた社会参加支援",
-    description:
-      "ヘアメイクや撮影体験をきっかけに、自分を好きになる一歩をつくる。美容と福祉をつなぐARQOの原点となるプロジェクト。",
-    image: "/images/brand-repalette.jpg",
-  },
-  {
-    name: "Nuance Lounge",
-    category: "Community",
-    tagline: "世代や立場を超えた交流コミュニティ",
-    description:
-      "学生、社会人、クリエイター、支援者。肩書きを置いて語り合える、開かれたサードプレイス。",
-    image: "/images/brand-nuance.jpg",
-  },
-  {
-    name: "NEWTONE",
-    category: "Event",
-    tagline: "学生主体の次世代ビューティーイベント",
-    description:
-      "企画から演出まで学生が担う、次世代のためのビューティーステージ。新しい才能が最初に光を浴びる場所。",
-    image: "/images/brand-newtone.jpg",
   },
 ];
 

@@ -40,7 +40,7 @@ export function Services() {
             </p>
           </Reveal>
           <Reveal delay={0.25} className="md:pb-2">
-            <ArrowLink href="#brands">事業内容を見る</ArrowLink>
+            <ArrowLink href="#vision">事業内容を見る</ArrowLink>
           </Reveal>
         </div>
 
@@ -53,7 +53,7 @@ export function Services() {
             <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
               <Reveal delay={i * 0.1} y={36} amount={0.05} className="h-full">
                 <a
-                  href="#brands"
+                  href="#vision"
                   className="group relative isolate flex aspect-[5/6] flex-col justify-between overflow-hidden rounded-[3px] p-5 text-white shadow-[0_24px_60px_-30px_rgba(40,50,90,0.45)] transition-[transform,box-shadow] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-30px_rgba(40,50,90,0.55)] md:p-6"
                 >
                   <Image
