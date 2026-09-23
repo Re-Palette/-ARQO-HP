@@ -5,6 +5,9 @@
  * project works offline and carries no licensing risk. Replace any file in
  * /public/images with real photography of the same name and aspect ratio.
  *
+ * hero.jpg and og.jpg are real photography and are intentionally not
+ * generated here, so re-running this script never overwrites them.
+ *
  *   npm run images
  */
 import sharp from "sharp";
@@ -88,49 +91,6 @@ async function write(name, w, h, markup, quality = 78) {
 /* ------------------------------------------------------------------ */
 /* scenes                                                             */
 /* ------------------------------------------------------------------ */
-
-/** Bright daytime sky with a hazy skyline and a sun flare (hero). */
-function heroSky(w, h) {
-  const defs = `
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3f7fc4"/>
-      <stop offset="0.45" stop-color="#84b4e2"/>
-      <stop offset="0.8" stop-color="#cfe0f1"/>
-      <stop offset="1" stop-color="#eef1f4"/>
-    </linearGradient>
-    <radialGradient id="sun" cx="0.78" cy="0.1" r="0.38">
-      <stop offset="0" stop-color="#fffdf6" stop-opacity="1"/>
-      <stop offset="0.2" stop-color="#fff6e8" stop-opacity="0.75"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#eef3f8" stop-opacity="0"/>
-      <stop offset="1" stop-color="#eef3f8" stop-opacity="0.9"/>
-    </linearGradient>
-    <linearGradient id="leak" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d9cff5" stop-opacity="0"/>
-      <stop offset="0.5" stop-color="#e9d6f2" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#f6c9cf" stop-opacity="0"/>
-    </linearGradient>
-    ${cloudFilter("clouds", { freq: 0.0022, seed: 11, cut: -0.62, gain: 2.6 })}
-    ${cloudFilter("clouds2", { freq: 0.005, seed: 5, cut: -0.7, gain: 2.2 })}
-    ${blur("b40", 40)}${blur("b6", 6)}${blur("b120", 120)}
-    ${grain("grain", 0.07)}`;
-  const body = `
-    <rect width="${w}" height="${h}" fill="url(#sky)"/>
-    <rect width="${w}" height="${h * 0.8}" filter="url(#clouds)" opacity="0.8"/>
-    <rect width="${w}" height="${h * 0.6}" filter="url(#clouds2)" opacity="0.5"/>
-    <rect width="${w}" height="${h}" fill="url(#sun)"/>
-    <polygon points="${w * 0.52},0 ${w * 0.7},0 ${w * 0.25},${h} ${w * 0.05},${h}" fill="url(#leak)" filter="url(#b120)" opacity="0.8"/>
-    <g filter="url(#b6)">
-      ${skyline(w, h, h * 0.96, { seed: 21, color: "#a9bdd6", opacity: 0.55, minH: 60, maxH: 300, gap: 10 })}
-      ${skyline(w, h, h * 1.0, { seed: 9, color: "#7f95b4", opacity: 0.7, minH: 30, maxH: 200, gap: 6 })}
-    </g>
-    <rect y="${h * 0.55}" width="${w}" height="${h * 0.45}" fill="url(#haze)"/>
-    <g filter="url(#b40)">${bokeh(w, h * 0.6, 14, { seed: 3, colors: ["#ffffff", "#fff4e6"], rMin: 20, rMax: 90, oMax: 0.35 })}</g>
-    <rect width="${w}" height="${h}" filter="url(#grain)"/>`;
-  return svg(w, h, body, defs);
-}
 
 /** White curved architecture ("sail") against a soft sky (About). */
 function architecture(w, h) {
@@ -405,8 +365,6 @@ function bloom(w, h, seed = 12) {
 await mkdir(OUT, { recursive: true });
 console.log("Generating placeholders →", path.relative(process.cwd(), OUT));
 
-await write("hero.jpg", 2400, 1500, heroSky(2400, 1500), 80);
-await write("hero-portrait.jpg", 1200, 1600, prism(1200, 1600, 21));
 await write("about-architecture.jpg", 1600, 1200, architecture(1600, 1200));
 await write("service-repalette.jpg", 1000, 1400, prism(1000, 1400, 1));
 await write("service-education.jpg", 1000, 1400, interior(1000, 1400, { seed: 2 }));
@@ -421,6 +379,5 @@ await write("news-event.jpg", 1000, 640, interior(1000, 640, { seed: 9, green: t
 await write("news-brand.jpg", 1000, 640, bloom(1000, 640, 12));
 await write("news-tech.jpg", 1000, 640, network(1000, 640, 21));
 await write("news-community.jpg", 1000, 640, stage(1000, 640, { seed: 30, hue: "violet" }));
-await write("og.jpg", 1200, 630, heroSky(1200, 630), 82);
 
 console.log("Done.");

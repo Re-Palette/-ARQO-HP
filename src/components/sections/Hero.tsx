@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { Arrow } from "@/components/ui/ArrowLink";
 import { Logo } from "@/components/ui/Logo";
 import { domains } from "@/lib/content";
 
@@ -12,9 +13,9 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  // Scroll-synced depth: background drifts slower than the foreground.
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const archY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+  // Scroll-synced depth: the photo drifts slower than the copy.
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const copyY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
@@ -23,97 +24,56 @@ export function Hero() {
       id="top"
       ref={ref}
       aria-label="ARQO — 人と可能性の間に架け橋をつくる。"
-      className="relative isolate h-[100svh] min-h-[680px] overflow-hidden bg-sky"
+      className="relative isolate h-[100svh] min-h-[640px] overflow-hidden bg-sky-deep text-white"
     >
-      {/* Background sky — slow settle-in zoom, then scroll parallax */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0 -z-20">
+      {/* Photo — slow settle-in zoom, then scroll parallax */}
+      <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 -z-20">
         <motion.div
           className="absolute inset-0"
-          initial={{ scale: 1.18, opacity: 0 }}
-          animate={{ scale: 1.04, opacity: 1 }}
-          transition={{ duration: 3.2, ease: EASE }}
+          initial={{ scale: 1.12, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 3, ease: EASE }}
         >
           <Image
             src="/images/hero.jpg"
-            alt=""
+            alt="青空と都市を背景に、空を見上げる女性"
             fill
             priority
+            quality={90}
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-[68%_center] md:object-center"
           />
         </motion.div>
       </motion.div>
 
-      {/* Light, glass and legibility layers */}
+      {/* Legibility + light layers */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/10 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-white/70 to-transparent" />
-        {/* Glass panes with a passing light reflection */}
-        <div className="absolute -right-[10%] -top-[20%] h-[80%] w-[55%] rotate-[18deg] overflow-hidden rounded-[48px] border border-white/40 bg-white/[0.07] backdrop-blur-[2px]">
-          <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent [animation:sheen_9s_var(--ease-soft)_2s_infinite]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1d3f6e]/35 via-[#1d3f6e]/5 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#1b2c4a]/70 via-[#1b2c4a]/20 to-transparent md:h-1/3 md:from-[#1b2c4a]/35" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#1d3f6e]/20 to-transparent" />
+        {/* Passing light reflection across a glass plane */}
+        <div className="absolute -right-[15%] -top-[25%] h-[150%] w-[40%] rotate-[24deg] overflow-hidden">
+          <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent [animation:sheen_11s_var(--ease-soft)_2.5s_infinite]" />
         </div>
-        <div className="absolute -left-[15%] top-[55%] h-[70%] w-[45%] -rotate-[14deg] rounded-[48px] border border-white/30 bg-white/[0.05]" />
-        <div className="absolute right-[18%] top-[8%] size-[30vw] rounded-full bg-white/30 blur-[90px]" />
-        <div className="absolute left-[30%] top-[40%] size-[28vw] rounded-full bg-lavender/20 blur-[100px] [animation:drift_18s_ease-in-out_infinite]" />
       </div>
 
-      {/* Right: arch visual — the "bridge" motif */}
-      <motion.div
-        style={{ y: archY }}
-        className="absolute bottom-0 right-[4vw] top-[16%] hidden w-[min(38vw,560px)] md:block"
-      >
-        <motion.div
-          className="relative h-full w-full overflow-hidden rounded-t-full border border-white/60 shadow-[0_40px_120px_-40px_rgba(60,70,120,0.45)]"
-          initial={{ clipPath: "inset(100% 0 0 0 round 999px 999px 0 0)" }}
-          animate={{ clipPath: "inset(0% 0 0 0 round 999px 999px 0 0)" }}
-          transition={{ duration: 2, ease: EASE, delay: 0.5 }}
-        >
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: 1.25 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 3, ease: EASE, delay: 0.5 }}
-          >
-            <Image
-              src="/images/hero-portrait.jpg"
-              alt="やわらかな光に包まれたARQOのブランドビジュアル"
-              fill
-              priority
-              sizes="(min-width: 768px) 38vw, 100vw"
-              className="object-cover"
-            />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/10" />
-          <div className="absolute inset-y-0 left-[12%] w-[18%] bg-gradient-to-r from-transparent via-white/35 to-transparent blur-md" />
-        </motion.div>
-
-        <motion.p
-          aria-hidden
-          className="pointer-events-none absolute -left-[22%] top-[30%] -rotate-[10deg] font-display text-[clamp(3rem,6vw,6.5rem)] italic leading-[0.9] text-white drop-shadow-[0_6px_30px_rgba(80,100,160,0.35)]"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 0.95, x: 0 }}
-          transition={{ duration: 2, ease: EASE, delay: 1.4 }}
-        >
-          More
-          <br />
-          <span className="pl-[0.8em]">Possibilities.</span>
-        </motion.p>
-      </motion.div>
-
-      {/* Left: copy */}
+      {/* Copy */}
       <motion.div
         style={{ y: copyY, opacity: copyOpacity }}
-        className="container-x relative flex h-full flex-col justify-center pt-20"
+        className="container-x relative flex h-full flex-col justify-end pb-28 pt-24 md:justify-center md:pb-0"
       >
-        <div className="max-w-[560px]">
+        <div className="max-w-[620px] [text-shadow:0_2px_24px_rgba(20,50,100,0.25)]">
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 1.8, ease: EASE, delay: 0.3 }}
-            className="text-ink"
           >
             <h1 className="sr-only">ARQO</h1>
-            <Logo className="h-auto w-[clamp(220px,30vw,420px)]" stroke={1.6} draw />
+            <Logo
+              className="h-auto w-[clamp(200px,27vw,390px)] drop-shadow-[0_2px_18px_rgba(20,50,100,0.25)]"
+              stroke={1.8}
+              draw
+            />
           </motion.div>
 
           <TextReveal
@@ -121,14 +81,14 @@ export function Hero() {
             immediate
             delay={0.9}
             lines={["人と可能性の間に", "架け橋をつくる。"]}
-            className="heading-ja mt-10 text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.75] tracking-[0.22em] text-ink"
+            className="heading-ja mt-8 text-[clamp(1.4rem,2.3vw,2.1rem)] leading-[1.75] tracking-[0.24em] md:mt-12"
           />
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: EASE, delay: 1.5 }}
-            className="mt-8 text-[0.8125rem] leading-[2.2] tracking-[0.08em] text-ink-2 md:whitespace-nowrap md:text-sm"
+            className="mt-7 font-mincho text-[0.8125rem] leading-[2.2] tracking-[0.12em] text-white/90 md:whitespace-nowrap md:text-sm"
           >
             私たちは、美容・教育・コミュニティ・テクノロジーを通じて、<br className="hidden md:block" />
             {"一人ひとりが新しい一歩を踏み出せる機会を創造します。"}
@@ -139,17 +99,13 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 2 }}
-            className="group mt-14 inline-flex items-center gap-5 text-[0.6875rem] uppercase tracking-[0.3em] text-ink/70"
+            className="group mt-10 inline-flex items-center gap-6 text-[0.6875rem] uppercase tracking-[0.3em] text-white/90 md:mt-14"
             aria-label="Aboutセクションへスクロール"
           >
-            <span className="relative grid size-14 place-items-center rounded-full border border-ink/25 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-110">
-              <span className="absolute h-px w-3.5 bg-ink/70" />
-              <span className="absolute h-3.5 w-px bg-ink/70" />
+            <span className="relative grid size-14 place-items-center overflow-hidden rounded-full border border-white/70 transition-[transform,background-color,color] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-110 group-hover:bg-white group-hover:text-sky-deep md:size-16">
+              <Arrow className="w-5 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
             </span>
             Scroll
-            <span className="relative block h-px w-16 overflow-hidden bg-ink/15">
-              <span className="absolute inset-0 origin-left bg-ink/60 [animation:scroll-line_2.8s_var(--ease-soft)_infinite]" />
-            </span>
           </motion.a>
         </div>
       </motion.div>
@@ -159,17 +115,22 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 2.2 }}
-        className="container-x absolute inset-x-0 bottom-6 flex items-end justify-between text-[0.625rem] uppercase tracking-[0.3em] text-ink/55 md:bottom-8"
+        className="container-x absolute inset-x-0 bottom-6 flex items-end justify-between text-[0.625rem] uppercase tracking-[0.3em] text-white/75 md:bottom-8"
       >
         <ul className="hidden items-center gap-4 sm:flex">
           {domains.map((d, i) => (
             <li key={d} className="flex items-center gap-4">
-              {i > 0 ? <span className="h-px w-5 bg-ink/25" /> : null}
+              {i > 0 ? <span className="h-px w-5 bg-white/40" /> : null}
               {d}
             </li>
           ))}
         </ul>
-        <p>A Social Venture for What&rsquo;s Next</p>
+        <span className="hidden items-center gap-4 sm:flex">
+          <span className="relative block h-px w-12 overflow-hidden bg-white/30">
+            <span className="absolute inset-0 bg-white/80 [animation:scroll-line_2.8s_var(--ease-soft)_infinite]" />
+          </span>
+          A Social Venture for What&rsquo;s Next
+        </span>
       </motion.div>
     </section>
   );

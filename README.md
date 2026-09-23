@@ -42,7 +42,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 
 | Section  | 演出 |
 | -------- | ---- |
-| Hero     | フルスクリーン。背景の空がゆっくりズームイン → スクロールでパララックス。右側はアーチ型（＝架け橋）のビジュアル、ガラスパネルと光の反射。ロゴは線を描くアニメーション |
+| Hero     | フルスクリーンの人物写真。ゆっくりズームイン → スクロールでパララックス、光の反射。白文字のロゴは線を描くアニメーション、ヘッダーも写真上では白 |
 | About    | 大きな余白。見出しのテキストリビール、建築写真のクリップパス展開 + GSAPパララックス、3つのプリンシプル |
 | Services | 4枚の大型カード。デスクトップはホバーでカードが広がり画像がズーム、モバイルは横スクロールスナップ |
 | Brands   | ダークセクション。Re-Palette / Nuance Lounge / NEWTONE。ホバーで詳細が展開（タッチ端末では常時表示） |
@@ -54,13 +54,13 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 
 ## Images (dummy)
 
-`public/images/*.jpg` はすべて `npm run images` で SVG から生成したダミーです（外部依存・ライセンスなし）。
+`hero.jpg` / `og.jpg` は本番写真です（生成スクリプトの対象外なので上書きされません）。
+それ以外の `public/images/*.jpg` は `npm run images` で SVG から生成したダミーです（外部依存・ライセンスなし）。
 同じファイル名・近いアスペクト比の写真で置き換えるだけで本番画像に差し替えられます。
 
 | File | 用途 | 推奨比率 |
 | ---- | ---- | ---- |
-| `hero.jpg` | Hero 背景（空・都市） | 16:10 |
-| `hero-portrait.jpg` | Hero 右側アーチ（人物写真を想定） | 3:4 |
+| `hero.jpg` | Hero 背景（人物・空・都市）※本番写真 | 16:9 |
 | `about-architecture.jpg` | About（建築・空） | 4:3 |
 | `service-*.jpg` | Services カード | 5:7 |
 | `brand-*.jpg` | Brands カード | 3:4 |

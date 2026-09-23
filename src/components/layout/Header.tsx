@@ -22,6 +22,9 @@ export function Header() {
     setHidden(y > 600 && y > prev && !open);
   });
 
+  // Correct initial state when the page is restored mid-scroll.
+  useEffect(() => setScrolled(window.scrollY > 40), []);
+
   // Track which section is in view for the active nav indicator.
   useEffect(() => {
     const ids = nav.map((n) => n.href.slice(1));
@@ -63,6 +66,9 @@ export function Header() {
     });
   };
 
+  // White type while floating over the hero photo, ink once the glass bar appears.
+  const light = !scrolled && !open;
+
   const primary = nav.filter((n) => n.label !== "Contact");
 
   return (
@@ -81,7 +87,7 @@ export function Header() {
           }`}
         >
           <div className="container-x flex h-[72px] items-center justify-between md:h-[88px]">
-            <Link href="#top" aria-label={`${site.name} ホーム`} className="relative z-10 text-ink">
+            <Link href="#top" aria-label={`${site.name} ホーム`} className={`relative z-10 transition-colors duration-700 ${light ? "text-white" : "text-ink"}`}>
               <Logo className="h-[22px] w-auto md:h-[26px]" stroke={1.3} />
             </Link>
 
@@ -94,14 +100,20 @@ export function Header() {
                       <Link
                         href={item.href}
                         className={`relative py-2 text-[0.6875rem] uppercase tracking-[0.24em] transition-colors duration-500 ${
-                          isActive ? "text-ink" : "text-ink/55 hover:text-ink"
+                          light
+                            ? isActive
+                              ? "text-white"
+                              : "text-white/70 hover:text-white"
+                            : isActive
+                              ? "text-ink"
+                              : "text-ink/55 hover:text-ink"
                         }`}
                       >
                         {item.label}
                         {isActive ? (
                           <motion.span
                             layoutId="nav-indicator"
-                            className="absolute inset-x-0 -bottom-0.5 h-px bg-ink"
+                            className={`absolute inset-x-0 -bottom-0.5 h-px ${light ? "bg-white" : "bg-ink"}`}
                             transition={{ duration: 0.8, ease: EASE }}
                           />
                         ) : null}
@@ -115,7 +127,11 @@ export function Header() {
             <div className="relative z-10 flex items-center gap-5">
               <Link
                 href="#contact"
-                className="hidden rounded-full border border-ink/20 bg-white/40 px-5 py-2.5 text-[0.6875rem] tracking-[0.18em] text-ink backdrop-blur-md transition-colors duration-500 hover:bg-ink hover:text-white md:inline-block"
+                className={`hidden rounded-full border px-5 py-2.5 text-[0.6875rem] tracking-[0.18em] backdrop-blur-md transition-colors duration-500 md:inline-block ${
+                  light
+                    ? "border-white/60 bg-white/10 text-white hover:bg-white hover:text-ink"
+                    : "border-ink/20 bg-white/40 text-ink hover:bg-ink hover:text-white"
+                }`}
               >
                 お問い合わせ
               </Link>
@@ -128,12 +144,12 @@ export function Header() {
                 className="group relative grid size-11 place-items-center"
               >
                 <span
-                  className={`absolute h-px w-6 bg-ink transition-transform duration-700 ease-[var(--ease-out-expo)] ${
+                  className={`absolute h-px w-6 transition-[transform,background-color] ${light ? "bg-white" : "bg-ink"} duration-700 ease-[var(--ease-out-expo)] ${
                     open ? "rotate-45" : "-translate-y-[4px]"
                   }`}
                 />
                 <span
-                  className={`absolute h-px bg-ink transition-all duration-700 ease-[var(--ease-out-expo)] ${
+                  className={`absolute h-px transition-all ${light ? "bg-white" : "bg-ink"} duration-700 ease-[var(--ease-out-expo)] ${
                     open ? "w-6 -rotate-45" : "w-4 translate-x-1 translate-y-[4px] group-hover:w-6 group-hover:translate-x-0"
                   }`}
                 />
