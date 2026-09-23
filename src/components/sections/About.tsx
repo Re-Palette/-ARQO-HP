@@ -29,15 +29,16 @@ export function About() {
             />
           </Parallax>
           {/* Legibility: tonal wash behind the copy column (right on desktop, bottom on mobile) */}
-          <div className="absolute inset-0 bg-[linear-gradient(270deg,rgba(14,36,72,0.5)_0%,rgba(14,36,72,0.3)_30%,rgba(14,36,72,0.06)_52%,rgba(14,36,72,0)_62%)] max-md:hidden" />
-          <div className="absolute right-0 top-1/2 h-[80%] w-[55%] -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(12,30,62,0.28),transparent)] max-md:hidden" />
-          <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#0f2240]/85 via-[#0f2240]/35 to-transparent md:hidden" />
+          <div className="absolute inset-0 bg-[linear-gradient(270deg,rgba(12,32,66,0.68)_0%,rgba(12,32,66,0.5)_30%,rgba(12,32,66,0.2)_50%,rgba(12,32,66,0)_66%)] max-md:hidden" />
+          <div className="absolute right-0 top-1/2 h-[80%] w-[55%] -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(10,26,56,0.42),transparent)] max-md:hidden" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0f2240]/40 to-transparent max-md:hidden" />
+          <div className="absolute inset-x-0 bottom-0 h-[80%] bg-[linear-gradient(0deg,rgba(15,34,64,0.9)_0%,rgba(15,34,64,0.62)_45%,rgba(15,34,64,0.25)_75%,rgba(15,34,64,0)_100%)] md:hidden" />
         </div>
 
         <div className="container-x flex flex-1 items-end pb-24 pt-32 md:items-center md:justify-end md:pb-0">
-          <div className="max-w-[560px] [text-shadow:0_1px_2px_rgba(8,24,52,0.45),0_4px_28px_rgba(8,24,52,0.4)] md:mr-[2%] md:-mt-[6vh]">
+          <div className="max-w-[560px] [text-shadow:0_1px_3px_rgba(6,20,46,0.6),0_4px_30px_rgba(6,20,46,0.55)] md:mr-[2%] md:-mt-[6vh]">
             <Reveal>
-              <p className="eyebrow text-white/90">About</p>
+              <p className="eyebrow text-white">About</p>
             </Reveal>
             <TextReveal
               id="about-heading"
@@ -46,7 +47,7 @@ export function About() {
               lineClassName="whitespace-nowrap tracking-[0.1em] sm:tracking-[0.14em] md:tracking-[0.18em]"
             />
             <Reveal delay={0.25}>
-              <p className="mt-8 font-mincho text-sm font-medium leading-[2.2] tracking-[0.12em] md:text-[0.9375rem]">
+              <p className="mt-8 font-mincho text-[0.9375rem] font-medium leading-[2.2] tracking-[0.1em] md:text-base">
                 ARQOは、美容・教育・コミュニティ・テクノロジーの
                 <br className="hidden md:block" />
                 {"4つの事業を軸に、社会の可能性を広げる"}
