@@ -63,7 +63,14 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | News | カードが右から時間差でスライドイン（1024px 以上） |
 | Footer | 「Let's build」が横からスライド、巨大ロゴは散らばった文字が寄り集まってページ末尾で完成 |
 
-部品は `src/components/motion/`（`ScrollProgress` / `ScrubText` / `ScrollMarquee` / `Parallax`）と各セクション内。
+部品は `src/components/motion/`（`ScrollProgress` / `ScrubText` / `ScrollMarquee`）と各セクション内。
+
+### パフォーマンス
+
+- 背景のぼかし円は `filter: blur()` ではなく放射グラデーション（`.glow`）で描画（見た目はほぼ同じで再描画コストなし）
+- すりガラスのぼかし量を抑え、不要な `will-change` を削除
+- About に覆われた Hero は描画自体を停止
+- 性能の低い端末（CPU 4コア以下・メモリ4GB以下・データセーバー）では `html[data-perf="lite"]` になり、すりガラスと常時ループの演出だけを省略（レイアウトとスクロール演出は同じ）
 
 `prefers-reduced-motion` を尊重し、その場合は Lenis・パララックス・スクロール同期の動きをすべて無効化します。
 

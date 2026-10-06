@@ -20,7 +20,8 @@ export function ScrollMarquee({ words, className }: ScrollMarqueeProps) {
   const xA = useTransform(scrollYProgress, [0, 1], allowed ? ["0%", "-38%"] : ["-10%", "-10%"]);
   const xB = useTransform(scrollYProgress, [0, 1], allowed ? ["-38%", "0%"] : ["-20%", "-20%"]);
 
-  const row = [...words, ...words, ...words];
+  // Two copies are enough to cover the travel; more only enlarges the GPU layer.
+  const row = [...words, ...words];
 
   return (
     <div ref={ref} aria-hidden className={`pointer-events-none select-none overflow-hidden ${className ?? ""}`}>

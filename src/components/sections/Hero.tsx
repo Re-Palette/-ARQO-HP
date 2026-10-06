@@ -29,6 +29,10 @@ export function Hero() {
   const stageScale = useTransform(p, [0, 1], m(1, 0.88));
   const stageRadius = useTransform(p, [0, 1], m(0, 36));
   const dim = useTransform(p, (v) => (allowed ? v * 0.6 : 0));
+  // Once About fully covers the pinned hero, skip painting it (and its looping sheen) entirely.
+  const stageVisibility = useTransform(scrollY, (v) =>
+    typeof window !== "undefined" && v > window.innerHeight * 1.1 ? "hidden" : "visible",
+  );
 
   return (
     <section
@@ -38,7 +42,7 @@ export function Hero() {
       className="sticky top-0 z-0 h-[100svh] min-h-[640px] overflow-hidden bg-night text-white"
     >
       <motion.div
-        style={{ scale: stageScale, borderRadius: stageRadius }}
+        style={{ scale: stageScale, borderRadius: stageRadius, visibility: stageVisibility }}
         className="relative isolate h-full origin-[50%_30%] overflow-hidden bg-sky-deep will-change-transform"
       >
       {/* Photo — slow settle-in zoom, then scroll parallax */}

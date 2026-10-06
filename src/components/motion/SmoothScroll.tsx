@@ -3,10 +3,8 @@
 import Lenis from "lenis";
 import { MotionConfig } from "framer-motion";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { createContext, useContext, useEffect, useState } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { isLiteDevice } from "./useMotionAllowed";
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -15,11 +13,16 @@ export const useLenis = () => useContext(LenisContext);
 
 /**
  * Global smooth scrolling.
- * Lenis is driven by GSAP's ticker so ScrollTrigger and Lenis share one frame
- * loop — parallax and scroll-synced tweens never drift from the scroll position.
+ * Lenis is driven by GSAP's ticker so smooth scrolling runs on a single,
+ * lag-free frame loop.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+
+  // Low-power devices get a lighter render path (see globals.css: [data-perf="lite"]).
+  useEffect(() => {
+    if (isLiteDevice()) document.documentElement.dataset.perf = "lite";
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -31,7 +34,6 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       anchors: { duration: 1.6 },
     });
 
-    instance.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => instance.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);

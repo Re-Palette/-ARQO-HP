@@ -22,8 +22,8 @@ export function Services() {
       aria-labelledby="service-heading"
       className="relative overflow-hidden bg-mist py-24 md:py-32"
     >
-      <div aria-hidden className="pointer-events-none absolute -left-40 -top-20 size-[720px] rounded-full bg-sky/25 blur-[140px]" />
-      <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[640px] rounded-full bg-lavender/30 blur-[140px]" />
+      <div aria-hidden className="pointer-events-none absolute -left-40 -top-20 size-[720px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-sky)_25%,transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[640px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-lavender)_30%,transparent)]" />
 
       <div className="container-x relative">
         {/* Heading · intro · link */}
@@ -95,7 +95,7 @@ export function Services() {
                         </span>
                       ))}
                     </p>
-                    <span className="mt-5 grid size-10 place-items-center rounded-full border border-white/80 bg-white/5 backdrop-blur-sm transition-colors duration-700 group-hover:bg-white group-hover:text-ink md:size-11">
+                    <span className="mt-5 grid size-10 place-items-center rounded-full border border-white/80 bg-white/10 transition-colors duration-700 group-hover:bg-white group-hover:text-ink md:size-11">
                       <Arrow className="w-4 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
                     </span>
                   </div>

@@ -45,7 +45,7 @@ export function TextReveal({
       {lines.map((line, i) => (
         <span key={i} className="block overflow-hidden pb-[0.08em]" aria-hidden>
           <motion.span
-            className={["block will-change-transform", lineClassName].filter(Boolean).join(" ")}
+            className={["block", lineClassName].filter(Boolean).join(" ")}
             variants={{
               hidden: { y: "110%", opacity: 0 },
               show: { y: "0%", opacity: 1, transition: { duration: 1.3, ease: EASE } },

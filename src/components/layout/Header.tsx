@@ -82,7 +82,7 @@ export function Header() {
         <div
           className={`transition-[background-color,backdrop-filter,border-color] duration-700 ${
             scrolled && !open
-              ? "border-b border-white/60 bg-white/55 backdrop-blur-xl backdrop-saturate-150"
+              ? "border-b border-white/60 bg-white/65 backdrop-blur-md backdrop-saturate-150"
               : "border-b border-transparent"
           }`}
         >
@@ -177,8 +177,8 @@ export function Header() {
             exit={{ clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 1, ease: EASE }}
           >
-            <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 size-[640px] rounded-full bg-lavender/50 blur-[120px]" />
-            <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 size-[560px] rounded-full bg-sky/40 blur-[120px]" />
+            <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 size-[640px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-lavender)_50%,transparent)]" />
+            <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 size-[560px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-sky)_40%,transparent)]" />
             <div className="container-x relative flex min-h-full flex-col justify-between pb-10 pt-32">
               <ul className="space-y-2 md:space-y-3">
                 {nav.map((item, i) => (

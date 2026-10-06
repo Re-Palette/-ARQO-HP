@@ -75,7 +75,7 @@ function Char({
 }) {
   const t = useTransform(progress, (v) => Math.min(1, Math.max(0, (v - range[0]) / (range[1] - range[0]))));
   const opacity = useTransform(t, (v) => dim + (1 - dim) * v);
-  const y = useTransform(t, (v) => (dim < 1 ? `${(1 - v) * 0.12}em` : "0em"));
+  const y = useTransform(t, (v) => (dim < 1 ? (1 - v) * 5 : 0));
   return (
     <motion.span style={{ opacity, y }} className="inline-block whitespace-pre">
       {char}

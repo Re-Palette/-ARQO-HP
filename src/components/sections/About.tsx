@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
-import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
+import { useLite, useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
 /**
@@ -118,7 +118,9 @@ function Line({
 }) {
   const t = useTransform(p, (v) => (allowed ? clamp01((v - at) / 0.1) : 1));
   const x = useTransform(t, (v) => (1 - v) * 70);
-  const filter = useTransform(t, (v) => `blur(${(1 - v) * 8}px)`);
+  const lite = useLite();
+  // A settled line drops the filter altogether so it stops costing a compositing pass.
+  const filter = useTransform(t, (v) => (lite || v >= 1 ? "none" : `blur(${(1 - v) * 8}px)`));
   return (
     <motion.span style={{ x, opacity: t, filter }} className={className}>
       {children}

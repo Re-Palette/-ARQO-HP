@@ -25,9 +25,9 @@ export function News() {
     >
       {/* Colour field behind the glass cards */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute -left-20 top-10 size-[560px] rounded-full bg-sky/55 blur-[120px] [animation:drift_22s_ease-in-out_infinite]" />
-        <div className="absolute right-0 top-1/3 size-[620px] rounded-full bg-lavender/60 blur-[130px] [animation:drift_26s_ease-in-out_infinite_reverse]" />
-        <div className="absolute bottom-0 left-1/3 size-[520px] rounded-full bg-sunset/50 blur-[130px]" />
+        <div className="absolute -left-20 top-10 size-[560px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-sky)_55%,transparent)] [animation:drift_22s_ease-in-out_infinite]" />
+        <div className="absolute right-0 top-1/3 size-[620px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-lavender)_60%,transparent)] [animation:drift_26s_ease-in-out_infinite_reverse]" />
+        <div className="absolute bottom-0 left-1/3 size-[520px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-sunset)_50%,transparent)]" />
       </div>
 
       <div className="container-x grid gap-16 lg:grid-cols-12 lg:gap-10">
@@ -112,7 +112,7 @@ function SlideIn({
     );
   }
   return (
-    <motion.div style={{ x, opacity }} className="h-full will-change-transform">
+    <motion.div style={{ x, opacity }} className="h-full">
       {children}
     </motion.div>
   );
