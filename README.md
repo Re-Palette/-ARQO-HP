@@ -46,6 +46,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | `/about` | ミッション・ビジョン・事業領域・会社概要 |
 | `/service` | 事業一覧 |
 | `/service/[slug]` | 事業詳細 ×4（re-palette / education / community / ai-technology） |
+| `/projects/[slug]` | プロジェクト詳細 ×3（re-palette / nuance-lounge / newtone）。事業ページの「主なプロジェクト」→「詳細を見る」から |
 | `/news` | お知らせ一覧（カテゴリー絞り込み） |
 | `/news/[slug]` | お知らせ詳細（NewsArticle 構造化データ付き） |
 | `/contact` | お問い合わせフォーム |

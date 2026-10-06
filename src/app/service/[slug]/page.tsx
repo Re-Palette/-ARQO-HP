@@ -122,9 +122,29 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
             <ul className="border-t border-line lg:col-span-8">
               {s.initiatives.map((it, i) => (
                 <li key={it.name} className="border-b border-line">
-                  <Reveal delay={i * 0.08} y={20} className="grid gap-3 py-8 sm:grid-cols-[220px_1fr] sm:gap-8">
-                    <p className="font-display text-[clamp(1.6rem,2.4vw,2.1rem)] leading-none text-ink">{it.name}</p>
-                    <p className="font-mincho text-[0.9375rem] leading-[2] tracking-[0.06em] text-ink-2">{it.text}</p>
+                  <Reveal delay={i * 0.08} y={20}>
+                    {it.slug ? (
+                      <Link
+                        href={`/projects/${it.slug}`}
+                        className="group grid items-center gap-3 py-8 sm:grid-cols-[220px_1fr_auto] sm:gap-8"
+                      >
+                        <p className="font-display text-[clamp(1.6rem,2.4vw,2.1rem)] leading-none text-ink transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-2">
+                          {it.name}
+                        </p>
+                        <p className="font-mincho text-[0.9375rem] leading-[2] tracking-[0.06em] text-ink-2">{it.text}</p>
+                        <span className="mt-2 inline-flex items-center gap-4 text-[0.75rem] tracking-[0.12em] text-ink sm:mt-0">
+                          <span className="link-underline pb-0.5">詳細を見る</span>
+                          <span className="grid size-11 place-items-center rounded-full border border-ink/20 transition-colors duration-500 group-hover:bg-ink group-hover:text-white">
+                            <Arrow className="w-4" />
+                          </span>
+                        </span>
+                      </Link>
+                    ) : (
+                      <div className="grid gap-3 py-8 sm:grid-cols-[220px_1fr] sm:gap-8">
+                        <p className="font-display text-[clamp(1.6rem,2.4vw,2.1rem)] leading-none text-ink">{it.name}</p>
+                        <p className="font-mincho text-[0.9375rem] leading-[2] tracking-[0.06em] text-ink-2">{it.text}</p>
+                      </div>
+                    )}
                   </Reveal>
                 </li>
               ))}

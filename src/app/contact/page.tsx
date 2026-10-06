@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { ContactForm } from "@/components/page/ContactForm";
 import { PageHero } from "@/components/page/PageHero";
@@ -60,7 +61,9 @@ export default function ContactPage() {
             </Reveal>
           </div>
           <Reveal delay={0.1} y={30} className="relative lg:col-span-8">
-            <ContactForm />
+            <Suspense fallback={null}>
+              <ContactForm />
+            </Suspense>
           </Reveal>
         </div>
       </section>

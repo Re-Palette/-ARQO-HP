@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { Arrow } from "@/components/ui/ArrowLink";
@@ -15,6 +16,9 @@ const field =
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Links such as /contact?category=… (from project pages) preselect the type.
+  const requested = useSearchParams().get("category") ?? "";
+  const initialCategory = (contactCategories as readonly string[]).includes(requested) ? requested : "";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,7 +98,7 @@ export function ContactForm() {
           {err("email")}
         </Field>
         <Field label="お問い合わせ種別" required htmlFor="category">
-          <select id="category" name="category" required defaultValue="" className={`${field} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 fill=%22none%22 stroke=%22%2326272c%22/></svg>')] bg-[length:12px] bg-[right_1rem_center] bg-no-repeat pr-10`} aria-invalid={!!errors.category} aria-describedby={errors.category ? "category-error" : undefined}>
+          <select id="category" name="category" required defaultValue={initialCategory} className={`${field} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 fill=%22none%22 stroke=%22%2326272c%22/></svg>')] bg-[length:12px] bg-[right_1rem_center] bg-no-repeat pr-10`} aria-invalid={!!errors.category} aria-describedby={errors.category ? "category-error" : undefined}>
             <option value="" disabled>
               選択してください
             </option>

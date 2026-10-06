@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { news, services, site } from "@/lib/content";
+import { news, projects, services, site } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/about", 0.8),
     page("/service", 0.8),
     ...services.map((s) => page(`/service/${s.slug}`, 0.7)),
+    ...projects.map((p) => page(`/projects/${p.slug}`, 0.6)),
     page("/news", 0.7, "weekly"),
     ...news.map((n) => ({ ...page(`/news/${n.slug}`, 0.5, "yearly"), lastModified: new Date(n.date) })),
     page("/contact", 0.6),
