@@ -3,6 +3,7 @@
 import Lenis from "lenis";
 import { MotionConfig } from "framer-motion";
 import { gsap } from "gsap";
+import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { isLiteDevice } from "./useMotionAllowed";
 
@@ -45,6 +46,14 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       setLenis(null);
     };
   }, []);
+
+  // New page: start at the top (unless the URL targets an anchor) and re-measure.
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!lenis) return;
+    if (!window.location.hash) lenis.scrollTo(0, { immediate: true, force: true });
+    lenis.resize();
+  }, [pathname, lenis]);
 
   return (
     <LenisContext.Provider value={lenis}>

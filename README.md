@@ -38,6 +38,25 @@ src/
 scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 ```
 
+## Pages
+
+| URL | 内容 |
+| --- | ---- |
+| `/` | トップ（Hero / About / Services / Vision / News） |
+| `/about` | ミッション・ビジョン・事業領域・会社概要 |
+| `/service` | 事業一覧 |
+| `/service/[slug]` | 事業詳細 ×4（re-palette / education / community / ai-technology） |
+| `/news` | お知らせ一覧（カテゴリー絞り込み） |
+| `/news/[slug]` | お知らせ詳細（NewsArticle 構造化データ付き） |
+| `/contact` | お問い合わせフォーム |
+| `/privacy` | プライバシーポリシー（雛形） |
+
+各ページの文言・データは `src/lib/content.ts` にまとめています。会社概要とプライバシーポリシーの「〇」は公開前に正式な情報へ差し替えてください。
+
+### お問い合わせフォーム
+
+`/api/contact` が入力を検証し、環境変数 `CONTACT_WEBHOOK_URL` に JSON を POST します（Slack の Incoming Webhook、Zapier / Make など）。未設定の場合は送信できない旨とメールアドレスを表示します。スパム対策としてハニーポット項目を入れています。
+
 ## Sections
 
 | Section  | 演出 |

@@ -7,6 +7,9 @@ import {
   Playfair_Display,
   Shippori_Mincho,
 } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { site } from "@/lib/content";
 import "./globals.css";
@@ -138,7 +141,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           本文へスキップ
         </a>
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <ScrollProgress />
+          <Header />
+          {children}
+          <Footer />
+        </SmoothScroll>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

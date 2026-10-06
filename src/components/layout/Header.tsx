@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { useLenis } from "@/components/motion/SmoothScroll";
@@ -14,7 +15,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("top");
+  const pathname = usePathname();
+  const router = useRouter();
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -22,22 +24,15 @@ export function Header() {
     setHidden(y > 600 && y > prev && !open);
   });
 
-  // Correct initial state when the page is restored mid-scroll.
-  useEffect(() => setScrolled(window.scrollY > 40), []);
-
-  // Track which section is in view for the active nav indicator.
+  // Correct the bar state on first paint and after every page change.
   useEffect(() => {
-    const ids = nav.map((n) => n.href.slice(1));
-    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => e.isIntersecting && setActive(e.target.id));
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
-  }, []);
+    setScrolled(window.scrollY > 40);
+    setHidden(false);
+    setOpen(false);
+  }, [pathname]);
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : !href.includes("#") && pathname.startsWith(href);
 
   // Lock scrolling while the menu is open.
   useEffect(() => {
@@ -49,21 +44,27 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, lenis]);
 
-  // Lenis is stopped while the menu is open, so menu links scroll explicitly.
+  // Lenis is stopped while the menu is open, so menu links navigate explicitly:
+  // same-page anchors scroll smoothly, everything else is a route change.
   const goTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     e.stopPropagation();
     setOpen(false);
-    requestAnimationFrame(() => {
-      const target = document.querySelector<HTMLElement>(href);
-      if (!target) return;
-      if (lenis) {
-        lenis.start();
-        lenis.scrollTo(target, { duration: 1.6 });
-      } else {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    });
+    const [path, hash] = href.split("#");
+    if (hash && (path || "/") === pathname) {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(hash);
+        if (!target) return;
+        if (lenis) {
+          lenis.start();
+          lenis.scrollTo(target, { duration: 1.6 });
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    } else {
+      router.push(href);
+    }
   };
 
   // White type while floating over the hero photo, ink once the glass bar appears.
@@ -91,30 +92,31 @@ export function Header() {
               light ? "[text-shadow:0_1px_10px_rgba(8,24,52,0.4)]" : ""
             }`}
           >
-            <Link href="#top" aria-label={`${site.name} ホーム`} className={`relative z-10 transition-colors duration-700 ${light ? "text-white" : "text-ink"}`}>
+            <Link href="/" aria-label={`${site.name} ホーム`} className={`relative z-10 transition-colors duration-700 ${light ? "text-white" : "text-ink"}`}>
               <Logo className="h-[22px] w-auto md:h-[26px]" stroke={1.3} />
             </Link>
 
             <nav aria-label="メインナビゲーション" className="hidden lg:block">
               <ul className="flex items-center gap-10">
                 {primary.map((item) => {
-                  const isActive = active === item.href.slice(1);
+                  const current = isActive(item.href);
                   return (
                     <li key={item.href}>
                       <Link
                         href={item.href}
+                        aria-current={current ? "page" : undefined}
                         className={`relative py-2 text-[0.6875rem] uppercase tracking-[0.24em] transition-colors duration-500 ${
                           light
-                            ? isActive
+                            ? current
                               ? "text-white"
                               : "text-white/85 hover:text-white"
-                            : isActive
+                            : current
                               ? "text-ink"
                               : "text-ink/55 hover:text-ink"
                         }`}
                       >
                         {item.label}
-                        {isActive ? (
+                        {current ? (
                           <motion.span
                             layoutId="nav-indicator"
                             className={`absolute inset-x-0 -bottom-0.5 h-px ${light ? "bg-white" : "bg-ink"}`}
@@ -130,7 +132,7 @@ export function Header() {
 
             <div className="relative z-10 flex items-center gap-5">
               <Link
-                href="#contact"
+                href="/contact"
                 className={`hidden rounded-full border px-5 py-2.5 text-[0.6875rem] tracking-[0.18em] backdrop-blur-md transition-colors duration-500 md:inline-block ${
                   light
                     ? "border-white/60 bg-white/10 text-white hover:bg-white hover:text-ink"

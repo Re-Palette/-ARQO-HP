@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
@@ -41,7 +42,7 @@ export function News() {
             className="heading-ja mt-8 text-[clamp(1.6rem,2.4vw,2.25rem)] text-ink"
           />
           <Reveal delay={0.25} className="mt-10">
-            <ArrowLink href="#news">一覧を見る</ArrowLink>
+            <ArrowLink href="/news">一覧を見る</ArrowLink>
           </Reveal>
         </div>
 
@@ -66,9 +67,9 @@ export function News() {
                       {n.category}
                     </p>
                     <h3 className="heading-ja mt-4 text-[0.9375rem] leading-[1.8] tracking-[0.06em] text-ink">
-                      <a href="#news" className="after:absolute after:inset-0">
+                      <Link href={`/news/${n.slug}`} className="after:absolute after:inset-0">
                         {n.title}
-                      </a>
+                      </Link>
                     </h3>
                     <p className="mt-3 line-clamp-3 text-xs leading-[1.9] text-ink-2/80">{n.excerpt}</p>
                     <span className="mt-auto flex justify-end pt-6 text-ink/60 transition-colors duration-500 group-hover:text-ink">

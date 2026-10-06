@@ -95,6 +95,8 @@
   }
 
   .heading-ja {
+    /* Break Japanese at phrase boundaries (Chrome/Edge); others fall back to normal. */
+    word-break: auto-phrase;
     font-family: var(--font-mincho);
     font-weight: 400;
     letter-spacing: 0.14em;

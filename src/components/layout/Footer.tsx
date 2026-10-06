@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
@@ -13,6 +14,8 @@ import { nav, site, socials } from "@/lib/content";
 
 export function Footer() {
   const ref = useRef<HTMLElement>(null);
+  // The contact page is the CTA's destination, so it skips the CTA block.
+  const showCta = usePathname() !== "/contact";
   const allowed = useMotionAllowed();
   // The wordmark rises and settles exactly as the page reaches its end.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
@@ -30,13 +33,14 @@ export function Footer() {
   const gO = useTransform(spread, (s) => s * 90);
 
   return (
-    <footer ref={ref} id="contact" className="relative isolate overflow-hidden bg-night text-white">
+    <footer ref={ref} className="relative isolate overflow-hidden bg-night text-white">
       <div aria-hidden className="absolute inset-0 -z-10">
         <Image src="/images/footer.jpg" alt="" fill sizes="100vw" className="object-cover object-bottom opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night/20" />
       </div>
 
       {/* Contact CTA */}
+      {showCta ? (
       <div className="container-x pb-20 pt-32 md:pb-28 md:pt-44">
         <Reveal>
           <p className="eyebrow text-white/60">Contact</p>
@@ -55,18 +59,21 @@ export function Footer() {
             </Reveal>
           </motion.div>
           <Reveal delay={0.4}>
-            <a
-              href={`mailto:${site.contactEmail}`}
+            <Link
+              href="/contact"
               className="group inline-flex items-center gap-6 rounded-full border border-white/30 bg-white/10 py-3 pl-8 pr-3 text-sm tracking-[0.14em] backdrop-blur-xl transition-colors duration-700 hover:bg-white hover:text-ink"
             >
               お問い合わせ
               <span className="grid size-12 place-items-center rounded-full bg-white text-ink transition-colors duration-700 group-hover:bg-ink group-hover:text-white">
                 <Arrow className="w-5 transition-transform duration-700 group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
           </Reveal>
         </div>
       </div>
+      ) : (
+        <div className="pt-24 md:pt-32" />
+      )}
 
       <div className="container-x">
         <div className="grid gap-12 border-t border-white/15 py-14 md:grid-cols-12">
@@ -114,7 +121,12 @@ export function Footer() {
         </motion.div>
         <div className="mt-8 flex flex-col justify-between gap-3 text-[0.625rem] uppercase tracking-[0.24em] text-white/45 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} {site.legalName} All rights reserved.</p>
-          <p>{site.missionEn}</p>
+          <p className="flex gap-6">
+            <Link href="/privacy" className="link-underline hover:text-white/80">
+              Privacy Policy
+            </Link>
+            <span>{site.missionEn}</span>
+          </p>
         </div>
       </div>
     </footer>

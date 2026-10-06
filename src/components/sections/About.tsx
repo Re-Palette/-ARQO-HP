@@ -79,7 +79,7 @@ export function About() {
                 </span>
               </Line>
               <Line p={p} at={0.76} allowed={allowed} className="mt-10 block md:mt-12">
-                <ArrowLink href="#service" circle tone="light" className="text-white">
+                <ArrowLink href="/about" circle tone="light" className="text-white">
                   詳しく見る
                 </ArrowLink>
               </Line>

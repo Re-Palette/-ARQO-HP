@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { ScrollMarquee } from "@/components/motion/ScrollMarquee";
@@ -49,7 +50,7 @@ export function Services() {
             </p>
           </Reveal>
           <Reveal delay={0.25} className="md:pb-2">
-            <ArrowLink href="#vision">事業内容を見る</ArrowLink>
+            <ArrowLink href="/service">事業内容を見る</ArrowLink>
           </Reveal>
         </div>
 
@@ -62,8 +63,8 @@ export function Services() {
           {services.map((s, i) => (
             <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
               <RiseIn p={p} index={i} allowed={allowed}>
-                <a
-                  href="#vision"
+                <Link
+                  href={`/service/${s.slug}`}
                   className="group relative isolate flex aspect-[5/6] flex-col justify-between overflow-hidden rounded-[3px] p-5 text-white shadow-[0_24px_60px_-30px_rgba(40,50,90,0.45)] transition-[transform,box-shadow] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-30px_rgba(40,50,90,0.55)] md:p-6"
                 >
                   <Image
@@ -99,7 +100,7 @@ export function Services() {
                       <Arrow className="w-4 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
                     </span>
                   </div>
-                </a>
+                </Link>
               </RiseIn>
             </li>
           ))}
