@@ -8,7 +8,7 @@ import { services } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Service",
-  description: "美容福祉・教育・コミュニティ＆イベント・AI＆テクノロジー。ARQOの4つの事業をご紹介します。",
+  description: "美容福祉・教育・コミュニティ＆イベントの各事業と、それを支える社内のAI活用についてご紹介します。",
   alternates: { canonical: "/service" },
 };
 
