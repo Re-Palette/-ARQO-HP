@@ -173,7 +173,7 @@ export function Header() {
             aria-modal="true"
             aria-label="サイトメニュー"
             data-lenis-prevent
-            className="fixed inset-0 z-40 overflow-y-auto bg-mist/95 backdrop-blur-2xl"
+            className="fixed inset-0 z-40 overflow-y-auto bg-mist"
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
@@ -181,8 +181,8 @@ export function Header() {
           >
             <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 size-[640px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-lavender)_50%,transparent)]" />
             <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 size-[560px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-sky)_40%,transparent)]" />
-            <div className="container-x relative flex min-h-full flex-col justify-between pb-10 pt-32">
-              <ul className="space-y-2 md:space-y-3">
+            <div className="container-x relative flex min-h-full flex-col justify-between pb-10 pt-28 md:pt-36">
+              <ul className="space-y-1 md:space-y-2">
                 {nav.map((item, i) => (
                   <li key={item.href} className="overflow-hidden">
                     <motion.div
@@ -194,7 +194,7 @@ export function Header() {
                       <Link
                         href={item.href}
                         onClick={(e) => goTo(e, item.href)}
-                        className="group flex items-baseline gap-5 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.05] text-ink"
+                        className="group flex items-baseline gap-4 py-1 font-display text-[clamp(1.75rem,3.6vw,2.75rem)] leading-[1.15] text-ink"
                       >
                         <span className="font-sans text-[0.6875rem] tracking-[0.2em] text-ink/40">
                           {String(i + 1).padStart(2, "0")}
