@@ -44,6 +44,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | --- | ---- |
 | `/` | トップ（Hero / About / Services / Vision / News） |
 | `/about` | ミッション・ビジョン・事業領域・会社概要 |
+| `/vision` | ビジョン・目指す社会・3つの事業とのつながり |
 | `/service` | 事業一覧 |
 | `/service/[slug]` | 事業詳細 ×3（re-palette / education / community） |
 | `/projects/[slug]` | プロジェクト詳細 ×3（re-palette / nuance-lounge / newtone）。事業ページの「主なプロジェクト」→「詳細を見る」から |

@@ -42,7 +42,7 @@ export const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Service", href: "/service" },
-  { label: "Vision", href: "/#vision" },
+  { label: "Vision", href: "/vision" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -296,6 +296,22 @@ export const vision = {
   lines: ["美容・教育・コミュニティで、", "誰もが自分らしく生きられる", "社会をつくる。"],
   en: "Infrastructure for every possibility.",
   text: "生まれた環境や今いる場所に関わらず、誰もが「次の一歩」を自分で選べる社会。ARQOは、そのための機会と仕組みを、事業として持続可能なかたちでつくり続けます。",
+};
+
+/** /vision page copy (first draft — review before launch). */
+export const visionPage = {
+  why: {
+    title: ["生まれた場所や環境で、", "選べる未来が決まらないように。"],
+    body: [
+      "どんな家庭に生まれたか、どの地域で育ったか、いまどんな状況にいるか。それだけで、出会える人や学び、挑戦の機会は大きく変わってしまいます。",
+      "社会的に孤立している若者、進路に迷う学生、新しい一歩を踏み出せずにいる人。可能性がないのではなく、可能性に気づくきっかけと、そこへ渡るための橋が足りていない。ARQOはそう考えています。",
+    ],
+  },
+  goals: [
+    { en: "Open", title: "機会が、誰にでもひらかれている社会", text: "美容・学び・出会いの機会が、環境に関わらずすべての人に届くこと。" },
+    { en: "Together", title: "挑戦する人を、応援し合える社会", text: "一歩を踏み出す人を、世代や立場を越えて支え合える関係があること。" },
+    { en: "Dignity", title: "自分を好きでいられる社会", text: "一人ひとりが自分の価値を感じ、自分らしい生き方を選べること。" },
+  ],
 };
 
 export const mission = {
