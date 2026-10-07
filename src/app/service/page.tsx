@@ -8,7 +8,7 @@ import { services } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Service",
-  description: "美容福祉・教育・コミュニティ＆イベントの各事業と、それを支える社内のAI活用についてご紹介します。",
+  description: "美容福祉・教育・コミュニティ＆イベント。ARQOの3つの事業をご紹介します。",
   alternates: { canonical: "/service" },
 };
 
@@ -17,8 +17,8 @@ export default function ServiceIndexPage() {
     <main id="main">
       <PageHero
         eyebrow="Service"
-        title={["4つの事業で、", "社会に新しい価値を。"]}
-        lead="美容・教育・コミュニティ・テクノロジー。ARQOは4つの事業を軸に、一人ひとりが新しい一歩を踏み出せる機会と、それを支える仕組みをつくっています。"
+        title={["3つの事業で、", "社会に新しい価値を。"]}
+        lead="美容・教育・コミュニティ。ARQOは3つの事業を軸に、一人ひとりが新しい一歩を踏み出せる機会と、それを支える仕組みをつくっています。"
         image="/images/vision.jpg"
         imageAlt="夕焼けに染まる都市の風景"
         position="center bottom"

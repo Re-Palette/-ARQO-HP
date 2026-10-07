@@ -84,9 +84,9 @@ export function About() {
               </h2>
               <Line p={p} at={0.7} allowed={allowed} className="mt-8 block">
                 <span className="block font-mincho text-[0.9375rem] font-medium leading-[2.2] tracking-[0.1em] md:text-base">
-                  ARQOは、美容・教育・コミュニティ・テクノロジーの
+                  ARQOは、美容・教育・コミュニティの
                   <br className="hidden md:block" />
-                  {"4つの事業を軸に、社会の可能性を広げる"}
+                  {"3つの事業を軸に、社会の可能性を広げる"}
                   <br className="hidden md:block" />
                   {"ソーシャルベンチャーです。"}
                 </span>

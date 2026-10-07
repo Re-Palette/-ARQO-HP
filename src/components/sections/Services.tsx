@@ -35,16 +35,16 @@ export function Services() {
             </Reveal>
             <TextReveal
               id="service-heading"
-              lines={["4つの事業で、", "社会に新しい価値を。"]}
+              lines={["3つの事業で、", "社会に新しい価値を。"]}
               className="heading-ja mt-5 text-[clamp(1.35rem,2.3vw,2rem)] text-ink sm:flex"
               lineClassName="whitespace-nowrap tracking-[0.12em] md:tracking-[0.16em]"
             />
           </div>
           <Reveal delay={0.15} className="md:order-3 md:col-span-2 xl:order-none xl:col-span-1 xl:justify-self-center xl:pb-1">
             <p className="font-mincho text-[0.8125rem] leading-[2] tracking-[0.08em] text-ink-2">
-              ARQOは、美容・教育・コミュニティ・テクノロジーの
+              ARQOは、美容・教育・コミュニティの
               <br className="hidden sm:block" />
-              {"4つの事業を軸に、社会の可能性を広げる"}
+              {"3つの事業を軸に、社会の可能性を広げる"}
               <br className="hidden sm:block" />
               {"ソーシャルベンチャーです。"}
             </p>
@@ -54,11 +54,11 @@ export function Services() {
           </Reveal>
         </div>
 
-        {/* Portrait photo cards: swipe on mobile, 2-up on tablet, 4-up on desktop */}
+        {/* Portrait photo cards: swipe on mobile, 2-up on tablet, 3-up on desktop */}
         <ul
           ref={listRef}
           data-lenis-prevent-touch
-          className="-mx-[clamp(1.25rem,4.5vw,4.5rem)] mt-12 flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,4.5vw,4.5rem)] gap-4 overflow-x-auto px-[clamp(1.25rem,4.5vw,4.5rem)] pb-4 [scrollbar-width:none] md:mx-0 md:mt-14 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+          className="-mx-[clamp(1.25rem,4.5vw,4.5rem)] mt-12 flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,4.5vw,4.5rem)] gap-4 overflow-x-auto px-[clamp(1.25rem,4.5vw,4.5rem)] pb-4 [scrollbar-width:none] md:mx-0 md:mt-14 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
         >
           {services.map((s, i) => (
             <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
@@ -72,7 +72,7 @@ export function Services() {
                     alt=""
                     fill
                     quality={90}
-                    sizes="(min-width: 1280px) 24vw, (min-width: 768px) 45vw, 76vw"
+                    sizes="(min-width: 1024px) 32vw, (min-width: 768px) 45vw, 76vw"
                     className="-z-10 object-cover transition-transform duration-[1600ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.08]"
                   />
                   {/* Legibility washes: light at the top for the index, deeper under the copy */}
@@ -88,10 +88,10 @@ export function Services() {
                       {s.title}
                     </h3>
                     <p className="mt-2.5 font-mincho text-[0.8125rem] font-medium tracking-[0.16em]">{s.ja}</p>
-                    {/* "\n" in the copy marks the break used on the narrow 4-up desktop cards */}
-                    <p className="mt-3 font-mincho text-xs font-medium leading-[1.9] tracking-[0.04em] text-white/95 xl:text-[0.65rem] min-[1440px]:text-[0.6875rem] 2xl:text-xs">
+                    {/* "\n" in the copy marks the break used on the 3-up desktop cards */}
+                    <p className="mt-3 font-mincho text-xs font-medium leading-[1.9] tracking-[0.04em] text-white/95 lg:text-[0.6875rem] xl:text-xs">
                       {s.description.split("\n").map((part) => (
-                        <span key={part} className="xl:block">
+                        <span key={part} className="lg:block">
                           {part}
                         </span>
                       ))}

@@ -33,7 +33,7 @@ export const site = {
   mission: "人と可能性の間に架け橋をつくる。",
   missionEn: "Building bridges between people and possibility.",
   description:
-    "ARQOは、美容・教育・コミュニティ・テクノロジーの4つの事業を通じて、一人ひとりが新しい一歩を踏み出せる機会を創造するソーシャルベンチャーです。",
+    "ARQOは、美容・教育・コミュニティの3つの事業を通じて、一人ひとりが新しい一歩を踏み出せる機会を創造するソーシャルベンチャーです。",
   contactEmail: "contact@example.com",
   locale: "ja_JP",
 } as const;
@@ -125,24 +125,6 @@ export const services: Service[] = [
     initiatives: [
       { name: "Nuance Lounge", slug: "nuance-lounge", text: "世代や立場を超えて語り合える、開かれた交流コミュニティ。" },
       { name: "NEWTONE", slug: "newtone", text: "企画から演出まで学生が担う、次世代のビューティーイベント。" },
-    ],
-  },
-  {
-    slug: "ai-technology",
-    no: "04",
-    title: "AI & Technology",
-    ja: "AI・業務効率化",
-    description: "自社でAIシステムを構築し、\n人と向き合う時間を生み出します。",
-    image: "/images/service-ai.jpg",
-    lead: "テクノロジーで、人と向き合う時間を増やす。",
-    body: [
-      "ARQOでは、事業の運営を支えるAIシステムを自社で構築し、日々の業務に取り入れています。外部向けのサービスとして提供するものではなく、私たち自身の働き方を変えるための取り組みです。",
-      "事務作業や情報整理など、仕組みに任せられる仕事はAIに任せる。そうして生まれた時間を、一人ひとりと向き合う美容・教育・コミュニティの現場に還元していきます。",
-    ],
-    pillars: [
-      { en: "In-house AI", title: "自社AIシステムの構築", text: "自分たちの業務に合わせたAIシステムを、社内で設計・構築しています。" },
-      { en: "Efficiency", title: "業務の効率化", text: "事務・運営・情報共有などの定型業務を自動化し、チームの負担を減らします。" },
-      { en: "Focus", title: "人に向き合う時間へ", text: "効率化で生まれた時間を、参加者や現場と向き合う活動に充てています。" },
     ],
   },
 ];
@@ -332,7 +314,7 @@ export const vision = {
 export const mission = {
   lines: ["人と可能性の間に", "架け橋をつくる。"],
   en: "Building bridges between people and possibility.",
-  text: "可能性は、すべての人の中にある。足りないのは、それに気づくきっかけと、踏み出すための橋です。ARQOは、美容・教育・コミュニティ・テクノロジーという4つの入口から、一人ひとりと可能性をつなぐ橋をかけていきます。",
+  text: "可能性は、すべての人の中にある。足りないのは、それに気づくきっかけと、踏み出すための橋です。ARQOは、美容・教育・コミュニティという3つの入口から、一人ひとりと可能性をつなぐ橋をかけていきます。",
 };
 
 /**

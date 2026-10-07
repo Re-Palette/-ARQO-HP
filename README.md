@@ -1,7 +1,7 @@
 # ARQO Corporate Website
 
 「人と可能性の間に架け橋をつくる。」— ARQO のコーポレートサイト。
-美容・教育・コミュニティ・テクノロジーの4事業を展開するソーシャルベンチャーとして、
+美容・教育・コミュニティの3事業を展開するソーシャルベンチャーとして、
 シリーズA前夜のグローバルスタートアップのトーン（Minimal / Editorial / Cinematic / Airy）で構成しています。
 
 ## Stack
@@ -45,7 +45,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | `/` | トップ（Hero / About / Services / Vision / News） |
 | `/about` | ミッション・ビジョン・事業領域・会社概要 |
 | `/service` | 事業一覧 |
-| `/service/[slug]` | 事業詳細 ×4（re-palette / education / community / ai-technology） |
+| `/service/[slug]` | 事業詳細 ×3（re-palette / education / community） |
 | `/projects/[slug]` | プロジェクト詳細 ×3（re-palette / nuance-lounge / newtone）。事業ページの「主なプロジェクト」→「詳細を見る」から |
 | `/news` | お知らせ一覧（カテゴリー絞り込み） |
 | `/news/[slug]` | お知らせ詳細（NewsArticle 構造化データ付き） |

@@ -92,7 +92,7 @@ export default function AboutPage() {
               </Reveal>
               <TextReveal
                 id="domains-heading"
-                lines={["4つの入口から、", "可能性への橋をかける。"]}
+                lines={["3つの入口から、", "可能性への橋をかける。"]}
                 className="heading-ja mt-6 text-[clamp(1.4rem,2.4vw,2.1rem)] text-ink sm:flex"
                 lineClassName="whitespace-nowrap tracking-[0.14em]"
               />
