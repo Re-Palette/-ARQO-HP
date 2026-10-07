@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
-import { useLite, useMotionAllowed } from "@/components/motion/useMotionAllowed";
+import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
 /**
@@ -17,13 +17,19 @@ export function About() {
   // 0 → section top enters at the bottom · ~0.43 → pinned · 1 → section end reaches the bottom.
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "end end"] });
 
-  const inset = useTransform(p, [0.3, 0.68], allowed ? [14, 0] : [0, 0]);
-  const radius = useTransform(p, [0.3, 0.68], allowed ? [28, 0] : [0, 0]);
-  const clipPath = useTransform(
-    [inset, radius],
-    ([i, r]: number[]) => `inset(${i}% ${i * 1.4}% ${i}% ${i * 1.4}% round ${r}px)`,
-  );
-  const imgScale = useTransform(p, [0.2, 1], allowed ? [1.35, 1.02] : [1, 1]);
+  // The framed photo "opens" by scaling a clipped layer on each axis
+  // (compositor-only) rather than animating clip-path, which would repaint the
+  // full-screen photo every frame. Same footprint as the old 14% / 19.6% inset.
+  const open = (v: number) => (allowed ? clamp01((v - 0.3) / 0.38) : 1);
+  const sx = (v: number) => 0.608 + 0.392 * open(v);
+  const sy = (v: number) => 0.72 + 0.28 * open(v);
+  const zoom = (v: number) => (allowed ? 1.35 - 0.33 * clamp01((v - 0.2) / 0.8) : 1);
+  const frameX = useTransform(p, sx);
+  const frameY = useTransform(p, sy);
+  const capsOpacity = useTransform(p, (v) => (open(v) < 0.999 ? 1 : 0)); // flips once; never animates
+  // Counter-scale so the photo keeps its proportions and its own slow zoom.
+  const imgX = useTransform(p, (v) => zoom(v) / sx(v));
+  const imgY = useTransform(p, (v) => zoom(v) / sy(v));
   const washOpacity = useTransform(p, (v) => (allowed ? clamp01((v - 0.5) / 0.15) : 1));
 
   return (
@@ -34,8 +40,11 @@ export function About() {
       className="relative z-10 h-[230vh] rounded-t-[28px] bg-mist shadow-[0_-40px_80px_-20px_rgba(10,20,40,0.35)] md:rounded-t-[40px]"
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden rounded-t-[inherit]">
-        <motion.div style={{ clipPath }} className="absolute inset-0 isolate text-white">
-          <motion.div style={{ scale: imgScale }} className="absolute inset-0 -z-10 will-change-transform">
+        <motion.div
+          style={{ scaleX: frameX, scaleY: frameY }}
+          className="absolute inset-0 overflow-hidden will-change-transform"
+        >
+          <motion.div style={{ scaleX: imgX, scaleY: imgY }} className="absolute inset-0 will-change-transform">
             <Image
               src="/images/about.jpg"
               alt="白い曲線の建築の下、夕暮れの都市を見渡す女性"
@@ -46,13 +55,17 @@ export function About() {
             />
           </motion.div>
           {/* Legibility washes fade in with the copy (right on desktop, bottom on mobile) */}
-          <motion.div style={{ opacity: washOpacity }} className="absolute inset-0 -z-10">
+          <motion.div style={{ opacity: washOpacity }} className="absolute inset-0 will-change-[opacity]">
             <div className="absolute inset-0 bg-[linear-gradient(270deg,rgba(12,32,66,0.68)_0%,rgba(12,32,66,0.5)_30%,rgba(12,32,66,0.2)_50%,rgba(12,32,66,0)_66%)] max-md:hidden" />
             <div className="absolute right-0 top-1/2 h-[80%] w-[55%] -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(10,26,56,0.42),transparent)] max-md:hidden" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0f2240]/40 to-transparent max-md:hidden" />
             <div className="absolute inset-x-0 bottom-0 h-[80%] bg-[linear-gradient(0deg,rgba(15,34,64,0.9)_0%,rgba(15,34,64,0.62)_45%,rgba(15,34,64,0.25)_75%,rgba(15,34,64,0)_100%)] md:hidden" />
           </motion.div>
+          <motion.div aria-hidden style={{ opacity: capsOpacity }} className="corner-caps [--cap:var(--color-mist)] [--r:44px]" />
+        </motion.div>
 
+        {/* Copy sits above the frame, unscaled */}
+        <div className="absolute inset-0 text-white">
           <div className="container-x flex h-full items-end pb-24 pt-32 md:items-center md:justify-end md:pb-0">
             <div className="max-w-[560px] [text-shadow:0_1px_3px_rgba(6,20,46,0.6),0_4px_30px_rgba(6,20,46,0.55)] md:mr-[2%] md:-mt-[6vh]">
               <Line p={p} at={0.56} allowed={allowed}>
@@ -85,7 +98,7 @@ export function About() {
               </Line>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         <div aria-hidden className="absolute bottom-8 left-[clamp(1.25rem,4.5vw,4.5rem)] hidden flex-col items-center gap-3 text-[0.625rem] uppercase tracking-[0.3em] text-white/85 md:flex">
           <span className="relative block h-14 w-px overflow-hidden bg-white/30">
@@ -102,7 +115,7 @@ const HEADING_LINE = "block whitespace-nowrap tracking-[0.1em] sm:tracking-[0.14
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-/** A piece of copy that slides in from the right, unblurs and fades up over a short scroll window. */
+/** A piece of copy that slides in from the right and fades up over a short scroll window. */
 function Line({
   p,
   at,
@@ -118,11 +131,8 @@ function Line({
 }) {
   const t = useTransform(p, (v) => (allowed ? clamp01((v - at) / 0.1) : 1));
   const x = useTransform(t, (v) => (1 - v) * 70);
-  const lite = useLite();
-  // A settled line drops the filter altogether so it stops costing a compositing pass.
-  const filter = useTransform(t, (v) => (lite || v >= 1 ? "none" : `blur(${(1 - v) * 8}px)`));
   return (
-    <motion.span style={{ x, opacity: t, filter }} className={className}>
+    <motion.span style={{ x, opacity: t }} className={`${className} will-change-[opacity,transform]`}>
       {children}
     </motion.span>
   );

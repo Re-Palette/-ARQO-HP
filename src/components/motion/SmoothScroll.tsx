@@ -1,8 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
-import { MotionConfig } from "framer-motion";
-import { gsap } from "gsap";
+import { cancelFrame, frame, MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { isLiteDevice } from "./useMotionAllowed";
@@ -14,8 +13,9 @@ export const useLenis = () => useContext(LenisContext);
 
 /**
  * Global smooth scrolling.
- * Lenis is driven by GSAP's ticker so smooth scrolling runs on a single,
- * lag-free frame loop.
+ * Lenis runs inside Framer Motion's own frame loop (update step), so the
+ * smoothed scroll position and every scroll-linked transform are computed in
+ * the same frame — no second requestAnimationFrame loop to drift against.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
@@ -30,18 +30,17 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     const instance = new Lenis({
       autoRaf: false,
-      lerp: 0.085,
-      wheelMultiplier: 0.9,
+      // Slightly quicker catch-up: smooth, but the page follows the wheel without feeling heavy.
+      lerp: 0.1,
       anchors: { duration: 1.6 },
     });
 
-    const tick = (time: number) => instance.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    const tick = ({ timestamp }: { timestamp: number }) => instance.raf(timestamp);
+    frame.update(tick, true);
     setLenis(instance);
 
     return () => {
-      gsap.ticker.remove(tick);
+      cancelFrame(tick);
       instance.destroy();
       setLenis(null);
     };

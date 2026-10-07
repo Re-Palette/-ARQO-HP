@@ -9,7 +9,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { Arrow } from "@/components/ui/ArrowLink";
-import { Logo } from "@/components/ui/Logo";
+import { LogoSplit } from "@/components/ui/Logo";
 import { nav, site, socials } from "@/lib/content";
 
 export function Footer() {
@@ -27,10 +27,11 @@ export function Footer() {
   const ctaX = useTransform(scrollYProgress, [0, 0.6], allowed ? [-120, 0] : [0, 0]);
   // Letters start spread apart and close ranks as the page reaches its end.
   const spread = useTransform(scrollYProgress, (v) => (allowed ? 1 - Math.min(1, Math.max(0, (v - 0.3) / 0.7)) : 0));
-  const gA = useTransform(spread, (s) => s * -90);
-  const gR = useTransform(spread, (s) => s * -35);
-  const gQ = useTransform(spread, (s) => s * 35);
-  const gO = useTransform(spread, (s) => s * 90);
+  // Offsets in % of each letter's own width (A, R, Q, O widths 92/66/104/106 units).
+  const gA = useTransform(spread, (s) => `${s * -98}%`);
+  const gR = useTransform(spread, (s) => `${s * -53}%`);
+  const gQ = useTransform(spread, (s) => `${s * 34}%`);
+  const gO = useTransform(spread, (s) => `${s * 85}%`);
 
   return (
     <footer ref={ref} className="relative isolate overflow-hidden bg-night text-white">
@@ -110,9 +111,9 @@ export function Footer() {
 
       {/* Giant wordmark */}
       <div className="container-x pb-8">
-        <motion.div style={{ y: logoY, opacity: logoOpacity }}>
-          <Logo
-            className="h-auto w-full overflow-visible text-white/90"
+        <motion.div style={{ y: logoY, opacity: logoOpacity }} className="will-change-[opacity,transform]">
+          <LogoSplit
+            className="w-full text-white/90"
             stroke={1.4}
             draw
             title={`${site.name} wordmark`}

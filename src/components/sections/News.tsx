@@ -113,7 +113,7 @@ function SlideIn({
     );
   }
   return (
-    <motion.div style={{ x, opacity }} className="h-full">
+    <motion.div style={{ x, opacity }} className="h-full will-change-[opacity,transform]">
       {children}
     </motion.div>
   );

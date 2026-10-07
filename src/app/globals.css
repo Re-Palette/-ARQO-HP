@@ -137,6 +137,36 @@
     );
   }
 
+  /*
+   * ScrubText character. Progress arrives as --p on the heading; each
+   * character maps it to its own 0→1 (--t) in CSS — no per-character JS.
+   */
+  .scrub-char {
+    --t: clamp(0, calc((var(--p, 1) - var(--s)) / var(--w)), 1);
+    display: inline-block;
+    white-space: pre;
+    opacity: calc(var(--dim, 0.18) + (1 - var(--dim, 0.18)) * var(--t));
+    transform: translateY(calc((1 - var(--t)) * 5px));
+  }
+
+  /*
+   * Rounded corners without a clip mask. A border-radius + overflow clip on a
+   * layer that scales every frame is costly; instead four corner caps in the
+   * colour behind the layer are painted once and simply scale with it.
+   * Set --cap (colour behind) and --r (radius). Toggle with opacity.
+   */
+  .corner-caps {
+    --r: 32px;
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 100% 100%, transparent calc(var(--r) - 0.75px), var(--cap) var(--r)) top left / var(--r) var(--r) no-repeat,
+      radial-gradient(circle at 0 100%, transparent calc(var(--r) - 0.75px), var(--cap) var(--r)) top right / var(--r) var(--r) no-repeat,
+      radial-gradient(circle at 100% 0, transparent calc(var(--r) - 0.75px), var(--cap) var(--r)) bottom left / var(--r) var(--r) no-repeat,
+      radial-gradient(circle at 0 0, transparent calc(var(--r) - 0.75px), var(--cap) var(--r)) bottom right / var(--r) var(--r) no-repeat;
+  }
+
   /* Film grain overlay for photographic warmth */
   .grain::after {
     content: "";

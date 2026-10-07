@@ -43,7 +43,7 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
     >
       <div aria-hidden={!imageAlt} className="absolute inset-0 -z-10">
         {image ? (
-          <motion.div style={{ y: imgY }} className="absolute -inset-y-[6%] inset-x-0">
+          <motion.div style={{ y: imgY }} className="absolute -inset-y-[6%] inset-x-0 will-change-transform">
             <motion.div
               className="absolute inset-0"
               initial={{ scale: 1.14, opacity: 0 }}
@@ -74,7 +74,7 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
 
       <motion.div
         style={{ y: copyY, opacity: copyOpacity }}
-        className="container-x flex w-full flex-col justify-end pb-14 pt-36 md:pb-20"
+        className="container-x flex w-full flex-col justify-end pb-14 pt-36 will-change-[opacity,transform] md:pb-20"
       >
         <div className="max-w-[980px] [text-shadow:0_1px_3px_rgba(6,20,46,0.5),0_4px_30px_rgba(6,20,46,0.45)]">
           <motion.p

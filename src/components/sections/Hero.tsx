@@ -27,7 +27,9 @@ export function Hero() {
   const copyY = useTransform(p, [0, 1], m(0, -180));
   const copyOpacity = useTransform(p, (v) => (allowed ? Math.max(0, 1 - v / 0.55) : 1));
   const stageScale = useTransform(p, [0, 1], m(1, 0.88));
-  const stageRadius = useTransform(p, [0, 1], m(0, 36));
+  // Rounded corners come from corner caps that switch on once scrolling starts —
+  // a clip mask on a layer that scales every frame is re-rasterised each frame.
+  const capsOpacity = useTransform(p, (v) => (allowed && v > 0.004 ? 1 : 0));
   const dim = useTransform(p, (v) => (allowed ? v * 0.6 : 0));
   // Once About fully covers the pinned hero, skip painting it (and its looping sheen) entirely.
   const stageVisibility = useTransform(scrollY, (v) =>
@@ -42,11 +44,11 @@ export function Hero() {
       className="sticky top-0 z-0 h-[100svh] min-h-[640px] overflow-hidden bg-night text-white"
     >
       <motion.div
-        style={{ scale: stageScale, borderRadius: stageRadius, visibility: stageVisibility }}
+        style={{ scale: stageScale, visibility: stageVisibility }}
         className="relative isolate h-full origin-[50%_30%] overflow-hidden bg-sky-deep will-change-transform"
       >
       {/* Photo — slow settle-in zoom, then scroll parallax */}
-      <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 -z-20">
+      <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0 -z-20 will-change-transform">
         <motion.div
           className="absolute inset-0"
           initial={{ scale: 1.12, opacity: 0 }}
@@ -80,7 +82,7 @@ export function Hero() {
       {/* Copy */}
       <motion.div
         style={{ y: copyY, opacity: copyOpacity }}
-        className="container-x relative flex h-full flex-col justify-end pb-28 pt-24 md:justify-center md:pb-0"
+        className="container-x relative will-change-[opacity,transform] flex h-full flex-col justify-end pb-28 pt-24 md:justify-center md:pb-0"
       >
         <div className="max-w-[620px] [text-shadow:0_1px_2px_rgba(8,24,52,0.45),0_4px_28px_rgba(8,24,52,0.4)]">
           <motion.div
@@ -154,7 +156,8 @@ export function Hero() {
       </motion.div>
 
       {/* Darkens as the stage recedes behind the next section */}
-      <motion.div aria-hidden style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-night" />
+      <motion.div aria-hidden style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-night will-change-[opacity]" />
+      <motion.div aria-hidden style={{ opacity: capsOpacity }} className="corner-caps [--cap:var(--color-night)] [--r:40px]" />
       </motion.div>
     </section>
   );
