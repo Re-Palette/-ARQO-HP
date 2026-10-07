@@ -112,7 +112,7 @@ export function Hero() {
             transition={{ duration: 1.4, ease: EASE, delay: 1.5 }}
             className="mt-7 font-mincho text-sm font-medium leading-[2.1] tracking-[0.1em] text-white md:whitespace-nowrap md:text-[0.9375rem]"
           >
-            私たちは、美容・教育・コミュニティ・テクノロジーを通じて、<br className="hidden md:block" />
+            私たちは、美容・教育・コミュニティを通じて、<br className="hidden md:block" />
             {"一人ひとりが新しい一歩を踏み出せる機会を創造します。"}
           </motion.p>
 

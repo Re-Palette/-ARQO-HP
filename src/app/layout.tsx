@@ -73,7 +73,6 @@ export const metadata: Metadata = {
     "美容福祉",
     "教育",
     "コミュニティ",
-    "AI",
     "Re-Palette",
     "Nuance Lounge",
     "NEWTONE",

@@ -61,7 +61,7 @@ export function Vision() {
               id="vision-heading"
               progress={p}
               range={[0.42, 0.84]}
-              lines={["美容・教育・コミュニティ・テクノロジーで、", "誰もが自分らしく生きられる", "社会をつくる。"]}
+              lines={["美容・教育・コミュニティで、", "誰もが自分らしく生きられる", "社会をつくる。"]}
               className="heading-ja mx-auto mt-12 text-[clamp(1.3rem,3vw,2.75rem)] leading-[1.85] text-white [text-shadow:0_3px_22px_rgba(20,20,50,0.38)]"
               lineClassName="md:whitespace-nowrap"
             />

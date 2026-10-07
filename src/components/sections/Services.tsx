@@ -109,7 +109,7 @@ export function Services() {
 
       {/* Oversized outlined type sliding with the scroll */}
       <ScrollMarquee
-        words={["Beauty", "Education", "Community", "Technology"]}
+        words={["Beauty", "Education", "Community"]}
         className="mt-20 font-display text-[clamp(4.5rem,13vw,13rem)] leading-[1.02] text-transparent [-webkit-text-stroke:1px_rgba(38,39,44,0.22)] md:mt-28"
       />
     </section>

@@ -47,7 +47,7 @@ export const nav = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-export const domains = ["Beauty", "Education", "Community", "Technology"] as const;
+export const domains = ["Beauty", "Education", "Community"] as const;
 
 export type Service = {
   slug: string;
@@ -97,7 +97,7 @@ export const services: Service[] = [
     lead: "学びの選択肢が、人生の選択肢になる。",
     body: [
       "どこで生まれ、どんな環境で育ったかによって、出会える学びは大きく変わります。ARQOの教育事業は、学校や家庭だけでは届きにくい実践的な学びを、次世代に開いていく取り組みです。",
-      "美容・クリエイティブ・テクノロジーなど、ARQOの事業現場そのものを教材に。実際の仕事に触れる経験を通じて、「やってみたい」を「できる」に変えていきます。",
+      "美容・クリエイティブなど、ARQOの事業現場そのものを教材に。実際の仕事に触れる経験を通じて、「やってみたい」を「できる」に変えていきます。",
     ],
     pillars: [
       { en: "Workshop", title: "実践型ワークショップ", text: "現場のプロと一緒に手を動かし、仕事のリアルを体験する学びの場。" },
@@ -242,7 +242,7 @@ export const projects: Project[] = [
 export type NewsItem = {
   slug: string;
   date: string;
-  category: "Event" | "Brand" | "Tech" | "Community";
+  category: "Event" | "Brand" | "Community";
   title: string;
   excerpt: string;
   image: string;
@@ -278,19 +278,6 @@ export const news: NewsItem[] = [
     ],
   },
   {
-    slug: "in-house-ai-system",
-    date: "2026-08-05",
-    category: "Tech",
-    title: "社内AIシステムの運用を開始しました",
-    excerpt: "業務効率化のため、自社で構築したAIシステムを社内業務に導入しました。",
-    image: "/images/news-tech.jpg",
-    body: [
-      "業務効率化のため、自社で構築したAIシステムを社内業務に導入しました。",
-      "事務作業や情報整理、チーム内の情報共有など、日々の運営業務の一部をAIで自動化しています。外部に提供するサービスではなく、ARQO自身の働き方を変えるための取り組みです。",
-      "効率化によって生まれた時間は、美容・教育・コミュニティの各現場で、一人ひとりと向き合う活動に充てていきます。",
-    ],
-  },
-  {
     slug: "newtone-2026-staff",
     date: "2026-07-18",
     category: "Community",
@@ -306,7 +293,7 @@ export const news: NewsItem[] = [
 ];
 
 export const vision = {
-  lines: ["美容・教育・コミュニティ・テクノロジーで、", "誰もが自分らしく生きられる", "社会をつくる。"],
+  lines: ["美容・教育・コミュニティで、", "誰もが自分らしく生きられる", "社会をつくる。"],
   en: "Infrastructure for every possibility.",
   text: "生まれた環境や今いる場所に関わらず、誰もが「次の一歩」を自分で選べる社会。ARQOは、そのための機会と仕組みを、事業として持続可能なかたちでつくり続けます。",
 };

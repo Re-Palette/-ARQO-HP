@@ -189,45 +189,6 @@ function stage(w, h, { seed = 3, hue = "violet" } = {}) {
   return svg(w, h, body, defs);
 }
 
-/** Deep blue constellation / neural network (AI & Technology). */
-function network(w, h, seed = 5) {
-  const r = rng(seed);
-  const nodes = Array.from({ length: 90 }, () => [r() * w, r() * h, r()]);
-  let lines = "";
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      const dx = nodes[i][0] - nodes[j][0];
-      const dy = nodes[i][1] - nodes[j][1];
-      const d = Math.hypot(dx, dy);
-      if (d < w * 0.12)
-        lines += `<line x1="${nodes[i][0]}" y1="${nodes[i][1]}" x2="${nodes[j][0]}" y2="${nodes[j][1]}" stroke="#bcd3ff" stroke-width="1.2" opacity="${(0.55 * (1 - d / (w * 0.12))).toFixed(2)}"/>`;
-    }
-  }
-  const dots = nodes
-    .map(([x, y, s]) => `<circle cx="${x}" cy="${y}" r="${1.5 + s * 3.5}" fill="#eaf1ff" opacity="${0.4 + s * 0.6}"/>`)
-    .join("");
-  const defs = `
-    <radialGradient id="bg" cx="0.65" cy="0.35" r="0.9">
-      <stop offset="0" stop-color="#3a5aa6"/>
-      <stop offset="0.45" stop-color="#1b2a5c"/>
-      <stop offset="1" stop-color="#0a1130"/>
-    </radialGradient>
-    <radialGradient id="aura" cx="0.6" cy="0.4" r="0.4">
-      <stop offset="0" stop-color="#b8a7ff" stop-opacity="0.6"/>
-      <stop offset="1" stop-color="#b8a7ff" stop-opacity="0"/>
-    </radialGradient>
-    ${blur("b2", 1.2)}${blur("b10", 10)}
-    ${grain("grain", 0.08)}`;
-  const body = `
-    <rect width="${w}" height="${h}" fill="url(#bg)"/>
-    <rect width="${w}" height="${h}" fill="url(#aura)"/>
-    <g filter="url(#b2)">${lines}</g>
-    <g filter="url(#b10)">${dots}</g>
-    <g>${dots}</g>
-    <rect width="${w}" height="${h}" filter="url(#grain)"/>`;
-  return svg(w, h, body, defs);
-}
-
 /** Dusk city skyline with sunset gradient (Vision / Footer). */
 function sunset(w, h, { seed = 8, deep = false } = {}) {
   const defs = `
@@ -296,7 +257,6 @@ await write("vision.jpg", 2400, 1400, sunset(2400, 1400, { seed: 8 }), 80);
 await write("footer.jpg", 2400, 1200, sunset(2400, 1200, { seed: 17, deep: true }), 78);
 await write("news-event.jpg", 1000, 640, interior(1000, 640, { seed: 9, green: true }));
 await write("news-brand.jpg", 1000, 640, bloom(1000, 640, 12));
-await write("news-tech.jpg", 1000, 640, network(1000, 640, 21));
 await write("news-community.jpg", 1000, 640, stage(1000, 640, { seed: 30, hue: "violet" }));
 
 console.log("Done.");
