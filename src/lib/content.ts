@@ -78,7 +78,7 @@ export const services: Service[] = [
     title: "Re-Palette",
     ja: "美容福祉事業",
     description: "美容を通じて、社会的孤立状態にある\n若者の社会復帰を支援します。",
-    image: "/images/service-repalette.jpg",
+    image: "/images/services/repalette.jpg",
     lead: "美容は、自分を好きになるためのいちばん身近な入口。",
     body: [
       "社会的孤立やひきこもりの状態にある若者にとって、「外に出る理由」や「誰かと関わるきっかけ」は簡単には見つかりません。Re-Paletteは、ヘアメイクや撮影といった美容体験を入口に、自己肯定感の回復と社会との再接続を支えるプログラムです。",
@@ -99,7 +99,7 @@ export const services: Service[] = [
     title: "Education",
     ja: "教育事業",
     description: "人の可能性を広げる教育を通じて、\n未来の選択肢を増やします。",
-    image: "/images/service-education.jpg",
+    image: "/images/services/education.jpg",
     heroImage: { src: "/images/education-hero.jpg", alt: "校舎を背に、夕方の空を見上げる制服姿の学生", position: "74% center" },
     lead: "学びの選択肢が、人生の選択肢になる。",
     body: [
@@ -118,7 +118,7 @@ export const services: Service[] = [
     title: "Community & Events",
     ja: "コミュニティ・イベント事業",
     description: "人と人がつながり、挑戦し合う場をつくり、\n新しい価値を生み出します。",
-    image: "/images/service-community.jpg",
+    image: "/images/services/community.jpg",
     lead: "人と人が出会う場所から、新しい価値が生まれる。",
     body: [
       "世代や立場、肩書きを越えて人がつながる場は、誰かの挑戦を後押しする力を持っています。ARQOは、交流コミュニティやイベントの企画・運営を通じて、出会いが次のアクションにつながる仕組みをつくります。",
@@ -174,7 +174,7 @@ export const projects: Project[] = [
     tagline: "美容を通じた社会参加支援",
     en: "Color your next step.",
     lead: "ヘアメイクと撮影の体験を入口に、自分を好きになる一歩をつくる。",
-    image: "/images/service-repalette.jpg",
+    image: "/images/services/repalette.jpg",
     story: [
       "Re-Paletteは、社会的孤立やひきこもりの状態にある若者を対象にした、美容体験型の社会参加支援プロジェクトです。プロのヘアメイクと撮影を通じて「いつもと違う自分」に出会う時間をつくり、外に出るきっかけと、自分を肯定できる感覚を取り戻すことを目指しています。",
       "美容師・メイクアップアーティスト・フォトグラファー、そして支援機関の担当者がひとつのチームとなり、体験の前後まで一人ひとりに伴走します。ARQOのすべての事業の原点となった取り組みです。",
@@ -203,7 +203,7 @@ export const projects: Project[] = [
     tagline: "世代や立場を超えた交流コミュニティ",
     en: "Conversations without titles.",
     lead: "肩書きを置いて、ひとりの人として語り合える場所を。",
-    image: "/images/service-education.jpg",
+    image: "/images/services/education.jpg",
     event: {
       date: "2026-07-05",
       weekday: "SUN",
@@ -243,7 +243,7 @@ export const projects: Project[] = [
     tagline: "学生主体の次世代ビューティーイベント",
     en: "The first light for new talent.",
     lead: "企画から演出まで、学生がつくるビューティーステージ。",
-    image: "/images/service-community.jpg",
+    image: "/images/services/community.jpg",
     story: [
       "NEWTONEは、企画・演出・ヘアメイク・運営まで、学生が主体となってつくり上げる次世代のビューティーイベントです。美容を学ぶ学生をはじめ、さまざまな分野の学生がチームを組み、ひとつのステージを完成させます。",
       "本気でものづくりに向き合う経験は、参加した学生にとって次のキャリアへの確かな一歩になります。新しい才能が最初に光を浴びる場所として、NEWTONEは毎年進化を続けます。",

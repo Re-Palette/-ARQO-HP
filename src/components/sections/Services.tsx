@@ -61,11 +61,11 @@ export function Services() {
           className="-mx-[clamp(1.25rem,4.5vw,4.5rem)] mt-12 flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,4.5vw,4.5rem)] gap-4 overflow-x-auto px-[clamp(1.25rem,4.5vw,4.5rem)] pb-4 [scrollbar-width:none] md:mx-0 md:mt-14 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
         >
           {services.map((s, i) => (
-            <li key={s.no} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
+            <li key={s.no} className="@container w-[76vw] max-w-[340px] shrink-0 snap-start md:w-auto md:max-w-none">
               <RiseIn p={p} index={i} allowed={allowed}>
                 <Link
                   href={`/service/${s.slug}`}
-                  className="group relative isolate flex aspect-[5/6] flex-col justify-between overflow-hidden rounded-[3px] p-5 text-white shadow-[0_24px_60px_-30px_rgba(40,50,90,0.45)] transition-[transform,box-shadow] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_36px_80px_-30px_rgba(40,50,90,0.55)] md:p-6"
+                  className="group relative isolate flex aspect-[633/727] flex-col justify-between overflow-hidden rounded-[4px] border border-white/25 px-[max(1.25rem,7.4cqw)] pb-[max(1.5rem,6.2cqw)] pt-[max(1.5rem,7.6cqw)] text-white shadow-[0_30px_70px_-34px_rgba(20,28,60,0.6)] transition-[transform,box-shadow] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_40px_90px_-34px_rgba(20,28,60,0.7)]"
                 >
                   <Image
                     src={s.image}
@@ -73,31 +73,32 @@ export function Services() {
                     fill
                     quality={90}
                     sizes="(min-width: 1024px) 32vw, (min-width: 768px) 45vw, 76vw"
-                    className="-z-10 object-cover transition-transform duration-[1600ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.08]"
+                    className="-z-10 object-cover transition-transform duration-[1600ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
                   />
-                  {/* Legibility washes: light at the top for the index, deeper under the copy */}
-                  <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(18,22,44,0.28)_0%,rgba(18,22,44,0)_22%,rgba(18,22,44,0)_42%,rgba(18,22,44,0.45)_62%,rgba(18,22,44,0.72)_100%)]" />
+                  {/* Legibility wash: clear at the top, deep navy under the copy */}
+                  <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(14,20,48,0.22)_0%,rgba(14,20,48,0)_20%,rgba(14,20,48,0.05)_42%,rgba(14,20,48,0.5)_62%,rgba(14,20,48,0.78)_100%)]" />
 
-                  <div className="[text-shadow:0_1px_8px_rgba(6,12,30,0.4)]">
-                    <span className="font-display text-lg tracking-[0.08em]">{s.no}</span>
-                    <span aria-hidden className="mt-2 block h-px w-10 bg-white/60 transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-16" />
+                  <div className="[text-shadow:0_1px_10px_rgba(6,12,30,0.35)]">
+                    <span className="font-display text-[clamp(1.5rem,5.6cqw,2.4rem)] leading-none tracking-[0.02em]">{s.no}</span>
+                    <span aria-hidden className="mt-[max(0.75rem,2.6cqw)] block h-px w-[10cqw] bg-white/80 transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-[15cqw]" />
                   </div>
 
-                  <div className="[text-shadow:0_1px_2px_rgba(6,12,30,0.5),0_2px_18px_rgba(6,12,30,0.45)]">
-                    <h3 className="font-display text-[clamp(1.55rem,2vw,2rem)] leading-none tracking-[0.01em]">
+                  <div className="[text-shadow:0_1px_2px_rgba(6,12,30,0.45),0_2px_22px_rgba(6,12,30,0.45)]">
+                    <h3 className="whitespace-nowrap font-playfair text-[clamp(1.45rem,7.6cqw,3.4rem)] font-normal leading-none">
                       {s.title}
                     </h3>
-                    <p className="mt-2.5 font-mincho text-[0.8125rem] font-medium tracking-[0.16em]">{s.ja}</p>
+                    <p className="mt-[max(0.75rem,3cqw)] font-mincho text-[clamp(0.8125rem,2.9cqw,1.2rem)] font-medium tracking-[0.18em]">{s.ja}</p>
+                    <span aria-hidden className="mt-[max(0.9rem,3.4cqw)] block h-px w-[10cqw] bg-white/70" />
                     {/* "\n" in the copy marks the break used on the 3-up desktop cards */}
-                    <p className="mt-3 font-mincho text-xs font-medium leading-[1.9] tracking-[0.04em] text-white/95 lg:text-[0.6875rem] xl:text-xs">
+                    <p className="mt-[max(0.9rem,3.4cqw)] font-mincho text-[clamp(0.75rem,2.3cqw,0.95rem)] font-medium leading-[2.1] tracking-[0.05em] text-white/95">
                       {s.description.split("\n").map((part) => (
                         <span key={part} className="lg:block">
                           {part}
                         </span>
                       ))}
                     </p>
-                    <span className="mt-5 grid size-10 place-items-center rounded-full border border-white/80 bg-white/10 transition-colors duration-700 group-hover:bg-white group-hover:text-ink md:size-11">
-                      <Arrow className="w-4 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
+                    <span className="mt-[max(1.25rem,5.4cqw)] grid size-[clamp(2.75rem,11cqw,4.5rem)] place-items-center rounded-full border border-white/85 transition-colors duration-700 group-hover:bg-white group-hover:text-ink">
+                      <Arrow className="w-5 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
                     </span>
                   </div>
                 </Link>
