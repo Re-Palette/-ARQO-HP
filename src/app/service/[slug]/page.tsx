@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { PageHero } from "@/components/page/PageHero";
+import { RePaletteHero } from "@/components/page/RePaletteHero";
 import { Arrow } from "@/components/ui/ArrowLink";
 import { services } from "@/lib/content";
 
@@ -38,16 +39,20 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
 
   return (
     <main id="main">
-      <PageHero
-        display
-        eyebrow={`Service ${s.no} — ${s.ja}`}
-        title={[s.title]}
-        lead={s.lead}
-        image={s.heroImage?.src}
-        imageAlt={s.heroImage?.alt}
-        position={s.heroImage?.position}
-        crumbs={[{ label: "Service", href: "/service" }, { label: s.title }]}
-      />
+      {s.slug === "re-palette" ? (
+        <RePaletteHero crumbs={[{ label: "Service", href: "/service" }, { label: s.title }]} />
+      ) : (
+        <PageHero
+          display
+          eyebrow={`Service ${s.no} — ${s.ja}`}
+          title={[s.title]}
+          lead={s.lead}
+          image={s.heroImage?.src}
+          imageAlt={s.heroImage?.alt}
+          position={s.heroImage?.position}
+          crumbs={[{ label: "Service", href: "/service" }, { label: s.title }]}
+        />
+      )}
 
       {/* Overview */}
       <section aria-labelledby="overview-heading" className="relative overflow-hidden bg-white py-24 md:py-36">
