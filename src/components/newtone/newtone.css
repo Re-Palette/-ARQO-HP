@@ -1,0 +1,1704 @@
+/*
+ * NEWTONE 2027 — ported from Re-Palette/newtone2027 (src/index.css).
+ * Every rule is scoped under .nt so it cannot touch the rest of the ARQO site;
+ * html.is-motion became a media query and keyframes carry an nt- prefix.
+ * Generated — edit the source design, then re-scope.
+ */
+/* =========================================================
+   NEWTONE 2027 — design tokens
+   色は参考ビジュアルから抽出（Deep Navy → Midnight → Electric Blue → Lavender → Violet → Neon Pink）
+   ========================================================= */
+.nt {
+  --c-deep: #070b2e;
+  --c-navy: #0d1452;
+  --c-midnight: #19206c;
+  --c-electric: #4f6dff;
+  --c-lavender: #bdb8f6;
+  --c-violet: #a35cf0;
+  --c-pink: #ff4fa3;
+  --c-white: #f7f4ff;
+
+  --grad-cta: linear-gradient(90deg, #fb6cb8 0%, #d362dc 34%, #a267f0 66%, #7f93f6 100%);
+  --grad-line: linear-gradient(90deg, #ff4fa3 0%, #c45ae9 55%, #6f8bff 100%);
+
+  --f-serif-en: 'Cormorant Garamond', 'Times New Roman', serif;
+  --f-sans-en: 'Jost', 'Zen Kaku Gothic New', sans-serif;
+  --f-display: 'Anton', 'Bebas Neue', Impact, sans-serif;
+  --f-script: 'Kaushan Script', cursive;
+  --f-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+  --f-ja: 'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif;
+
+  /* 参考画像(1672px幅)上の1pxを画面幅に換算した単位 */
+  --u: calc(100vw / 1672);
+  --vh: 100vh;
+  --header-h: clamp(60px, calc(88 * var(--u)), 110px);
+}
+
+@supports (height: 100svh) {
+  .nt { --vh: 100svh; }
+}
+
+.nt {
+  --stage-x: 0px;
+}
+
+/* 横長画面：ヘッダーもHERO画像（ステージ）と同じ座標系で配置し、どの画面比でも参考画像の位置関係を保つ */
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) {
+  .nt {
+    /* cover が基本。左右は切らず、上下は 4.5% 以内（上部の空き領域とSCROLL下の余白の範囲）までしか切らない */
+    --stage-w: min(max(100vw, var(--vh) * 1.7768), 100vw, var(--vh) * 1.86);
+    --stage-x: calc((100vw - var(--stage-w)) / 2);
+    --u: calc(var(--stage-w) / 1672);
+  }
+}
+
+.nt {
+  background: var(--c-deep);
+  -webkit-text-size-adjust: 100%;
+}
+
+.nt {
+  margin: 0;
+  background: var(--c-deep);
+  color: var(--c-white);
+  font-family: var(--f-ja);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.nt ::selection {
+  background: var(--c-pink);
+  color: #fff;
+}
+
+.nt .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nt .char {
+  display: inline-block;
+}
+
+.nt .eyebrow {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: clamp(10px, 0.78vw, 13px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 255, 0.78);
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.nt .eyebrow::before {
+  content: '';
+  width: 2.6em;
+  height: 1px;
+  background: var(--grad-line);
+}
+
+.nt .accent-pink {
+  color: var(--c-pink);
+}
+
+/* ---------- CTA (ENTRY / JOIN と同じデザイン言語) ---------- */
+.nt .cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6em;
+  padding: 0 1.5em 0 2.6em;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.78);
+  background: var(--grad-cta);
+  color: #fff;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 26px rgba(248, 93, 179, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+  cursor: pointer;
+}
+
+.nt .cta:hover {
+  box-shadow: 0 10px 34px rgba(196, 90, 233, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  filter: brightness(1.06);
+}
+
+.nt .cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.nt .cta__arrow {
+  width: 1.9em;
+  height: auto;
+  flex: none;
+  transition: transform 0.35s ease;
+}
+
+.nt .cta:hover .cta__arrow {
+  transform: translateX(4px);
+}
+
+.nt .cta[aria-disabled='true'] {
+  cursor: default;
+  filter: saturate(0.75);
+  opacity: 0.82;
+}
+
+.nt .cta[aria-disabled='true']:hover {
+  transform: none;
+  filter: saturate(0.75);
+}
+
+/* =========================================================
+   HEADER — 参考画像の座標(1672px基準)に合わせて配置
+   ========================================================= */
+.nt .site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: var(--header-h);
+  color: #fff;
+  transition: background 0.5s ease;
+}
+
+.nt .site-header::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  right: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.nt .site-header.is-solid {
+  background: linear-gradient(180deg, rgba(9, 13, 52, 0.9), rgba(9, 13, 52, 0.78));
+}
+
+.nt .site-logo {
+  position: absolute;
+  left: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  top: 50%;
+  transform: translateY(-41%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.nt .site-logo__name {
+  font-family: var(--f-serif-en);
+  font-weight: 400;
+  font-size: max(21px, calc(34 * var(--u)));
+  letter-spacing: 0;
+}
+
+.nt .site-logo__year {
+  margin-top: 0.36em;
+  font-family: var(--f-sans-en);
+  font-weight: 400;
+  font-size: max(9.5px, calc(13 * var(--u)));
+  letter-spacing: 0.04em;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum' 1;
+}
+
+.nt .site-nav {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 各項目の中心を参考画像のx座標(--x)に合わせる */
+.nt .site-nav a {
+  position: absolute;
+  left: calc(var(--stage-x) + var(--x) * var(--u));
+  top: calc(46 * var(--u));
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: max(10.5px, calc(13.6 * var(--u)));
+  letter-spacing: 0.18em;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.4em 0 0.4em 0.18em;
+}
+
+.nt .site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0.2em;
+  bottom: 0;
+  height: 1px;
+  background: var(--grad-line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nt .site-nav a:hover::after,
+.nt .site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nt .site-header .cta--header {
+  position: absolute;
+  right: calc(var(--stage-x) + max(16px, calc(57 * var(--u))));
+  top: calc(24 * var(--u));
+  height: max(36px, calc(51 * var(--u)));
+  min-width: calc(238 * var(--u));
+  font-size: max(10.5px, calc(13.6 * var(--u)));
+  padding: 0 calc(20 * var(--u)) 0 calc(44 * var(--u));
+}
+
+.nt .menu-toggle {
+  display: none;
+}
+
+.nt .mobile-menu {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .nt .site-nav {
+    display: none;
+  }
+
+  .nt .site-logo {
+    transform: translateY(-50%);
+  }
+
+  .nt .site-header .cta--header {
+    top: 50%;
+    right: 64px;
+    transform: translateY(-50%);
+    height: 36px;
+    min-width: 0;
+    padding: 0 12px 0 18px;
+    gap: 0.9em;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+  }
+
+  .nt .menu-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .nt .menu-toggle span {
+    display: block;
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+    box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .nt .menu-toggle[aria-expanded='true'] span {
+    box-shadow: none;
+    transform: rotate(45deg);
+  }
+
+  .nt .menu-toggle[aria-expanded='true'] span::after {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(-90deg);
+  }
+
+  .nt .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: calc(var(--header-h) + 24px) 32px 40px;
+    background:
+      radial-gradient(120% 70% at 100% 0%, rgba(163, 92, 240, 0.35), transparent 60%),
+      radial-gradient(90% 60% at 0% 100%, rgba(255, 79, 163, 0.25), transparent 60%),
+      rgba(9, 13, 52, 0.94);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+
+  .nt .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nt .mobile-menu a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    font-family: var(--f-sans-en);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.28em;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .nt .site-header .cta--header {
+    padding: 0 10px 0 14px;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* =========================================================
+   SCENE 01 — HERO
+   ========================================================= */
+.nt .hero {
+  position: relative;
+  background: var(--c-navy);
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .hero {
+  height: 210vh;
+}
+}
+
+.nt .hero__sticky {
+  position: sticky;
+  top: 0;
+  height: var(--vh);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* デスクトップ：参考画像を重要要素が切れない範囲で全面表示 */
+.nt .hero__desk {
+  position: absolute;
+  inset: 0;
+  --stage-h: calc(var(--stage-w) * 0.56280);
+  --stage-top: calc((var(--vh) - var(--stage-h)) * 0.6);
+}
+
+.nt .hero__desk:not([data-gap]) .hero__fill {
+  display: none;
+}
+
+.nt .hero__fill {
+  position: absolute;
+  inset: -4%;
+  background-position: center;
+  background-size: cover;
+}
+
+.nt .hero__stage {
+  position: absolute;
+  left: 50%;
+  top: var(--stage-top);
+  width: var(--stage-w);
+  height: var(--stage-h);
+  margin-left: calc(var(--stage-w) / -2);
+}
+
+.nt .hero__desk[data-gap='y'] .hero__stage {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+
+.nt .hero__desk[data-gap='x'] .hero__stage {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+
+.nt .hero__media {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 46%;
+  will-change: transform;
+}
+
+.nt .hero__img,
+.nt .poster__center-stage img {
+  object-fit: cover;
+}
+
+.nt .hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* NEWTONE / 2027 の文字部分だけに走るホログラムの光沢 */
+.nt .hero__sheen {
+  --sheen: linear-gradient(
+    104deg,
+    transparent 0%,
+    transparent 36%,
+    rgba(255, 120, 196, 0.32) 43%,
+    rgba(190, 160, 255, 0.4) 48%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(130, 170, 255, 0.38) 53%,
+    rgba(255, 120, 196, 0.24) 58%,
+    transparent 64%,
+    transparent 100%
+  );
+  position: absolute;
+  left: 21.232%;
+  top: 38.789%;
+  width: 57.715%;
+  height: 45.165%;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 光の帯は transform だけで動かす（マスク内の再描画を発生させない） */
+.nt .hero__sheen-band {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320%;
+  height: 100%;
+  background: var(--sheen);
+  will-change: transform;
+}
+
+
+.nt .hero__lights {
+  position: absolute;
+  inset: -12% -8%;
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.nt .particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* HEROの粒子は参考画像の完成形を崩さないよう初期状態では非表示（スクロールで出現） */
+.nt .hero .particles {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.nt .particles i {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 170, 225, 0.55) 35%, transparent 70%);
+}
+
+/* 高さ2画面ぶんのグラデーション。下に隠れた状態から transform で持ち上げる */
+.nt .hero__veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 200%;
+  background: linear-gradient(180deg, rgba(13, 20, 82, 0) 0%, rgba(13, 20, 82, 0.75) 22%, var(--c-navy) 48%, var(--c-navy) 100%);
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.nt .hero__scroll {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - var(--stage-w) * 0.0096);
+  top: min(calc(var(--stage-top) + var(--stage-h) * 0.9447), calc(var(--vh) - 50px));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 * var(--u));
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: max(10px, calc(13.4 * var(--u)));
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+
+.nt .hero__scroll svg {
+  width: max(10px, calc(14 * var(--u)));
+  height: auto;
+}
+
+.nt .hero__scroll .scroll-line {
+  animation: nt-scroll-hint 2.4s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+  transform-origin: 50% 0;
+}
+
+@keyframes nt-scroll-hint {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nt .hero__scroll .scroll-line { animation: none; }
+}
+
+/* スマートフォン / 縦長画面：同じ画像の要素を重ならないように再配置 */
+.nt .hero__poster {
+  display: none;
+}
+
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) {
+  .nt .hero__desk {
+    display: none;
+  }
+
+  .nt .hero__sticky {
+    position: relative;
+    height: auto;
+    min-height: var(--vh);
+  }
+
+  .nt .hero__poster {
+    --pw: min(100vw, calc(var(--vh) * 0.5));
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: var(--vh);
+    padding: calc(var(--header-h) + 10px) 0 18px;
+    overflow: hidden;
+  }
+}
+
+.nt .poster__bg {
+  position: absolute;
+  inset: -6%;
+  background-position: 50% 40%;
+  background-size: cover;
+}
+
+.nt .poster__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 22, 84, 0.92) 0%,
+    rgba(16, 22, 84, 0.6) 32%,
+    rgba(16, 22, 84, 0.45) 62%,
+    rgba(16, 22, 84, 0.9) 100%
+  );
+}
+
+.nt .poster__frame {
+  position: relative;
+  width: var(--pw);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.nt .poster__feather {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 20%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 20%, #000 80%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.nt .poster__feather--round {
+  -webkit-mask-image: radial-gradient(closest-side, #000 82%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 82%, transparent 100%);
+}
+
+.nt .poster__top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.nt .poster__top img,
+.nt .poster__bottom img {
+  display: block;
+  height: auto;
+}
+
+.nt .poster__left {
+  width: 60%;
+  margin-left: -7%;
+}
+
+.nt .poster__right {
+  width: 58%;
+  margin-right: -10%;
+  margin-left: -8%;
+}
+
+.nt .poster__center {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: calc(var(--pw) * 1.65 * 0.5628);
+  margin-top: calc(var(--pw) * -0.1);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 9%, #000 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 9%, #000 90%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.nt .poster__center-media {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.nt .poster__center-stage {
+  /* 画像の中心(NEWTONE)を軸に、左右のコピーを外した 165% クロップ */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 165%;
+  margin-left: -82.5%;
+  aspect-ratio: 1672 / 941;
+}
+
+.nt .poster__center-stage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nt .poster__bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: calc(var(--pw) * -0.04);
+  padding: 0 4% 0 0;
+}
+
+.nt .poster__circle {
+  width: 44%;
+  margin-left: -2%;
+}
+
+.nt .poster__cats {
+  list-style: none;
+  margin: 0 0 4% 0;
+  padding: 0;
+  width: 34%;
+}
+
+.nt .poster__cats li,
+.nt .exp__list li {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.nt .poster__cats li {
+  font-size: calc(var(--pw) * 0.024);
+  padding: 0.5em 0 0.4em;
+}
+
+.nt .poster__cats li:last-child {
+  border-bottom: 0;
+}
+
+.nt .poster__by {
+  margin: calc(var(--pw) * 0.04) 0 0;
+  text-align: center;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: calc(var(--pw) * 0.027);
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.nt .poster__scroll {
+  position: relative;
+  margin: auto auto 0;
+  padding-top: calc(var(--pw) * 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+}
+
+.nt .poster__scroll svg {
+  width: 11px;
+  height: auto;
+}
+
+/* =========================================================
+   Shared scene shell
+   ========================================================= */
+.nt .scene {
+  position: relative;
+  background: var(--c-navy);
+}
+
+.nt .scene__sticky {
+  position: relative;
+  min-height: var(--vh);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .scene--pin > .scene__sticky {
+  position: sticky;
+  top: 0;
+  height: var(--vh);
+}
+}
+
+.nt .scene__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.nt .wave {
+  /* 光の画像は黒背景→透明へ変換済み（screen合成やマスクを使わず、通常合成で軽く描画） */
+  position: absolute;
+  background-size: 100% 100%;
+  background-position: center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* =========================================================
+   SCENE 02 — BRAND CONCEPT
+   ========================================================= */
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+.nt.nt .concept {
+  height: 260vh;
+}
+}
+
+.nt .concept .scene__bg {
+  background:
+    radial-gradient(70% 60% at 85% 20%, rgba(163, 92, 240, 0.28), transparent 70%),
+    radial-gradient(60% 55% at 10% 90%, rgba(255, 79, 163, 0.18), transparent 70%),
+    linear-gradient(180deg, var(--c-navy) 0%, #111866 60%, #141a70 100%);
+}
+
+.nt .concept .wave {
+  inset: 18% -20% -10% 10%;
+  opacity: 0.55;
+}
+
+.nt .concept {
+  background: linear-gradient(180deg, var(--c-navy) 0%, #141a70 100%);
+}
+
+.nt .concept .scene__bg {
+  background: none;
+}
+
+.nt .concept .scene__sticky {
+  background:
+    radial-gradient(70% 60% at 85% 30%, rgba(163, 92, 240, 0.22), transparent 70%),
+    radial-gradient(60% 55% at 10% 85%, rgba(255, 79, 163, 0.14), transparent 70%);
+}
+
+.nt .trail-wipe,
+.nt .trail-wipe__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.nt .concept__trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.nt .concept__inner {
+  position: relative;
+  min-height: var(--vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--header-h) + 6vh) max(24px, 8vw) 10vh;
+}
+
+.nt .concept__title {
+  margin: 4vh 0 0;
+  font-family: var(--f-mincho);
+  font-weight: 600;
+  font-size: clamp(38px, 6.4vw, 112px);
+  line-height: 1.28;
+  letter-spacing: 0.04em;
+  color: var(--c-white);
+}
+
+.nt .concept__title .line {
+  display: block;
+}
+
+.nt .sp-br {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .nt .sp-br {
+    display: inline;
+  }
+}
+
+.nt .concept__title .future {
+  position: relative;
+  display: inline-block;
+  color: var(--c-pink);
+}
+
+.nt .brush-underline {
+  position: absolute;
+  left: -6%;
+  bottom: -0.12em;
+  width: 118%;
+  height: 0.42em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nt .concept__body {
+  margin: 6vh 0 0;
+  max-width: 34em;
+  font-family: var(--f-ja);
+  font-size: clamp(14px, 1.15vw, 18px);
+  line-height: 2.2;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 255, 0.82);
+}
+
+@media (min-width: 1024px) {
+  .nt .concept__body {
+    margin-left: 42vw;
+    margin-top: 7vh;
+  }
+}
+
+/* =========================================================
+   SCENE 03 — THE NEXT BEAUTY
+   ========================================================= */
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+.nt.nt .nextbeauty {
+  height: 340vh;
+}
+}
+
+.nt .nextbeauty {
+  background: #141a70;
+}
+
+.nt .nextbeauty .scene__bg {
+  background: linear-gradient(180deg, #141a70 0%, #1b1f78 50%, #161c6e 100%);
+}
+
+.nt .blob {
+  /* filter: blur の代わりに放射グラデーションでぼかす（スクロール中の再描画を避ける） */
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--blob) 0%, color-mix(in srgb, var(--blob) 45%, transparent) 35%, transparent 70%);
+  will-change: transform;
+}
+
+.nt .nb__typo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--header-h);
+}
+
+.nt .nb__big {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.86;
+  font-size: clamp(76px, 19vw, 360px);
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  background: linear-gradient(100deg, #ffffff 0%, #e9e2ff 30%, #ffd2ec 52%, #ffffff 70%, #cfdcff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: transform;
+}
+
+.nt .nb__big--a {
+  padding-left: 4vw;
+}
+
+.nt .nb__big--b {
+  text-align: right;
+  padding-right: 4vw;
+}
+
+.nt .nb__script {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  font-family: var(--f-script);
+  font-size: clamp(44px, 8.6vw, 168px);
+  color: var(--c-pink);
+  white-space: nowrap;
+  text-shadow: 0 0 30px rgba(255, 79, 163, 0.45);
+  pointer-events: none;
+}
+
+.nt .nb__reveal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(80% 80% at 50% 50%, #2a2392 0%, #141a70 70%);
+}
+
+.nt .nb__reveal .wave {
+  inset: -5%;
+  opacity: 0.9;
+}
+
+.nt .nb__copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--header-h) 24px 0;
+}
+
+.nt .nb__copy h3 {
+  margin: 0;
+  font-family: var(--f-mincho);
+  font-weight: 600;
+  font-size: clamp(30px, 5vw, 92px);
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-shadow: 0 4px 40px rgba(13, 20, 82, 0.6);
+}
+
+.nt .nb__copy .tagline {
+  margin-top: 4vh;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: clamp(11px, 0.9vw, 15px);
+  letter-spacing: 0.4em;
+}
+
+/* =========================================================
+   SCENE 04 — BRANDS
+   ========================================================= */
+.nt .brands {
+  background: linear-gradient(180deg, #161c6e 0%, #0f1559 100%);
+}
+
+.nt .brands .scene__sticky {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--header-h) + 5vh) 0 6vh;
+}
+
+.nt .brands__head {
+  padding: 0 max(24px, 6vw);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.nt .brands__title {
+  margin: 1.2vh 0 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(56px, 9vw, 168px);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+}
+
+.nt .brands__lead {
+  max-width: 30em;
+  margin: 0;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 2;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 255, 0.8);
+}
+
+.nt .brands__viewport {
+  margin-top: 5vh;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nt .brands__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .brands__viewport {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+}
+
+.nt .brands__track {
+  display: flex;
+  gap: max(16px, 2.4vw);
+  padding: 0 max(24px, 6vw);
+  width: max-content;
+  will-change: transform;
+  perspective: 1400px;
+}
+
+.nt .brand-card {
+  position: relative;
+  flex: none;
+  width: min(78vw, 360px);
+  aspect-ratio: 3 / 4;
+  border-radius: 28px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(160deg, rgba(64, 70, 170, 0.55), rgba(22, 27, 98, 0.75));
+  box-shadow: 0 30px 80px rgba(4, 6, 30, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  color: #fff;
+  text-decoration: none;
+  transform-style: preserve-3d;
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .brand-card {
+  width: clamp(280px, 26vw, 440px);
+  max-height: 62vh;
+  aspect-ratio: auto;
+  height: 62vh;
+}
+}
+
+.nt .brand-card__orb {
+  position: absolute;
+  width: 74%;
+  aspect-ratio: 1;
+  left: 13%;
+  top: 12%;
+  border-radius: 50%;
+  /* 参考ビジュアル左下の円形グラフィックのような、透明感のある光の球 */
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.75), transparent 24%),
+    radial-gradient(circle at var(--ox, 30%) var(--oy, 70%), rgba(255, 79, 163, 0.95), transparent 55%),
+    radial-gradient(circle at calc(100% - var(--ox, 30%)) calc(100% - var(--oy, 70%)), rgba(79, 109, 255, 0.95), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(163, 92, 240, 0.9), rgba(60, 40, 160, 0.9) 70%);
+  box-shadow: 0 0 60px rgba(196, 90, 233, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.35), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
+  opacity: 0.9;
+}
+
+.nt .brand-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nt .brand-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(9, 13, 52, 0.85) 100%);
+}
+
+.nt .brand-card__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 26px 28px;
+}
+
+.nt .brand-card__no {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  font-family: var(--f-sans-en);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nt .brand-card__logo {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  max-width: 40%;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+.nt .brand-card__name {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(28px, 2.6vw, 44px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.nt .brand-card__concept {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+  color: rgba(247, 244, 255, 0.82);
+}
+
+.nt .brand-card__tag {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-family: var(--f-sans-en);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.nt .brand-card--soon .brand-card__name {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: clamp(18px, 1.5vw, 24px);
+  letter-spacing: 0.32em;
+}
+
+.nt .brands__note {
+  margin: 4vh 0 0;
+  padding: 0 max(24px, 6vw);
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: rgba(247, 244, 255, 0.6);
+}
+
+/* =========================================================
+   SCENE 05 — POPUP EXPERIENCE
+   ========================================================= */
+.nt .experience {
+  background: #0f1559;
+}
+
+/* 1カテゴリーあたり1画面ぶんのスクロール（7カテゴリー + ピン留め1画面） */
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+.nt.nt .experience {
+  height: 800vh;
+}
+}
+
+.nt .experience .scene__bg {
+  background:
+    radial-gradient(60% 60% at 50% 55%, rgba(79, 109, 255, 0.18), transparent 70%),
+    linear-gradient(180deg, #0f1559 0%, #0d1452 100%);
+}
+
+.nt .exp__orb {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: min(62vw, 78vh);
+  aspect-ratio: 1;
+  margin: calc(min(62vw, 78vh) / -2) 0 0 calc(min(62vw, 78vh) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--orb) 60%, transparent) 0%, color-mix(in srgb, var(--orb) 22%, transparent) 38%, transparent 66%);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.nt .exp__orb:first-child {
+  opacity: 1;
+}
+
+.nt .exp__desk {
+  display: none;
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .exp__desk {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .exp__mobile {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+}
+
+.nt .exp__head {
+  position: absolute;
+  left: max(24px, 6vw);
+  top: calc(var(--header-h) + 5vh);
+}
+
+.nt .exp__title {
+  margin: 1.4vh 0 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(40px, 4.4vw, 80px);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+.nt .exp__words {
+  position: absolute;
+  inset: 0;
+}
+
+.nt .exp__word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin-top: -0.46em;
+  text-align: center;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(64px, 13vw, 250px);
+  line-height: 1;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  /* background-clip:text はクリップ/transform アニメーションと組み合わせると描画されないことがあるため単色に */
+  color: #f8f5ff;
+  text-shadow: 0 0 60px rgba(196, 170, 255, 0.35);
+  will-change: clip-path, transform;
+}
+
+.nt .exp__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12vh;
+  text-align: center;
+  font-family: var(--f-mincho);
+  font-weight: 600;
+  font-size: clamp(18px, 1.8vw, 30px);
+  letter-spacing: 0.12em;
+}
+
+.nt .exp__counter {
+  position: absolute;
+  left: max(24px, 6vw);
+  bottom: 8vh;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.nt .exp__counter b {
+  display: inline-block;
+  min-width: 2ch;
+  color: #fff;
+  font-weight: 500;
+}
+
+.nt .exp__list {
+  position: absolute;
+  right: max(24px, calc(72 * var(--u)));
+  top: 50%;
+  transform: translateY(-50%);
+  width: max(130px, calc(106 * var(--u) * 1.25));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nt .exp__list li {
+  font-size: max(10.5px, calc(12.5 * var(--u)));
+  padding: 0.95em 0 0.8em;
+  opacity: 0.5;
+  will-change: opacity, transform;
+}
+
+.nt .exp__list li:last-child {
+  border-bottom: 0;
+}
+
+.nt .exp__mobile {
+  position: relative;
+  padding: calc(var(--header-h) + 48px) 24px 72px;
+}
+
+.nt .exp__item {
+  padding: 34px 0 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.nt .exp__item-no {
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.nt .exp__item-word {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-display);
+  font-size: clamp(48px, 15vw, 96px);
+  line-height: 1;
+  color: #f8f5ff;
+  text-shadow: 0 0 40px color-mix(in srgb, var(--hue) 45%, transparent);
+}
+
+.nt .exp__item-copy {
+  margin: 12px 0 0;
+  font-family: var(--f-mincho);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+}
+
+/* =========================================================
+   SCENE 06 — ENTRY / JOIN
+   ========================================================= */
+.nt .entry {
+  background: var(--c-navy);
+}
+
+.nt .entry .scene__bg {
+  background-size: cover;
+  background-position: 50% 30%;
+}
+
+.nt .entry .scene__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(13, 20, 82, 0.35), rgba(13, 20, 82, 0.8) 80%),
+    linear-gradient(180deg, #0d1452 0%, rgba(13, 20, 82, 0.4) 30%, rgba(13, 20, 82, 0.6) 70%, var(--c-deep) 100%);
+}
+
+.nt .entry .wave {
+  inset: 10% -10% 20% -10%;
+  opacity: 0.4;
+}
+
+.nt .entry__inner {
+  position: relative;
+  min-height: var(--vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--header-h) + 8vh) 24px 10vh;
+}
+
+.nt .entry__title {
+  margin: 4vh 0 0;
+  font-family: var(--f-mincho);
+  font-weight: 600;
+  font-size: clamp(34px, 5.6vw, 100px);
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+}
+
+.nt .entry__title .together {
+  position: relative;
+  display: inline-block;
+}
+
+.nt .entry__lead {
+  margin: 4vh 0 0;
+  font-size: clamp(14px, 1.1vw, 18px);
+  line-height: 2;
+  letter-spacing: 0.1em;
+  color: rgba(247, 244, 255, 0.85);
+}
+
+.nt .entry .cta--main {
+  margin-top: 6vh;
+  height: clamp(56px, 4.6vw, 76px);
+  min-width: min(100%, 360px);
+  font-family: var(--f-ja);
+  font-weight: 500;
+  font-size: clamp(14px, 1.1vw, 18px);
+  letter-spacing: 0.24em;
+}
+
+.nt .entry__pending {
+  margin: 18px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 255, 0.65);
+}
+
+.nt .info {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 max(24px, 4vw);
+  padding: 0 max(24px, 6vw) 10vh;
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.nt .info__col {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 22px;
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.nt .info__label {
+  font-family: var(--f-display);
+  font-size: clamp(30px, 3vw, 52px);
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1;
+}
+
+.nt .info__text {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  color: rgba(247, 244, 255, 0.78);
+}
+
+.nt .info__news {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.nt .info__news li {
+  display: flex;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+.nt .info__news time {
+  font-family: var(--f-sans-en);
+  color: rgba(247, 244, 255, 0.6);
+  flex: none;
+}
+
+.nt .info__news a {
+  color: inherit;
+}
+
+@media (max-width: 767px) {
+  .nt .info {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.nt .site-footer {
+  position: relative;
+  padding: 48px max(24px, 6vw) 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--c-deep);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nt .site-footer .site-logo {
+  position: static;
+  transform: none;
+}
+
+.nt .site-footer .site-logo__name {
+  font-size: 34px;
+}
+
+.nt .site-footer .site-logo__year {
+  font-size: 14px;
+}
+
+.nt .site-footer__tag {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+}
+
+.nt .site-footer__copy {
+  width: 100%;
+  margin: 8px 0 0;
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 255, 0.5);
+}
+
+/* THE NEXT BEAUTY：ピン留めしない環境（スマートフォン / 視差効果を減らす設定）では縦に積む */
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+.nt.nt .nb__typo {
+  position: relative;
+  min-height: 92vh;
+  min-height: 92svh;
+  overflow: hidden;
+}
+}
+
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .nb__reveal {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: none;
+}
+}
+
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .nb__copy {
+  position: relative;
+  min-height: 70vh;
+  min-height: 70svh;
+}
+}
+
+/* ---------- ARQO への組み込み ---------- */
+/* フォントは next/font で読み込んだものを使う */
+.nt {
+  --f-serif-en: var(--font-nt-cormorant), 'Times New Roman', serif;
+  --f-sans-en: var(--font-nt-jost), var(--font-nt-zen), sans-serif;
+  --f-display: var(--font-nt-anton), Impact, sans-serif;
+  --f-script: var(--font-nt-kaushan), cursive;
+  --f-mincho: var(--font-nt-shippori), 'Hiragino Mincho ProN', serif;
+  --f-ja: var(--font-nt-zen), 'Hiragino Sans', sans-serif;
+  font-feature-settings: normal;
+}
+
+/* ARQO の .eyebrow の装飾を打ち消す */
+.nt .eyebrow::before {
+  opacity: 1;
+}
+
+/* NEWTONE のページではページ全体の地色もそろえる（オーバースクロール時の白抜け防止） */
+html:has(.nt),
+html:has(.nt) body {
+  background: #070b2e;
+}
+
+/* ARQO トップへ戻る導線 */
+.nt .site-footer__arqo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  margin-top: 18px;
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.nt .site-footer__arqo:hover {
+  color: #fff;
+}
+.nt .site-footer__arqo .cta__arrow {
+  width: 22px;
+}

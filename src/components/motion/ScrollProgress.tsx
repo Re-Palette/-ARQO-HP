@@ -1,11 +1,15 @@
 "use client";
 
 import { motion, useScroll, useSpring } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { isStandalonePage } from "@/lib/content";
 
 /** Hairline page-progress indicator pinned to the top edge. */
 export function ScrollProgress() {
+  const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 });
+  if (isStandalonePage(pathname)) return null;
 
   return (
     <motion.div

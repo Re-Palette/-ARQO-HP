@@ -10,12 +10,13 @@ import { TextReveal } from "@/components/motion/TextReveal";
 import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { Arrow } from "@/components/ui/ArrowLink";
 import { LogoSplit } from "@/components/ui/Logo";
-import { nav, site, socials } from "@/lib/content";
+import { isStandalonePage, nav, site, socials } from "@/lib/content";
 
 export function Footer() {
   const ref = useRef<HTMLElement>(null);
   // The contact page is the CTA's destination, so it skips the CTA block.
-  const showCta = usePathname() !== "/contact";
+  const pathname = usePathname();
+  const showCta = pathname !== "/contact";
   const allowed = useMotionAllowed();
   // The wordmark rises and settles exactly as the page reaches its end.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
@@ -32,6 +33,8 @@ export function Footer() {
   const gR = useTransform(spread, (s) => `${s * -53}%`);
   const gQ = useTransform(spread, (s) => `${s * 34}%`);
   const gO = useTransform(spread, (s) => `${s * 85}%`);
+
+  if (isStandalonePage(pathname)) return null;
 
   return (
     <footer ref={ref} className="relative isolate overflow-hidden bg-night text-white">

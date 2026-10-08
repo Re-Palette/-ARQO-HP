@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/vision", 0.7),
     page("/service", 0.8),
     ...services.map((s) => page(`/service/${s.slug}`, 0.7)),
-    ...projects.filter((p) => !p.externalUrl).map((p) => page(`/projects/${p.slug}`, 0.6)),
+    ...projects.map((p) => page(`/projects/${p.slug}`, 0.6)),
     page("/news", 0.7, "weekly"),
     ...news.map((n) => ({ ...page(`/news/${n.slug}`, 0.5, "yearly"), lastModified: new Date(n.date) })),
     page("/contact", 0.6),

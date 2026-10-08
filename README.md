@@ -47,7 +47,8 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | `/vision` | ビジョン・目指す社会・3つの事業とのつながり |
 | `/service` | 事業一覧 |
 | `/service/[slug]` | 事業詳細 ×3（re-palette / education / community） |
-| `/projects/[slug]` | プロジェクト詳細 ×3（re-palette / nuance-lounge / newtone）。事業ページの「主なプロジェクト」→「詳細を見る」から |
+| `/projects/[slug]` | プロジェクト詳細（re-palette / nuance-lounge）。事業ページの「主なプロジェクト」→「詳細を見る」から |
+| `/projects/newtone` | NEWTONE 2027 特設サイト。[Re-Palette/newtone2027](https://github.com/Re-Palette/newtone2027) を移植したもの（`src/components/newtone/`、画像は `public/newtone/`）。CSS はすべて `.nt` 配下にスコープし、ARQO のヘッダー・フッターは表示しない。日時・会場・ブランドは `src/components/newtone/site.ts` / `brands.ts` |
 | `/news` | お知らせ一覧（カテゴリー絞り込み） |
 | `/news/[slug]` | お知らせ詳細（NewsArticle 構造化データ付き） |
 | `/contact` | お問い合わせフォーム |

@@ -7,12 +7,13 @@ import { TextReveal } from "@/components/motion/TextReveal";
 import { NuanceLoungeHero } from "@/components/page/NuanceLoungeHero";
 import { PageHero } from "@/components/page/PageHero";
 import { Arrow } from "@/components/ui/ArrowLink";
-import { projectHref, projects, services } from "@/lib/content";
+import { projects, services } from "@/lib/content";
 
 type Params = { slug: string };
 
 export function generateStaticParams(): Params[] {
-  return projects.filter((p) => !p.externalUrl).map((p) => ({ slug: p.slug }));
+  // NEWTONE has its own event site at /projects/newtone (src/app/projects/newtone).
+  return projects.filter((p) => p.slug !== "newtone").map((p) => ({ slug: p.slug }));
 }
 
 export const dynamicParams = false;
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function ProjectPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const index = projects.findIndex((x) => x.slug === slug);
-  if (index < 0 || projects[index].externalUrl) notFound();
+  if (index < 0) notFound();
   const p = projects[index];
   const service = services.find((s) => s.slug === p.service);
   const others = projects.filter((x) => x.slug !== p.slug);
@@ -195,8 +196,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           {others.map((o, i) => (
             <Link
               key={o.slug}
-              href={projectHref(o)}
-              {...(o.externalUrl ? { target: "_blank", rel: "noopener" } : {})}
+              href={`/projects/${o.slug}`}
               className={`group flex items-center justify-between gap-6 py-10 md:py-14 ${i === 1 ? "md:border-l md:border-line md:pl-12" : "md:pr-12"}`}
             >
               <span>

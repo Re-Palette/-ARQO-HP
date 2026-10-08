@@ -38,6 +38,10 @@ export const site = {
   locale: "ja_JP",
 } as const;
 
+/** Pages that bring their own header and footer (e.g. the NEWTONE event site). */
+export const standalonePages = ["/projects/newtone"];
+export const isStandalonePage = (pathname: string) => standalonePages.some((p) => pathname.startsWith(p));
+
 export const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -152,14 +156,7 @@ export type Project = {
     address: string;
     fees: { label: string; price: string }[];
   };
-  /** When set, the project lives on its own site and every link goes there instead of /projects/[slug]. */
-  externalUrl?: string;
 };
-
-/** Where a project's 「詳細を見る」 links lead. */
-export function projectHref(p: Pick<Project, "slug" | "externalUrl">): string {
-  return p.externalUrl ?? `/projects/${p.slug}`;
-}
 
 /**
  * Project pages (/projects/[slug]). Copy is a first draft — review against the
@@ -238,7 +235,6 @@ export const projects: Project[] = [
   {
     slug: "newtone",
     name: "NEWTONE",
-    externalUrl: "https://newtone-2027-git-claude-lucid-331465-re-palette-9770s-projects.vercel.app/#top",
     category: "Event",
     service: "community",
     tagline: "学生主体の次世代ビューティーイベント",

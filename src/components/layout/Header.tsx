@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { useLenis } from "@/components/motion/SmoothScroll";
 import { Logo } from "@/components/ui/Logo";
-import { nav, site, socials } from "@/lib/content";
+import { isStandalonePage, nav, site, socials } from "@/lib/content";
 
 export function Header() {
   const { scrollY } = useScroll();
@@ -75,6 +75,8 @@ export function Header() {
   const light = !scrolled && !open && !lightHero;
 
   const primary = nav.filter((n) => n.label !== "Contact");
+
+  if (isStandalonePage(pathname)) return null;
 
   return (
     <>
