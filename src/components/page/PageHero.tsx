@@ -20,13 +20,15 @@ type PageHeroProps = {
   crumbs: Crumb[];
   /** Shorter band for articles and utility pages. */
   compact?: boolean;
+  /** Full-screen hero with a large serif English title (service pages). */
+  display?: boolean;
 };
 
 /**
  * Lower-page hero: full-bleed photo (or a night gradient) with the same
  * settle-in zoom and scroll parallax language as the home page.
  */
-export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", position = "center", crumbs, compact }: PageHeroProps) {
+export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", position = "center", crumbs, compact, display }: PageHeroProps) {
   const ref = useRef<HTMLElement>(null);
   const allowed = useMotionAllowed();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -38,7 +40,7 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
     <section
       ref={ref}
       className={`relative isolate flex overflow-hidden bg-night text-white ${
-        compact ? "min-h-[56svh] md:min-h-[60svh]" : "min-h-[78svh] md:min-h-[86svh]"
+        display ? "min-h-[100svh]" : compact ? "min-h-[56svh] md:min-h-[60svh]" : "min-h-[78svh] md:min-h-[86svh]"
       }`}
     >
       <div aria-hidden={!imageAlt} className="absolute inset-0 -z-10">
@@ -68,13 +70,23 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
             <div className="absolute -right-20 bottom-0 size-[620px] glow scale-[1.8] [--glow:color-mix(in_srgb,var(--color-lavender)_35%,transparent)]" />
           </>
         )}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,28,58,0.62)_0%,rgba(12,28,58,0.35)_45%,rgba(12,28,58,0.1)_75%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0d1a33]/80 to-transparent" />
+        {display ? (
+          <>
+            {/* Lighter wash: the photo carries its own depth, the copy only needs a soft left shade */}
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,28,58,0.45)_0%,rgba(12,28,58,0.2)_38%,rgba(12,28,58,0)_60%)]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0d1a33]/55 to-transparent max-md:h-2/3 max-md:from-[#0d1a33]/80" />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,28,58,0.62)_0%,rgba(12,28,58,0.35)_45%,rgba(12,28,58,0.1)_75%)]" />
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0d1a33]/80 to-transparent" />
+          </>
+        )}
       </div>
 
       <motion.div
         style={{ y: copyY, opacity: copyOpacity }}
-        className="container-x flex w-full flex-col justify-end pb-14 pt-36 will-change-[opacity,transform] md:pb-20"
+        className={`container-x flex w-full flex-col justify-end pb-14 pt-36 will-change-[opacity,transform] ${display ? "md:pb-[12svh]" : "md:pb-20"}`}
       >
         <div className="max-w-[980px] [text-shadow:0_1px_3px_rgba(6,20,46,0.5),0_4px_30px_rgba(6,20,46,0.45)]">
           <motion.p
@@ -90,10 +102,14 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
             immediate
             delay={0.5}
             lines={title}
-            className={`heading-ja mt-6 font-medium leading-[1.6] [word-break:auto-phrase] md:mt-8 ${
-              compact ? "text-[clamp(1.45rem,2.8vw,2.5rem)]" : "text-[clamp(1.6rem,3.4vw,3.1rem)]"
-            }`}
-            lineClassName="tracking-[0.1em] md:tracking-[0.14em]"
+            className={
+              display
+                ? "mt-8 font-playfair text-[clamp(2.8rem,5.2vw,4.75rem)] font-normal leading-[1.1] md:mt-12"
+                : `heading-ja mt-6 font-medium leading-[1.6] [word-break:auto-phrase] md:mt-8 ${
+                    compact ? "text-[clamp(1.45rem,2.8vw,2.5rem)]" : "text-[clamp(1.6rem,3.4vw,3.1rem)]"
+                  }`
+            }
+            lineClassName={display ? "tracking-[0.1em]" : "tracking-[0.1em] md:tracking-[0.14em]"}
           />
           {en ? (
             <motion.p
@@ -110,7 +126,11 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: EASE, delay: 1.3 }}
-              className="mt-8 max-w-[38em] font-mincho text-[0.9375rem] font-medium leading-[2.1] tracking-[0.08em] text-white/90"
+              className={
+                display
+                  ? "mt-8 max-w-[38em] font-mincho text-[clamp(1rem,1.3vw,1.25rem)] font-medium leading-[2] tracking-[0.12em] text-white md:mt-10"
+                  : "mt-8 max-w-[38em] font-mincho text-[0.9375rem] font-medium leading-[2.1] tracking-[0.08em] text-white/90"
+              }
             >
               {lead}
             </motion.p>
@@ -120,7 +140,7 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 1.5 }}
-          className="mt-12 md:mt-16"
+          className={display ? "mt-14 md:mt-24" : "mt-12 md:mt-16"}
         >
           <Breadcrumbs items={crumbs} />
         </motion.div>

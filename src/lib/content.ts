@@ -61,6 +61,8 @@ export type Service = {
   /** "\n" marks the preferred line break on the narrow home cards. */
   description: string;
   image: string;
+  /** Full-bleed photo for the detail page hero (falls back to a night gradient). */
+  heroImage?: { src: string; alt: string; position?: string };
   /** Detail page */
   lead: string;
   body: string[];
@@ -98,6 +100,7 @@ export const services: Service[] = [
     ja: "教育事業",
     description: "人の可能性を広げる教育を通じて、\n未来の選択肢を増やします。",
     image: "/images/service-education.jpg",
+    heroImage: { src: "/images/education-hero.jpg", alt: "校舎を背に、夕方の空を見上げる制服姿の学生", position: "74% center" },
     lead: "学びの選択肢が、人生の選択肢になる。",
     body: [
       "どこで生まれ、どんな環境で育ったかによって、出会える学びは大きく変わります。ARQOの教育事業は、学校や家庭だけでは届きにくい実践的な学びを、次世代に開いていく取り組みです。",

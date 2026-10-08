@@ -39,9 +39,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
   return (
     <main id="main">
       <PageHero
+        display
         eyebrow={`Service ${s.no} — ${s.ja}`}
         title={[s.title]}
         lead={s.lead}
+        image={s.heroImage?.src}
+        imageAlt={s.heroImage?.alt}
+        position={s.heroImage?.position}
         crumbs={[{ label: "Service", href: "/service" }, { label: s.title }]}
       />
 
