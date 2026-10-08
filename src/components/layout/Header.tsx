@@ -24,8 +24,12 @@ export function Header() {
     setHidden(y > 600 && y > prev && !open);
   });
 
+  // Pages whose hero is light (marked data-hero="light") need ink type from the start.
+  const [lightHero, setLightHero] = useState(false);
+
   // Correct the bar state on first paint and after every page change.
   useEffect(() => {
+    setLightHero(!!document.querySelector('[data-hero="light"]'));
     setScrolled(window.scrollY > 40);
     setHidden(false);
     setOpen(false);
@@ -68,7 +72,7 @@ export function Header() {
   };
 
   // White type while floating over the hero photo, ink once the glass bar appears.
-  const light = !scrolled && !open;
+  const light = !scrolled && !open && !lightHero;
 
   const primary = nav.filter((n) => n.label !== "Contact");
 

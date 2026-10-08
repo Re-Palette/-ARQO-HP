@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import {
+  Caveat,
   Geist,
   Instrument_Serif,
   Inter,
@@ -42,6 +43,14 @@ const notoSerif = Noto_Serif_JP({
   subsets: ["latin"],
   weight: ["300", "400"],
   variable: "--font-noto-serif-jp",
+  display: "swap",
+  preload: false,
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-caveat",
   display: "swap",
   preload: false,
 });
@@ -131,6 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         notoSerif.variable,
         inter.variable,
         geist.variable,
+        caveat.variable,
       ].join(" ")}
     >
       <body>

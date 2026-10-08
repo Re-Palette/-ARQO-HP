@@ -143,6 +143,15 @@ export type Project = {
   features: { en: string; title: string; text: string }[];
   flow: { title: string; text: string }[];
   join: { title: string; who: string[]; text: string }[];
+  /** Upcoming event shown in the project hero (date as ISO). */
+  event?: {
+    date: string;
+    weekday: string;
+    time: string;
+    venue: string;
+    address: string;
+    fees: { label: string; price: string }[];
+  };
 };
 
 /**
@@ -188,6 +197,17 @@ export const projects: Project[] = [
     en: "Conversations without titles.",
     lead: "肩書きを置いて、ひとりの人として語り合える場所を。",
     image: "/images/service-education.jpg",
+    event: {
+      date: "2026-07-05",
+      weekday: "SUN",
+      time: "15:30 - 18:30",
+      venue: "TOMAP OFFICE",
+      address: "東京都渋谷区渋谷3-1-25 3F",
+      fees: [
+        { label: "美容学生・高校生", price: "¥500" },
+        { label: "大学生以上", price: "¥1,000" },
+      ],
+    },
     story: [
       "Nuance Loungeは、学生・社会人・クリエイター・支援者など、世代や立場の異なる人たちが肩書きを置いて語り合う交流コミュニティです。進路やキャリア、挑戦したいことについて、少人数でじっくり話せる時間を大切にしています。",
       "一度きりのイベントで終わらせず、出会った人同士がつながり続け、互いの挑戦を応援し合える関係性を育てていきます。",
@@ -333,7 +353,7 @@ export const companyProfile: { label: string; value: string }[] = [
   { label: "お問い合わせ", value: "contact@example.com" },
 ];
 
-export const contactCategories = ["事業提携・協業", "取材・メディア", "採用", "協賛・スポンサー", "サービスについて", "その他"] as const;
+export const contactCategories = ["イベント参加申し込み", "事業提携・協業", "取材・メディア", "採用", "協賛・スポンサー", "サービスについて", "その他"] as const;
 
 export const socials = [
   { label: "Instagram", href: "https://www.instagram.com/" },

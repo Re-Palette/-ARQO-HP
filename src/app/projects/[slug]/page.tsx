@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
+import { NuanceLoungeHero } from "@/components/page/NuanceLoungeHero";
 import { PageHero } from "@/components/page/PageHero";
 import { Arrow } from "@/components/ui/ArrowLink";
 import { projects, services } from "@/lib/content";
@@ -35,20 +36,19 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const p = projects[index];
   const service = services.find((s) => s.slug === p.service);
   const others = projects.filter((x) => x.slug !== p.slug);
+  const crumbs = [
+    { label: "Service", href: "/service" },
+    ...(service ? [{ label: service.title, href: `/service/${service.slug}` }] : []),
+    { label: p.name },
+  ];
 
   return (
     <main id="main">
-      <PageHero
-        eyebrow={`Project — ${p.category}`}
-        title={[p.name]}
-        en={p.en}
-        lead={p.lead}
-        crumbs={[
-          { label: "Service", href: "/service" },
-          ...(service ? [{ label: service.title, href: `/service/${service.slug}` }] : []),
-          { label: p.name },
-        ]}
-      />
+      {p.slug === "nuance-lounge" ? (
+        <NuanceLoungeHero project={p} crumbs={crumbs} />
+      ) : (
+        <PageHero eyebrow={`Project — ${p.category}`} title={[p.name]} en={p.en} lead={p.lead} crumbs={crumbs} />
+      )}
 
       {/* About the project */}
       <section aria-labelledby="project-about" className="relative overflow-hidden bg-white py-24 md:py-36">

@@ -29,6 +29,7 @@
   --font-display: var(--font-instrument), var(--font-playfair), "Times New Roman", serif;
   --font-playfair: var(--font-playfair-display), serif;
   --font-mincho: var(--font-shippori), var(--font-noto-serif-jp), "Hiragino Mincho ProN", serif;
+  --font-hand: var(--font-caveat), cursive;
   --font-sans: var(--font-inter), var(--font-geist), "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
 }
 
