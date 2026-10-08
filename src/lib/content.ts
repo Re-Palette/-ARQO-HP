@@ -28,7 +28,7 @@ function resolveSiteUrl(): string {
 
 export const site = {
   name: "ARQO",
-  legalName: "ARQO Inc.",
+  legalName: "株式会社ARQO",
   url: resolveSiteUrl(),
   mission: "人と可能性の間に架け橋をつくる。",
   missionEn: "Building bridges between people and possibility.",
@@ -349,10 +349,10 @@ export const mission = {
  * registration details before launch.
  */
 export const companyProfile: { label: string; value: string }[] = [
-  { label: "会社名", value: "ARQO Inc.（〇〇〇〇株式会社）" },
+  { label: "会社名", value: "株式会社ARQO" },
   { label: "所在地", value: "〒〇〇〇-〇〇〇〇 〇〇県〇〇市〇〇" },
   { label: "設立", value: "〇〇〇〇年〇月" },
-  { label: "代表者", value: "代表取締役 〇〇 〇〇" },
+  { label: "代表者", value: "代表取締役　鈴木陽大" },
   { label: "事業内容", value: "美容福祉事業／教育事業／コミュニティ・イベント事業" },
   { label: "お問い合わせ", value: "contact@example.com" },
 ];
