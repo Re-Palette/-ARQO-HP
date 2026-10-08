@@ -62,7 +62,17 @@ export type Service = {
   description: string;
   image: string;
   /** Full-bleed photo for the detail page hero (falls back to a night gradient). */
-  heroImage?: { src: string; alt: string; position?: string };
+  heroImage?: {
+    src: string;
+    alt: string;
+    position?: string;
+    /** Title lines for the hero (defaults to `title` on one line). */
+    title?: string[];
+    /** Tagline lines (defaults to `lead`). */
+    lead?: string[];
+    /** Short intro under the tagline; adds a round arrow down to the overview. */
+    body?: string[];
+  };
   /** Detail page */
   lead: string;
   body: string[];
@@ -119,6 +129,14 @@ export const services: Service[] = [
     ja: "コミュニティ・イベント事業",
     description: "人と人がつながり、挑戦し合う場をつくり、\n新しい価値を生み出します。",
     image: "/images/services/community.jpg",
+    heroImage: {
+      src: "/images/community-hero.jpg",
+      alt: "夕暮れの屋外イベント。ステージの前に集まる人たち",
+      position: "92% center",
+      title: ["Community &", "Events"],
+      lead: ["人と人が出会う場所から、", "新しい価値が生まれる。"],
+      body: ["美容を通じて、同じ想いを持つ仲間や", "社会とつながるコミュニティ・イベントを開催。", "出会いと対話が、未来を変えるきっかけになります。"],
+    },
     lead: "人と人が出会う場所から、新しい価値が生まれる。",
     body: [
       "世代や立場、肩書きを越えて人がつながる場は、誰かの挑戦を後押しする力を持っています。ARQOは、交流コミュニティやイベントの企画・運営を通じて、出会いが次のアクションにつながる仕組みをつくります。",

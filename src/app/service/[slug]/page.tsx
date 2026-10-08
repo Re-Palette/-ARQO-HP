@@ -45,8 +45,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
         <PageHero
           display
           eyebrow={`Service ${s.no} — ${s.ja}`}
-          title={[s.title]}
-          lead={s.lead}
+          title={s.heroImage?.title ?? [s.title]}
+          lead={s.heroImage?.lead ?? s.lead}
+          body={s.heroImage?.body}
+          next="#overview-heading"
           image={s.heroImage?.src}
           imageAlt={s.heroImage?.alt}
           position={s.heroImage?.position}

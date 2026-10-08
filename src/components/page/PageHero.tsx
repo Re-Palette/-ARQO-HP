@@ -6,13 +6,19 @@ import { useRef } from "react";
 import { EASE } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
+import { Arrow } from "@/components/ui/ArrowLink";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 
 type PageHeroProps = {
   eyebrow: string;
   title: string[];
   en?: string;
-  lead?: string;
+  /** One string, or lines for a larger two-line tagline. */
+  lead?: string | string[];
+  /** Short intro paragraph (lines) under the lead. */
+  body?: string[];
+  /** Anchor for the round arrow under the body (shown only with `body`). */
+  next?: string;
   image?: string;
   imageAlt?: string;
   /** CSS object-position for the photo, e.g. "70% center". */
@@ -28,7 +34,8 @@ type PageHeroProps = {
  * Lower-page hero: full-bleed photo (or a night gradient) with the same
  * settle-in zoom and scroll parallax language as the home page.
  */
-export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", position = "center", crumbs, compact, display }: PageHeroProps) {
+export function PageHero({ eyebrow, title, en, lead, body, next, image, imageAlt = "", position = "center", crumbs, compact, display }: PageHeroProps) {
+  const tagline = Array.isArray(lead);
   const ref = useRef<HTMLElement>(null);
   const allowed = useMotionAllowed();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -93,7 +100,7 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: EASE, delay: 0.3 }}
-            className="eyebrow text-white/85"
+            className={`eyebrow text-white/85 ${display ? "[word-break:keep-all]" : ""}`}
           >
             {eyebrow}
           </motion.p>
@@ -104,7 +111,9 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
             lines={title}
             className={
               display
-                ? "mt-8 font-playfair text-[clamp(2.8rem,5.2vw,4.75rem)] font-normal leading-[1.1] md:mt-12"
+                ? `mt-8 font-playfair font-normal md:mt-12 ${
+                    title.length > 1 ? "text-[clamp(2.8rem,5.6vw,5.75rem)] leading-[1.04]" : "text-[clamp(2.8rem,5.2vw,4.75rem)] leading-[1.1]"
+                  }`
                 : `heading-ja mt-6 font-medium leading-[1.6] [word-break:auto-phrase] md:mt-8 ${
                     compact ? "text-[clamp(1.45rem,2.8vw,2.5rem)]" : "text-[clamp(1.6rem,3.4vw,3.1rem)]"
                   }`
@@ -127,20 +136,54 @@ export function PageHero({ eyebrow, title, en, lead, image, imageAlt = "", posit
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: EASE, delay: 1.3 }}
               className={
-                display
-                  ? "mt-8 max-w-[38em] font-mincho text-[clamp(1rem,1.3vw,1.25rem)] font-medium leading-[2] tracking-[0.12em] text-white md:mt-10"
-                  : "mt-8 max-w-[38em] font-mincho text-[0.9375rem] font-medium leading-[2.1] tracking-[0.08em] text-white/90"
+                tagline
+                  ? "mt-6 font-mincho text-[clamp(1.2rem,1.9vw,1.8rem)] font-medium leading-[1.6] tracking-[0.16em] text-white md:mt-8"
+                  : display
+                    ? "mt-8 max-w-[38em] font-mincho text-[clamp(1rem,1.3vw,1.25rem)] font-medium leading-[2] tracking-[0.12em] text-white md:mt-10"
+                    : "mt-8 max-w-[38em] font-mincho text-[0.9375rem] font-medium leading-[2.1] tracking-[0.08em] text-white/90"
               }
             >
-              {lead}
+              {tagline
+                ? lead.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))
+                : lead}
             </motion.p>
+          ) : null}
+          {body ? (
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: EASE, delay: 1.45 }}
+              className="mt-7 font-mincho text-[0.875rem] font-medium leading-[2.15] tracking-[0.12em] text-white/95 md:mt-9 md:text-[0.9375rem]"
+            >
+              {body.map((line) => (
+                <span key={line} className="md:block">
+                  {line}
+                </span>
+              ))}
+            </motion.p>
+          ) : null}
+          {body && next ? (
+            <motion.a
+              href={next}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.2, delay: 1.6 }}
+              aria-label="概要へ"
+              className="group mt-9 grid size-16 place-items-center rounded-full border border-white/90 transition-colors duration-500 hover:bg-white hover:text-ink md:mt-10 md:size-20"
+            >
+              <Arrow className="w-6 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5" />
+            </motion.a>
           ) : null}
         </div>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 1.5 }}
-          className={display ? "mt-14 md:mt-24" : "mt-12 md:mt-16"}
+          className={display ? (body ? "mt-12 md:mt-[7svh]" : "mt-14 md:mt-24") : "mt-12 md:mt-16"}
         >
           <Breadcrumbs items={crumbs} />
         </motion.div>
