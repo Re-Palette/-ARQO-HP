@@ -46,7 +46,7 @@ scripts/generate-placeholders.mjs   ダミー画像ジェネレーター
 | `/about` | ミッション・ビジョン・事業領域・会社概要 |
 | `/vision` | ビジョン・目指す社会・3つの事業とのつながり |
 | `/service` | 事業一覧 |
-| `/service/[slug]` | 事業詳細 ×3（re-palette / education / community） |
+| `/service/[slug]` | 事業詳細 ×3（re-palette / education / community）。ヒーローは `src/lib/content.ts` の各事業の `heroImage`（写真・タイトル行・キャッチ・紹介文）で指定。Re-Palette は専用の `RePaletteHero` |
 | `/projects/[slug]` | プロジェクト詳細（re-palette / nuance-lounge）。事業ページの「主なプロジェクト」→「詳細を見る」から |
 | `/projects/newtone` | NEWTONE 2027 特設サイト。[Re-Palette/newtone2027](https://github.com/Re-Palette/newtone2027) を移植したもの（`src/components/newtone/`、画像は `public/newtone/`）。CSS はすべて `.nt` 配下にスコープし、ARQO のヘッダー・フッターは表示しない。日時・会場・ブランドは `src/components/newtone/site.ts` / `brands.ts` |
 | `/news` | お知らせ一覧（カテゴリー絞り込み） |
