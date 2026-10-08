@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { TextReveal } from "@/components/motion/TextReveal";
 import { PageHero } from "@/components/page/PageHero";
 import { Arrow } from "@/components/ui/ArrowLink";
-import { services } from "@/lib/content";
+import { projectHref, projects, services } from "@/lib/content";
 
 type Params = { slug: string };
 
@@ -125,7 +125,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
                   <Reveal delay={i * 0.08} y={20}>
                     {it.slug ? (
                       <Link
-                        href={`/projects/${it.slug}`}
+                        href={projectHref(projects.find((x) => x.slug === it.slug) ?? { slug: it.slug })}
+                        {...(isExternal(it.slug) ? { target: "_blank", rel: "noopener" } : {})}
                         className="group grid items-center gap-3 py-8 sm:grid-cols-[220px_1fr_auto] sm:gap-8"
                       >
                         <p className="font-display text-[clamp(1.6rem,2.4vw,2.1rem)] leading-none text-ink transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-2">
@@ -180,4 +181,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
       </nav>
     </main>
   );
+}
+
+function isExternal(slug: string) {
+  return !!projects.find((x) => x.slug === slug)?.externalUrl;
 }
