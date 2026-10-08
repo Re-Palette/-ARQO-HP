@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import { Logo } from '@/components/ui/Logo';
 import { NAV_LINKS } from './site';
 import { ArrowRight } from './parts';
 import { ScrollTrigger } from './motion';
@@ -34,10 +36,10 @@ export const SiteHeader: React.FC = () => {
   return (
     <>
       <header ref={ref} className="site-header">
-        <a href="#top" className="site-logo" aria-label="NEWTONE 2027 トップへ">
-          <span className="site-logo__name">NEWTONE</span>
-          <span className="site-logo__year">2027</span>
-        </a>
+        {/* 左上はARQOサイト共通のロゴ。ARQOのトップへ戻る */}
+        <Link href="/" className="site-logo site-logo--arqo" aria-label="ARQO ホーム">
+          <Logo stroke={1.3} />
+        </Link>
         <nav className="site-nav" aria-label="メインナビゲーション">
           {NAV_LINKS.map((l) => (
             <a key={l.label} href={l.href} style={{ ['--x' as string]: l.x }}>

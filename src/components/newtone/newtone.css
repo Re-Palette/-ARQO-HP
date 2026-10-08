@@ -1702,3 +1702,13 @@ html:has(.nt) body {
 .nt .site-footer__arqo .cta__arrow {
   width: 22px;
 }
+
+/* 左上のロゴは ARQO サイト共通のもの（ARQO ヘッダーと同じ大きさ） */
+.nt .site-header .site-logo--arqo {
+  transform: translateY(-50%);
+}
+.nt .site-logo--arqo svg {
+  display: block;
+  width: auto;
+  height: clamp(22px, calc(26 * var(--u)), 30px);
+}
