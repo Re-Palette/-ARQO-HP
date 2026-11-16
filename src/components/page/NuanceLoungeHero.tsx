@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Caveat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
@@ -9,6 +10,10 @@ import { useMotionAllowed } from "@/components/motion/useMotionAllowed";
 import { Arrow } from "@/components/ui/ArrowLink";
 import type { Project } from "@/lib/content";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
+
+/** Handwritten notes on the collage. Only this page uses it, so it is loaded here instead of in the root layout. */
+// Variable font (no fixed weights): Google serves fixed-weight Caveat from extensionless URLs that next/font cannot parse.
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
@@ -34,7 +39,7 @@ export function NuanceLoungeHero({ project: p, crumbs }: { project: Project; cru
       ref={ref}
       data-hero="light"
       aria-labelledby="project-title"
-      className="relative isolate overflow-hidden bg-[#f6f3f1] pb-16 pt-28 text-ink md:pt-32 lg:min-h-[100svh] lg:pb-10"
+      className={`${caveat.variable} relative isolate overflow-hidden bg-[#f6f3f1] pb-16 pt-28 text-ink md:pt-32 lg:min-h-[100svh] lg:pb-10`}
     >
       {/* Soft light field */}
       <div aria-hidden className="absolute inset-0 -z-10">

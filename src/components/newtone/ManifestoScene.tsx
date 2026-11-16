@@ -6,7 +6,8 @@ import { BrushUnderline, SplitChars } from './parts';
 import { gsap, useSceneMotion } from './motion';
 
 const waveA = '/newtone/wave-a.webp';
-const face = '/newtone/face.webp';
+/** コンセプトのアーチ写真（生成画像・仮。差し替えはこのファイル） */
+const face = '/newtone/portrait.webp';
 
 const PILLARS = [
   { en: 'DISCOVER', ja: '新しい美容と、出会う。' },
@@ -56,7 +57,7 @@ export const ManifestoScene: React.FC = () => {
       <div className="mf__grid">
         <div className="mf__visual" aria-hidden="true">
           <div className="mf__frame">
-            <img className="mf__img" src={face} alt="" width={660} height={660} loading="lazy" decoding="async" draggable={false} />
+            <img className="mf__img" src={face} alt="" width={1100} height={1366} loading="lazy" decoding="async" draggable={false} />
           </div>
           <p className="mf__script">The Next Beauty.</p>
           <p className="mf__vert">NEWTONE 2027 — BEAUTY BRAND POPUP</p>

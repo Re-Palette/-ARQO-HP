@@ -1,15 +1,20 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element -- art-directed layers ported as-is from the NEWTONE site */
 import React, { useEffect, useRef } from 'react';
 const heroImg = '/newtone/hero.webp';
 const heroImg2x = '/newtone/hero-2x.webp';
 const heroBlur = '/newtone/hero-blur.webp';
-const titleMask = '/newtone/hero-title-mask.png';
+const titleMask = '/newtone/hero-title-mask.webp';
 /** スマートフォン用のキービジュアル（縦長のポスター。ヘッダー部分だけ画像から除き、HTML のヘッダーを重ねる） */
 const heroSp = '/newtone/hero-sp.webp';
 const heroLights = '/newtone/hero-lights.webp';
 import { gsap, useSceneMotion } from './motion';
+
+/** PC（横長）版とスマホ（縦長）版の切り替え条件。CSS の .hero__desk / .hero__poster と同じ */
+const MQ_DESK = '(min-width: 768px) and (min-aspect-ratio: 6/5)';
+const MQ_POSTER = 'not all and (min-width: 768px) and (min-aspect-ratio: 6/5)';
+/** 表示しない側の画像を読み込まないための 1px の透明 GIF */
+const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 /** 高解像度ディスプレイ・大画面では2倍画像を使う */
 const heroSrcSet = `${heroImg} 1672w, ${heroImg2x} 3344w`;
@@ -90,18 +95,22 @@ export const HeroScene: React.FC = () => {
           <div className="hero__fill" style={{ backgroundImage: `url(${heroBlur})` }} aria-hidden="true" />
           <div className="hero__stage">
             <div className="hero__media">
-              <img
-                className="hero__img"
-                src={heroImg}
-                srcSet={heroSrcSet}
-                sizes="100vw"
-                width={1672}
-                height={941}
-                alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。美の常識を、アップデートしよう。"
-                fetchPriority="high"
-                decoding="async"
-                draggable={false}
-              />
+              {/* スマホでは表示しないので読み込まない（picture の source で透明 GIF に差し替え） */}
+              <picture>
+                <source media={MQ_POSTER} srcSet={BLANK} />
+                <img
+                  className="hero__img"
+                  src={heroImg}
+                  srcSet={heroSrcSet}
+                  sizes="100vw"
+                  width={1672}
+                  height={941}
+                  alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。美の常識を、アップデートしよう。"
+                  fetchPriority="high"
+                  decoding="async"
+                  draggable={false}
+                />
+              </picture>
               <div className="hero__sheen" style={maskStyle} aria-hidden="true">
                 <div className="hero__sheen-band" />
               </div>
@@ -118,15 +127,19 @@ export const HeroScene: React.FC = () => {
         {/* ---------- Smartphone / portrait：縦長のポスターをそのまま使う ---------- */}
         <div className="hero__poster">
           <div className="poster__media">
-            <img
-              className="poster__img"
-              src={heroSp}
-              width={941}
-              height={1672}
-              alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。未来の“好き”に、きっと出会える。学生起業家が生み出す、新しい美容のカタチ。COSMETICS、SKINCARE、HAIRCARE、INNERCARE、BEAUTY TOOL、FRAGRANCE、AND MORE。"
-              decoding="async"
-              draggable={false}
-            />
+            {/* PC では表示しないので読み込まない */}
+            <picture>
+              <source media={MQ_DESK} srcSet={BLANK} />
+              <img
+                className="poster__img"
+                src={heroSp}
+                width={941}
+                height={1672}
+                alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。未来の“好き”に、きっと出会える。学生起業家が生み出す、新しい美容のカタチ。COSMETICS、SKINCARE、HAIRCARE、INNERCARE、BEAUTY TOOL、FRAGRANCE、AND MORE。"
+                decoding="async"
+                draggable={false}
+              />
+            </picture>
             <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
           </div>
           {/* 画像の中の「SCROLL」の位置に、押せる範囲だけを重ねる */}

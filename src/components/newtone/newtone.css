@@ -467,6 +467,12 @@
   object-fit: cover;
 }
 
+/* <picture> は PC 版 / スマホ版の画像の出し分けのためだけ。レイアウトには関わらせない */
+.nt .hero__media > picture,
+.nt .poster__media > picture {
+  display: contents;
+}
+
 .nt .hero__img {
   display: block;
   width: 100%;

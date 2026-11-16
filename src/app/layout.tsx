@@ -1,13 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Caveat,
-  Geist,
-  Instrument_Serif,
-  Inter,
-  Noto_Serif_JP,
-  Playfair_Display,
-  Shippori_Mincho,
-} from "next/font/google";
+import { Instrument_Serif, Inter, Playfair_Display, Shippori_Mincho } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
@@ -39,21 +31,7 @@ const shippori = Shippori_Mincho({
   preload: false,
 });
 
-const notoSerif = Noto_Serif_JP({
-  subsets: ["latin"],
-  weight: ["300", "400"],
-  variable: "--font-noto-serif-jp",
-  display: "swap",
-  preload: false,
-});
 
-const caveat = Caveat({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-caveat",
-  display: "swap",
-  preload: false,
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -61,12 +39,6 @@ const inter = Inter({
   display: "swap",
 });
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-  preload: false,
-});
 
 const title = `${site.name} | ${site.mission}`;
 
@@ -137,10 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         instrument.variable,
         playfair.variable,
         shippori.variable,
-        notoSerif.variable,
         inter.variable,
-        geist.variable,
-        caveat.variable,
       ].join(" ")}
     >
       <body>
