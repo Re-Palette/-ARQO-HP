@@ -1,146 +1,158 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { EXPERIENCE_CATEGORIES } from './site';
-import { gsap, useSceneMotion } from './motion';
+import { Phrases } from './parts';
+import { gsap, revealOnce, useSceneMotion } from './motion';
 
-const pad = (n: number) => String(n).padStart(2, '0');
-const TOTAL = EXPERIENCE_CATEGORIES.length;
+const waveA = '/newtone/wave-a.webp';
+const waveB = '/newtone/wave-b.webp';
+const crowd = '/newtone/crowd.webp';
 
-/** 切り替えにかける長さ（1カテゴリー=1単位のうち） */
-const SWITCH = 0.5;
-/** クリップは同じ書式で統一（Anton の字形が切れないよう上下左右に余白を持たせる） */
-const CLIP_SHOWN = 'inset(-25% -5% -25% -5%)';
-const CLIP_BELOW = 'inset(125% -5% -25% -5%)';
-const CLIP_ABOVE = 'inset(-25% -5% 125% -5%)';
-const ITEM_ACTIVE = { opacity: 1, color: '#ff4fa3', x: -10 };
-const ITEM_IDLE = { opacity: 0.5, color: '#ffffff', x: 0 };
+interface Experience {
+  en: string;
+  title: string;
+  text: string;
+  hue: string;
+  art: 'wave-b' | 'crowd' | 'wave-a' | 'orbs';
+}
 
-/** SCENE 05 — POPUP EXPERIENCE：HERO右側のカテゴリー表記を発展させ、スクロールで切り替える */
+/** 会場での過ごし方。具体的な特典・プログラムは確定後に追記する（ここでは約束しない表現にとどめる） */
+const EXPERIENCES: Experience[] = [
+  {
+    en: 'TOUCH & TRY',
+    title: '触れて、試して、|確かめる。',
+    text: '気になったアイテムは、その場で手に取って。質感も、色も、香りも。画面越しではわからないことを、自分の感覚で。',
+    hue: '#ff6bb5',
+    art: 'wave-b',
+  },
+  {
+    en: 'MEET THE FOUNDERS',
+    title: 'つくり手に、|会える。',
+    text: 'ブランドを立ち上げた本人が、すぐそこに。生まれたきっかけも、こだわりも、直接聞ける距離で。',
+    hue: '#c9a6ff',
+    art: 'crowd',
+  },
+  {
+    en: 'FIND YOUR NEXT',
+    title: '知らない“好き”を、|見つける。',
+    text: 'コスメからフレグランスまで。次の定番になるかもしれないブランドに、誰よりも早く出会う。',
+    hue: '#8fa6ff',
+    art: 'wave-a',
+  },
+  {
+    en: 'TAKE IT HOME',
+    title: 'お気に入りを、|連れて帰る。',
+    text: '心が動いたものは、あなたの毎日へ。ここでの出会いが、明日の美容をすこし変えていく。',
+    hue: '#ff9fd0',
+    art: 'orbs',
+  },
+];
+
+const artStyle = (art: Experience['art']): React.CSSProperties | undefined => {
+  if (art === 'wave-b') return { backgroundImage: `url(${waveB})` };
+  if (art === 'wave-a') return { backgroundImage: `url(${waveA})` };
+  if (art === 'crowd') return { backgroundImage: `url(${crowd})` };
+  return undefined;
+};
+
+/**
+ * SCENE 03 — EXPERIENCE
+ * デスクトップ：1画面ぶんをピン留めし、縦スクロールで4つの体験が横へ流れるギャラリー。
+ * スマートフォン：ピン留めせず、指で横にめくるカード。
+ */
 export const ExperienceScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
 
-  useSceneMotion(ref, ({ desktop }) => {
-    if (!desktop) {
-      gsap.utils.toArray<HTMLElement>('.exp__item').forEach((item) => {
-        gsap.fromTo(
-          item.querySelector('.exp__item-word'),
-          { clipPath: 'inset(-20% 100% -20% 0%)' },
-          { clipPath: 'inset(-20% 0% -20% 0%)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: true } },
-        );
-      });
+  useSceneMotion(ref, ({ desktop, scope }) => {
+    if (desktop) {
+      const track = scope.querySelector<HTMLElement>('.xp__track');
+      if (!track) return;
+      // 幅の計測は refresh 時のみ（スクロール中はレイアウトを読まない）
+      const distance = () => -(track.scrollWidth - window.innerWidth);
+      gsap
+        .timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: scope, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true },
+        })
+        .to(track, { x: distance, duration: 1 }, 0)
+        .fromTo('.xp__art-in', { xPercent: -7 }, { xPercent: 7, duration: 1 }, 0)
+        .fromTo('.xp__progress i', { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
+        .to('.xp__hint', { opacity: 0, duration: 0.08 }, 0.02);
+
+      // ピン留めされる直前に、見出しとカードが立ち上がる
+      gsap
+        .timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: scope, start: 'top 70%', end: 'top top', scrub: true },
+        })
+        .fromTo('.xp__intro > *', { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, 0)
+        .fromTo('.xp__card', { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.12 }, 0.2);
       return;
     }
-
-    const words = gsap.utils.toArray<HTMLElement>('.exp__word');
-    const copies = gsap.utils.toArray<HTMLElement>('.exp__copy');
-    const nums = gsap.utils.toArray<HTMLElement>('.exp__counter b');
-    const items = gsap.utils.toArray<HTMLElement>('.exp__list li');
-    const orbs = gsap.utils.toArray<HTMLElement>('.exp__orb');
-
-    // 状態はすべて明示する（逆スクロール・再訪問・途中からの読み込みでも同じ見た目に戻る）
-    gsap.set(words, { clipPath: CLIP_BELOW, yPercent: 35 });
-    gsap.set(words[0], { clipPath: CLIP_SHOWN, yPercent: 0 });
-    gsap.set(copies, { autoAlpha: 0, y: 20 });
-    gsap.set(copies[0], { autoAlpha: 1, y: 0 });
-    gsap.set(nums, { autoAlpha: 0 });
-    gsap.set(nums[0], { autoAlpha: 1 });
-    gsap.set(items, ITEM_IDLE);
-    gsap.set(items[0], ITEM_ACTIVE);
-    gsap.set(orbs, { opacity: 0 });
-    gsap.set(orbs[0], { opacity: 1 });
-
-    // 1カテゴリー = 1単位。各単位の前後 1/4 で切り替え、残り半分は静止して読める時間にする
-    const tl = gsap.timeline({
-      defaults: { ease: 'none', immediateRender: false },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: true },
-    });
-    tl.fromTo('.exp__head', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, immediateRender: true }, 0);
-
-    for (let i = 1; i < TOTAL; i++) {
-      const at = i - SWITCH / 2;
-      const ease = 'power2.inOut';
-      // 前の単語は上へ抜け、同時に次の単語が下から立ち上がる（中央が空になる瞬間を作らない）
-      tl.fromTo(words[i - 1], { clipPath: CLIP_SHOWN, yPercent: 0 }, { clipPath: CLIP_ABOVE, yPercent: -35, duration: SWITCH, ease }, at)
-        .fromTo(words[i], { clipPath: CLIP_BELOW, yPercent: 35 }, { clipPath: CLIP_SHOWN, yPercent: 0, duration: SWITCH, ease }, at)
-        .fromTo(copies[i - 1], { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -20, duration: SWITCH * 0.5 }, at)
-        .fromTo(copies[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: SWITCH * 0.5 }, at + SWITCH * 0.5)
-        .fromTo(nums[i - 1], { autoAlpha: 1 }, { autoAlpha: 0, duration: SWITCH * 0.3 }, at + SWITCH * 0.35)
-        .fromTo(nums[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: SWITCH * 0.3 }, at + SWITCH * 0.35)
-        .fromTo(items[i - 1], ITEM_ACTIVE, { ...ITEM_IDLE, duration: SWITCH }, at)
-        .fromTo(items[i], ITEM_IDLE, { ...ITEM_ACTIVE, duration: SWITCH }, at)
-        .fromTo(orbs[i - 1], { opacity: 1 }, { opacity: 0, duration: SWITCH }, at)
-        .fromTo(orbs[i], { opacity: 0 }, { opacity: 1, duration: SWITCH }, at);
-    }
-    // 全体の長さを TOTAL 単位にそろえる（最後のカテゴリーも同じだけ静止）
-    tl.to({}, { duration: 0.001 }, TOTAL - 0.001);
+    revealOnce('.xp__intro > *', '.xp__intro');
+    revealOnce('.xp__card', '.xp__cards', { y: 0, x: 44, stagger: 0.1 });
   });
 
   return (
-    <section id="program" ref={ref} className="scene scene--pin experience" aria-labelledby="exp-title">
-      <div className="scene__sticky">
-        <div className="scene__bg" aria-hidden="true">
-          {EXPERIENCE_CATEGORIES.map((c) => (
-            <div key={c.key} className="exp__orb" style={{ ['--orb' as string]: c.hue }} />
-          ))}
-        </div>
-
-        {/* Desktop：ピン留めして1カテゴリーずつ切り替え */}
-        <div className="exp__desk" aria-hidden="true">
-          <div className="exp__head">
-            <p className="eyebrow">03 — Popup Experience</p>
-            <p className="exp__title">
-              POPUP
+    <section id="program" ref={ref} className="xp" aria-labelledby="xp-title">
+      <div className="xp__sticky">
+        <div className="xp__bg" aria-hidden="true" />
+        <div className="xp__track">
+          <header className="xp__intro">
+            <p className="eyebrow">02 — Experience</p>
+            <h2 id="xp-title" className="xp__title">
+              <span className="xp__en" aria-hidden="true">
+                WHAT <i>AWAITS</i> YOU
+              </span>
+              <span className="xp__ja">
+                <Phrases text="ここでしか出会えない、|4つの体験。" />
+              </span>
+            </h2>
+            <p className="xp__lead">
+              見て、触れて、話して、持ち帰る。
               <br />
-              EXPERIENCE
+              NEWTONE は、次の美容を全身で確かめにいく場所です。
             </p>
-          </div>
-          <div className="exp__words">
-            {EXPERIENCE_CATEGORIES.map((c) => (
-              <span key={c.key} className="exp__word">
-                {c.key}
-              </span>
-            ))}
-          </div>
-          {EXPERIENCE_CATEGORIES.map((c) => (
-            <p key={c.key} className="exp__copy">
-              {c.copy}
+            <p className="xp__hint" aria-hidden="true">
+              <span>SCROLL</span>
+              <svg viewBox="0 0 60 12" fill="none">
+                <path d="M0 6h58M52 1l6 5-6 5" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
             </p>
-          ))}
-          <p className="exp__counter">
-            <span style={{ position: 'relative', display: 'inline-block', minWidth: '2ch' }}>
-              {EXPERIENCE_CATEGORIES.map((c, i) => (
-                <b key={c.key} style={i ? { position: 'absolute', left: 0, top: 0 } : undefined}>
-                  {pad(i + 1)}
-                </b>
-              ))}
-            </span>{' '}
-            / {pad(TOTAL)}
-          </p>
-          <ul className="exp__list">
-            {EXPERIENCE_CATEGORIES.map((c) => (
-              <li key={c.key}>{c.key}</li>
-            ))}
-          </ul>
-        </div>
+          </header>
 
-        {/* スマートフォン / 静的表示：読みやすいリスト */}
-        <div className="exp__mobile">
-          <p className="eyebrow">03 — Popup Experience</p>
-          <h2 id="exp-title" className="exp__title">
-            POPUP
-            <br />
-            EXPERIENCE
-          </h2>
-          {EXPERIENCE_CATEGORIES.map((c, i) => (
-            <div key={c.key} className="exp__item" style={{ ['--hue' as string]: c.hue }}>
-              <span className="exp__item-no">
-                {pad(i + 1)} / {pad(TOTAL)}
-              </span>
-              <span className="exp__item-word">{c.key}</span>
-              <p className="exp__item-copy">{c.copy}</p>
-            </div>
-          ))}
+          <ol className="xp__cards">
+            {EXPERIENCES.map((x, i) => (
+              <li key={x.en} className="xp__card" style={{ ['--hue' as string]: x.hue }}>
+                <div className={`xp__art xp__art--${x.art}`} aria-hidden="true">
+                  <div className="xp__art-in" style={artStyle(x.art)}>
+                    {x.art === 'orbs' && (
+                      <>
+                        <i className="xp__orb xp__orb--a" />
+                        <i className="xp__orb xp__orb--b" />
+                        <i className="xp__orb xp__orb--c" />
+                      </>
+                    )}
+                  </div>
+                  {x.art === 'crowd' && (
+                    <>
+                      <i className="xp__ring xp__ring--a" />
+                      <i className="xp__ring xp__ring--b" />
+                    </>
+                  )}
+                  <span className="xp__num">{String(i + 1).padStart(2, '0')}</span>
+                </div>
+                <p className="xp__label">{x.en}</p>
+                <h3 className="xp__card-title">
+                  <Phrases text={x.title} />
+                </h3>
+                <p className="xp__text">{x.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="xp__progress" aria-hidden="true">
+          <i />
         </div>
       </div>
     </section>

@@ -4,56 +4,74 @@ import Link from 'next/link';
 import React, { useRef } from 'react';
 const heroBlur = '/newtone/hero-blur.webp';
 const waveB = '/newtone/wave-b.webp';
+const crowd = '/newtone/crowd.webp';
 import { SITE } from './site';
 import { ArrowRight, BrushUnderline, Particles, SplitChars } from './parts';
-import { gsap, useSceneMotion } from './motion';
+import { gsap, revealOnce, useSceneMotion } from './motion';
 
 const contactHref = SITE.contact.entryUrl ?? (SITE.contact.email ? `mailto:${SITE.contact.email}` : null);
 
-/** SCENE 06 — ENTRY / JOIN ＋ ACCESS / NEWS ＋ フッター */
+/**
+ * SCENE 08 — ENTRY / JOIN ＋ フッター
+ * 最後は HERO の光へ戻り、大きなコピーと1つのボタンだけを残す。
+ */
 export const EntryScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
-  const { venue, address, schedule } = SITE.access;
-  const hasAccess = Boolean(venue || address || schedule);
 
-  useSceneMotion(ref, () => {
+  useSceneMotion(ref, ({ desktop }) => {
+    // 背景の巨大ロゴと光は、場面を通り過ぎるあいだずっとゆっくり流れる
     gsap
-      .timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: '.entry__inner', start: 'top 75%', end: 'center 50%', scrub: true },
-      })
-      .fromTo('.entry .wave', { xPercent: 12, opacity: 0 }, { xPercent: 0, opacity: 0.4, duration: 1 }, 0)
-      .fromTo('.entry .eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, 0)
-      .fromTo('.entry__title .char', { opacity: 0, yPercent: 60 }, { opacity: 1, yPercent: 0, duration: 0.3, stagger: 0.025 }, 0.1)
-      .fromTo('.entry .brush-path', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.2, stagger: 0.05 }, '>-0.05')
-      .fromTo(['.entry__lead', '.entry .cta--main', '.entry__pending'], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, stagger: 0.06 }, '>-0.1');
+      .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.en__stage', start: 'top bottom', end: 'bottom top', scrub: true } })
+      .fromTo('.en__mega', { xPercent: 0 }, { xPercent: -30, duration: 1 }, 0)
+      .fromTo('.en .wave', { xPercent: 14, yPercent: 6 }, { xPercent: -6, yPercent: -6, duration: 1 }, 0)
+      .fromTo('.en__crowd', { yPercent: 22 }, { yPercent: 0, duration: 0.6 }, 0);
 
-    gsap.fromTo(
-      '.info__col',
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.info', start: 'top 92%', end: 'top 65%', scrub: true } },
-    );
+    if (!desktop) {
+      revealOnce(['.en .eyebrow', '.en__script', '.en__title', '.en__lead', '.en .cta--main', '.en__pending'], '.en__inner', { stagger: 0.1 });
+      return;
+    }
+    gsap
+      .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.en__inner', start: 'top 82%', end: 'center 52%', scrub: true } })
+      .fromTo('.en .eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.15 }, 0)
+      .fromTo('.en__script', { opacity: 0, xPercent: -12 }, { opacity: 1, xPercent: 0, duration: 0.25, ease: 'power2.out' }, 0.05)
+      .fromTo('.en__title .char', { opacity: 0, yPercent: 70 }, { opacity: 1, yPercent: 0, duration: 0.3, stagger: 0.025, ease: 'power2.out' }, 0.12)
+      .fromTo('.en .brush-path', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.2, stagger: 0.05 }, '>-0.08')
+      .fromTo(['.en__lead', '.en .cta--main', '.en__pending'], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.22, stagger: 0.07 }, '>-0.12');
   });
 
   return (
-    <section id="contact" ref={ref} className="scene entry" aria-labelledby="entry-title">
-      <div className="scene__sticky">
-        <div className="scene__bg" style={{ backgroundImage: `url(${heroBlur})` }} aria-hidden="true">
+    <section id="contact" ref={ref} className="en" aria-labelledby="entry-title">
+      <div className="en__stage">
+        <div className="en__bg" style={{ backgroundImage: `url(${heroBlur})` }} aria-hidden="true">
           <div className="wave" style={{ backgroundImage: `url(${waveB})` }} />
-          <Particles count={18} seed={211} />
+          <div className="en__crowd" style={{ backgroundImage: `url(${crowd})` }} />
+          <Particles count={16} seed={211} />
         </div>
-        <div className="entry__inner">
-          <p className="eyebrow">04 — Entry / Join</p>
-          <h2 id="entry-title" className="entry__title">
-            <SplitChars text="次の美容を、" />
-            <br />
-            <span className="together">
-              <SplitChars text="一緒に" />
+        <p className="en__mega" aria-hidden="true">
+          <span>NEWTONE 2027</span>
+          <span>NEWTONE 2027</span>
+          <span>NEWTONE 2027</span>
+        </p>
+        <div className="en__inner">
+          <p className="eyebrow">07 — Entry / Join</p>
+          <p className="en__script" aria-hidden="true">
+            See you there.
+          </p>
+          <h2 id="entry-title" className="en__title">
+            <SplitChars text="次の" />
+            <span className="en__mark">
+              <SplitChars text="“好き”" />
               <BrushUnderline id="brush-entry" />
             </span>
-            <SplitChars text="つくろう。" />
+            <SplitChars text="に、" />
+            <br />
+            <SplitChars text="会いにきて。" />
           </h2>
-          <p className="entry__lead">あなたの“好き”が、次の美容のはじまりになる。</p>
+          <p className="en__lead">
+            あなたの“好き”が、次の美容のはじまりになる。
+            <br />
+            NEWTONE 2027 で、お待ちしています。
+          </p>
           {contactHref ? (
             <a
               className="cta cta--main"
@@ -69,50 +87,10 @@ export const EntryScene: React.FC = () => {
                 <span>参加・お問い合わせ</span>
                 <ArrowRight className="cta__arrow" />
               </span>
-              <p id="entry-pending" className="entry__pending">
+              <p id="entry-pending" className="en__pending">
                 受付窓口は準備が整い次第、こちらでご案内します。
               </p>
             </>
-          )}
-        </div>
-      </div>
-
-      <div className="info">
-        <div id="access" className="info__col">
-          <h3 className="info__label">ACCESS</h3>
-          {hasAccess ? (
-            <p className="info__text">
-              {schedule && (
-                <>
-                  {schedule}
-                  <br />
-                </>
-              )}
-              {venue && (
-                <>
-                  {venue}
-                  <br />
-                </>
-              )}
-              {address}
-            </p>
-          ) : (
-            <p className="info__text">開催日時・会場は、決定次第お知らせします。</p>
-          )}
-        </div>
-        <div id="news" className="info__col">
-          <h3 className="info__label">NEWS</h3>
-          {SITE.news.length ? (
-            <ul className="info__news">
-              {SITE.news.map((n) => (
-                <li key={`${n.date}-${n.title}`}>
-                  <time>{n.date}</time>
-                  {n.url ? <a href={n.url}>{n.title}</a> : <span>{n.title}</span>}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="info__text">最新情報は、こちらで順次公開していきます。</p>
           )}
         </div>
       </div>

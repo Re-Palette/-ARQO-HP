@@ -20,7 +20,9 @@ export const SiteHeader: React.FC = () => {
       trigger: hero,
       start: 'bottom top+=120',
       end: 'max',
-      onToggle: (self) => header.classList.toggle('is-solid', self.isActive),
+      // ページ最下部（end と同位置）でも背景が消えないよう、入退場で切り替える
+      onEnter: () => header.classList.add('is-solid'),
+      onLeaveBack: () => header.classList.remove('is-solid'),
     });
     return () => st.kill();
   }, []);

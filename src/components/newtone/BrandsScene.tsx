@@ -1,126 +1,123 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element -- art-directed layers ported as-is from the NEWTONE site */
+/* eslint-disable @next/next/no-img-element -- brand assets are supplied as plain files under public/newtone/brands */
 import React, { useRef } from 'react';
 import { BRANDS, BRAND_PLACEHOLDER_COUNT, type Brand } from './brands';
-import { gsap, useSceneMotion } from './motion';
+import { Phrases } from './parts';
+import { gsap, revealOnce, useSceneMotion } from './motion';
 
+const HUES = ['#ff4fa3', '#a35cf0', '#4f6dff', '#e46bff', '#7f93f6'];
 const pad = (n: number) => String(n).padStart(2, '0');
 
-/** カードごとに光の球の表情を少しずつ変える */
-const orbStyle = (i: number) =>
-  ({ ['--ox' as string]: `${[28, 70, 40, 76, 22, 58][i % 6]}%`, ['--oy' as string]: `${[72, 30, 80, 66, 36, 24][i % 6]}%` }) as React.CSSProperties;
-
 const BrandCard: React.FC<{ brand: Brand; index: number }> = ({ brand, index }) => {
-  const inner = (
+  const body = (
     <>
-      {brand.image ? <img className="brand-card__img" src={brand.image} alt={`${brand.name} のプロダクト`} loading="lazy" /> : <div className="brand-card__orb" style={orbStyle(index)} aria-hidden="true" />}
-      <div className="brand-card__shade" aria-hidden="true" />
-      <span className="brand-card__no">{pad(index + 1)}</span>
-      {brand.logo && <img className="brand-card__logo" src={brand.logo} alt={`${brand.name} ロゴ`} loading="lazy" />}
-      <div className="brand-card__body">
-        {brand.category && <span className="brand-card__tag">{brand.category}</span>}
-        <h3 className="brand-card__name">{brand.name}</h3>
-        <p className="brand-card__concept">{brand.concept}</p>
-      </div>
+      {brand.image && <img className="br__img" src={brand.image} alt="" loading="lazy" decoding="async" />}
+      <span className="br__no" aria-hidden="true">
+        {pad(index + 1)}
+      </span>
+      <span className="br__meta">
+        {brand.category && <span className="br__cat">{brand.category}</span>}
+        {brand.logo ? <img className="br__logo" src={brand.logo} alt={brand.name} loading="lazy" /> : <span className="br__name">{brand.name}</span>}
+        <span className="br__concept">{brand.concept}</span>
+      </span>
     </>
   );
   return brand.url ? (
-    <a className="brand-card" href={brand.url} target="_blank" rel="noopener noreferrer">
-      {inner}
+    <a className="br__card br__card--live" href={brand.url} target="_blank" rel="noopener noreferrer">
+      {body}
     </a>
   ) : (
-    <article className="brand-card">{inner}</article>
+    <div className="br__card br__card--live">{body}</div>
   );
 };
 
 const PlaceholderCard: React.FC<{ index: number }> = ({ index }) => (
-  <article className="brand-card brand-card--soon" aria-label={`参加ブランド ${pad(index + 1)}：近日公開`}>
-    <div className="brand-card__orb" style={orbStyle(index)} aria-hidden="true" />
-    <div className="brand-card__shade" aria-hidden="true" />
-    <span className="brand-card__no">{pad(index + 1)}</span>
-    <div className="brand-card__body">
-      <h3 className="brand-card__name">COMING SOON</h3>
-      <p className="brand-card__concept">参加ブランドは決定次第、順次公開します。</p>
-    </div>
-  </article>
+  <div className="br__card br__card--soon">
+    <span className="br__sheen" aria-hidden="true" />
+    <span className="br__tag" aria-hidden="true">
+      BRAND
+    </span>
+    <span className="br__no" aria-hidden="true">
+      {pad(index + 1)}
+    </span>
+    <span className="br__soon">Coming soon</span>
+    <span className="br__soon-ja">近日公開</span>
+  </div>
 );
 
-/** SCENE 04 — BRANDS：スクロールに合わせてブランドが横方向に、奥行きを伴って登場 */
+/**
+ * SCENE 05 — BRANDS
+ * brands.ts の内容をそのまま並べる。未登録の間は COMING SOON の枠だけを見せる。
+ */
 export const BrandsScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const hasBrands = BRANDS.length > 0;
+  const count = hasBrands ? BRANDS.length : BRAND_PLACEHOLDER_COUNT;
 
-  useSceneMotion(ref, ({ desktop, scope }) => {
-    gsap.fromTo(
-      '.brands__head > *',
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.brands__head', start: 'top 90%', end: 'top 55%', scrub: true } },
-    );
-
-    const track = scope.querySelector<HTMLElement>('.brands__track');
-    const cards = gsap.utils.toArray<HTMLElement>('.brand-card');
-    if (!track) return;
-
+  useSceneMotion(ref, ({ desktop }) => {
     if (!desktop) {
-      // スマートフォン：横スワイプはネイティブに任せ、登場だけを一度だけ
-      gsap.from(cards, { opacity: 0, x: 60, stagger: 0.08, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: track, start: 'top 85%', once: true } });
+      revealOnce('.br__head > *', '.br__head');
+      revealOnce('.br__item', '.br__grid', { y: 50, stagger: 0.08 });
       return;
     }
+    gsap
+      .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.br__head', start: 'top 88%', end: 'top 35%', scrub: true } })
+      .fromTo('.br .eyebrow', { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.3 }, 0)
+      .fromTo('.br__en .char', { yPercent: 105 }, { yPercent: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out' }, 0)
+      .fromTo(['.br__ja', '.br__lead'], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12 }, 0.45);
 
-    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-    const move = gsap.to(track, {
-      x: () => -distance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: scope.querySelector('.scene__sticky'),
-        start: 'top top',
-        end: () => `+=${Math.max(distance(), window.innerHeight * 0.6)}`,
-        pin: true,
-        scrub: true,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // 各カードは画面中央に近づくほど手前に来る
-    cards.forEach((card) => {
-      gsap
-        .timeline({
-          defaults: { ease: 'none' },
-          scrollTrigger: { trigger: card, containerAnimation: move, start: 'left right', end: 'right left', scrub: true },
-        })
-        .fromTo(card, { rotateY: -18, scale: 0.86, opacity: 0.45, z: -120 }, { rotateY: 0, scale: 1, opacity: 1, z: 0, duration: 0.5 })
-        .to(card, { rotateY: 14, scale: 0.9, opacity: 0.6, z: -80, duration: 0.5 });
-    });
+    // 列ごとに速度を変えて、縦にずれながら流れる
+    gsap
+      .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.br__grid', start: 'top bottom', end: 'bottom top', scrub: true } })
+      .fromTo('.br__item:nth-child(odd)', { y: 90 }, { y: -70, duration: 1 }, 0)
+      .fromTo('.br__item:nth-child(even)', { y: 170 }, { y: -130, duration: 1 }, 0)
+      .fromTo('.br__item', { opacity: 0 }, { opacity: 1, duration: 0.16, stagger: 0.03 }, 0.04);
   });
 
   return (
-    <section id="brands" ref={ref} className="scene brands" aria-labelledby="brands-title">
-      <div className="scene__sticky">
-        <div className="brands__head">
-          <div>
-            <p className="eyebrow">02 — Brands</p>
-            <h2 id="brands-title" className="brands__title">BRANDS</h2>
-          </div>
-          <p className="brands__lead">
-            学生起業家や若いクリエイターが生み出す、次世代の美容ブランドが集まります。
-            {!hasBrands && (
-              <>
-                <br />
-                参加ブランドは決定次第、こちらで順次ご紹介します。
-              </>
-            )}
-          </p>
-        </div>
-        <div className="brands__viewport">
-          <div className="brands__track">
-            {hasBrands
-              ? BRANDS.map((b, i) => <BrandCard key={b.id} brand={b} index={i} />)
-              : Array.from({ length: BRAND_PLACEHOLDER_COUNT }, (_, i) => <PlaceholderCard key={i} index={i} />)}
-          </div>
-        </div>
-        <p className="brands__note">{hasBrands ? 'AND MORE BRANDS…' : 'NEXT BEAUTY BRANDS — COMING SOON'}</p>
-      </div>
+    <section id="brands" ref={ref} className="br" aria-labelledby="br-title">
+      <div className="br__bg" aria-hidden="true" />
+      <header className="br__head">
+        <p className="eyebrow">04 — Brands</p>
+        <h2 id="br-title" className="br__title">
+          <span className="br__en" aria-hidden="true">
+            {Array.from('LINEUP').map((ch, i) => (
+              <span className="char" key={i}>
+                {ch}
+              </span>
+            ))}
+          </span>
+          <span className="br__ja">
+            <Phrases text="次の定番は、|ここから生まれる。" />
+          </span>
+        </h2>
+        <p className="br__lead">
+          {hasBrands ? (
+            <>学生起業家や若きクリエイターが手がけるブランドが、NEWTONE に集まります。</>
+          ) : (
+            <>
+              出展ブランドは、決定次第こちらで順次公開します。
+              <br />
+              どんな出会いが待っているか、楽しみにお待ちください。
+            </>
+          )}
+        </p>
+      </header>
+
+      <ul className="br__grid" style={{ ['--cols' as string]: Math.min(count, 5) }}>
+        {hasBrands
+          ? BRANDS.map((b, i) => (
+              <li key={b.id} className="br__item" style={{ ['--hue' as string]: HUES[i % HUES.length] }}>
+                <BrandCard brand={b} index={i} />
+              </li>
+            ))
+          : Array.from({ length: count }, (_, i) => (
+              <li key={i} className="br__item" style={{ ['--hue' as string]: HUES[i % HUES.length], ['--i' as string]: i }}>
+                <PlaceholderCard index={i} />
+              </li>
+            ))}
+      </ul>
     </section>
   );
 };

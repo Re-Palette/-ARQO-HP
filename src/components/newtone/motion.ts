@@ -66,3 +66,19 @@ export function useScrollSync() {
     };
   }, []);
 }
+
+/**
+ * ピン留めしない場面用：画面に入ったときに一度だけ、ふわりと現れる軽い演出（transform / opacity のみ）。
+ * useSceneMotion の setup 内で呼ぶこと（matchMedia の revert でまとめて片付く）。
+ */
+export function revealOnce(targets: gsap.DOMTarget, trigger?: gsap.DOMTarget, vars: gsap.TweenVars = {}) {
+  return gsap.from(targets, {
+    opacity: 0,
+    y: 34,
+    duration: 0.95,
+    ease: 'power3.out',
+    stagger: 0.09,
+    ...vars,
+    scrollTrigger: { trigger: trigger ?? targets, start: 'top 86%', once: true },
+  });
+}

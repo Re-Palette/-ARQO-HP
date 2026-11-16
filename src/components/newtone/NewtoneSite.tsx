@@ -2,13 +2,16 @@
 
 import { SiteHeader } from './SiteHeader';
 import { HeroScene } from './HeroScene';
-import { ConceptScene } from './ConceptScene';
-import { NextBeautyScene } from './NextBeautyScene';
-import { BrandsScene } from './BrandsScene';
+import { ManifestoScene, TickerBand } from './ManifestoScene';
 import { ExperienceScene } from './ExperienceScene';
+import { CategoriesScene } from './CategoriesScene';
+import { BrandsScene } from './BrandsScene';
+import { ForYouScene } from './ForYouScene';
+import { InfoScene } from './InfoScene';
 import { EntryScene } from './EntryScene';
 import { useScrollSync } from './motion';
 import './newtone.css';
+import './scenes.css';
 
 /** NEWTONE 2027 の特設サイト（Re-Palette/newtone2027 から移植）。ARQO の /projects/newtone に組み込む */
 export function NewtoneSite({ fontClassName }: { fontClassName: string }) {
@@ -18,10 +21,13 @@ export function NewtoneSite({ fontClassName }: { fontClassName: string }) {
       <SiteHeader />
       <main id="main">
         <HeroScene />
-        <ConceptScene />
-        <NextBeautyScene />
-        <BrandsScene />
+        <ManifestoScene />
+        <TickerBand />
         <ExperienceScene />
+        <CategoriesScene />
+        <BrandsScene />
+        <ForYouScene />
+        <InfoScene />
         <EntryScene />
       </main>
     </div>

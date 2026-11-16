@@ -16,6 +16,17 @@ export const SplitChars: React.FC<{ text: string; className?: string }> = ({ tex
   </span>
 );
 
+/** 日本語が文節の途中で折り返されないよう、'|' で区切ったまとまりごとに inline-block にする */
+export const Phrases: React.FC<{ text: string }> = ({ text }) => (
+  <>
+    {text.split('|').map((t, i) => (
+      <span className="ph" key={i}>
+        {t}
+      </span>
+    ))}
+  </>
+);
+
 export const ArrowRight: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 34 16" fill="none" aria-hidden="true">
     <path d="M0 8h32M25 1l7 7-7 7" stroke="currentColor" strokeWidth="1.4" />
