@@ -893,14 +893,14 @@
 
 
 /* ---------- ARQO への組み込み ---------- */
-/* フォントは next/font で読み込んだものを使う */
+/* フォントは Google Fonts からブラウザで読み込む（src/app/projects/newtone/page.tsx） */
 .nt {
-  --f-serif-en: var(--font-nt-cormorant), 'Times New Roman', serif;
-  --f-sans-en: var(--font-nt-jost), var(--font-nt-zen), sans-serif;
-  --f-display: var(--font-nt-anton), Impact, sans-serif;
-  --f-script: var(--font-nt-kaushan), cursive;
-  --f-mincho: var(--font-nt-shippori), 'Hiragino Mincho ProN', serif;
-  --f-ja: var(--font-nt-zen), 'Hiragino Sans', sans-serif;
+  --f-serif-en: 'Cormorant Garamond', 'Times New Roman', serif;
+  --f-sans-en: 'Jost', 'Zen Kaku Gothic New', sans-serif;
+  --f-display: 'Anton', Impact, sans-serif;
+  --f-script: 'Kaushan Script', cursive;
+  --f-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+  --f-ja: 'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif;
   font-feature-settings: normal;
 }
 

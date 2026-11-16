@@ -14,10 +14,10 @@ import './newtone.css';
 import './scenes.css';
 
 /** NEWTONE 2027 の特設サイト（Re-Palette/newtone2027 から移植）。ARQO の /projects/newtone に組み込む */
-export function NewtoneSite({ fontClassName }: { fontClassName: string }) {
+export function NewtoneSite() {
   useScrollSync();
   return (
-    <div className={`nt ${fontClassName}`}>
+    <div className="nt">
       <SiteHeader />
       <main id="main">
         <HeroScene />

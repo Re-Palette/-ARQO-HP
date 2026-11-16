@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Cormorant_Garamond, Jost, Kaushan_Script, Shippori_Mincho, Zen_Kaku_Gothic_New } from "next/font/google";
 import { NewtoneSite } from "@/components/newtone/NewtoneSite";
 
-const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-nt-anton", display: "swap" });
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-nt-cormorant", display: "swap" });
-const jost = Jost({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-nt-jost", display: "swap" });
-const kaushan = Kaushan_Script({ subsets: ["latin"], weight: "400", variable: "--font-nt-kaushan", display: "swap" });
-const shippori = Shippori_Mincho({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-nt-shippori", display: "swap", preload: false });
-const zen = Zen_Kaku_Gothic_New({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-nt-zen", display: "swap", preload: false });
+/*
+ * NEWTONE's fonts load from Google Fonts in the browser, as on the original site.
+ * next/font fetched them at build time, and Google Fonts started returning a font URL
+ * without a file extension on Vercel's builders, which next/font cannot parse.
+ */
+const FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@400;600&family=Jost:wght@400;500;600&family=Kaushan+Script&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap";
 
 const description =
   "次世代の美容ブランドPOPUP『NEWTONE 2027』。美しさは、わたしたちがつくる未来。学生起業家が生み出す、新しい美容のカタチ。";
@@ -28,6 +28,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#0d1452" };
 
 export default function NewtonePage() {
-  const fonts = [anton, cormorant, jost, kaushan, shippori, zen].map((f) => f.variable).join(" ");
-  return <NewtoneSite fontClassName={fonts} />;
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      {/* React hoists a stylesheet with `precedence` into <head> */}
+      <link rel="stylesheet" href={FONTS_URL} precedence="default" />
+      <NewtoneSite />
+    </>
+  );
 }
