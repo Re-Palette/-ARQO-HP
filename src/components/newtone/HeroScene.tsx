@@ -6,11 +6,9 @@ const heroImg = '/newtone/hero.webp';
 const heroImg2x = '/newtone/hero-2x.webp';
 const heroBlur = '/newtone/hero-blur.webp';
 const titleMask = '/newtone/hero-title-mask.png';
-const sliceLeft = '/newtone/hero-slice-left-copy.webp';
-const sliceRight = '/newtone/hero-slice-right-copy.webp';
-const sliceCircle = '/newtone/hero-slice-circle.webp';
+/** スマートフォン用のキービジュアル（縦長のポスター。ヘッダー部分だけ画像から除き、HTML のヘッダーを重ねる） */
+const heroSp = '/newtone/hero-sp.webp';
 const heroLights = '/newtone/hero-lights.webp';
-import { EXPERIENCE_CATEGORIES } from './site';
 import { gsap, useSceneMotion } from './motion';
 
 /** 高解像度ディスプレイ・大画面では2倍画像を使う */
@@ -78,12 +76,9 @@ export const HeroScene: React.FC = () => {
       defaults: { ease: 'none' },
       scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
     });
-    tl.to('.poster__center-media', { scale: 1.1, yPercent: 6 }, 0)
-      .fromTo('.hero__poster .hero__sheen-band', { xPercent: 0 }, { xPercent: -68.75 }, 0)
-      .fromTo('.hero__poster .hero__lights', { autoAlpha: 0 }, { autoAlpha: 0.65 }, 0)
-      .to('.poster__top', { yPercent: -18 }, 0)
-      .to('.poster__bottom', { yPercent: -10 }, 0)
-      .to('.poster__scroll', { opacity: 0 }, 0);
+    // ポスターがゆっくり寄りながら少し遅れて抜け、光の層が流れる（transform・opacity のみ）
+    tl.fromTo('.poster__media', { scale: 1, yPercent: 0 }, { scale: 1.08, yPercent: 8 }, 0)
+      .fromTo('.hero__poster .hero__lights', { autoAlpha: 0, yPercent: 6 }, { autoAlpha: 0.6, yPercent: -8 }, 0);
   });
 
   return (
@@ -120,39 +115,22 @@ export const HeroScene: React.FC = () => {
           </a>
         </div>
 
-        {/* ---------- Smartphone / portrait ---------- */}
+        {/* ---------- Smartphone / portrait：縦長のポスターをそのまま使う ---------- */}
         <div className="hero__poster">
-          <div className="poster__bg" style={{ backgroundImage: `url(${heroBlur})` }} aria-hidden="true" />
-          <div className="poster__frame">
-            <div className="poster__top" aria-hidden="true">
-              <img className="poster__left poster__feather" src={sliceLeft} alt="" width={350} height={264} />
-              <img className="poster__right poster__feather" src={sliceRight} alt="" width={410} height={352} />
-            </div>
-            <div className="poster__center">
-              <div className="poster__center-media">
-                <div className="poster__center-stage">
-                  <img src={heroImg} srcSet={heroSrcSet} sizes="165vw" alt="" width={1672} height={941} decoding="async" draggable={false} />
-                  <div className="hero__sheen" style={maskStyle} aria-hidden="true">
-                <div className="hero__sheen-band" />
-              </div>
-                  <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-            <div className="poster__bottom">
-              <img className="poster__circle poster__feather--round" src={sliceCircle} alt="" width={287} height={284} aria-hidden="true" />
-              <ul className="poster__cats" aria-label="カテゴリー">
-                {EXPERIENCE_CATEGORIES.map((c) => (
-                  <li key={c.key}>{c.key}</li>
-                ))}
-              </ul>
-            </div>
-            <p className="poster__by">by NEXT BEAUTY ENTREPRENEURS.</p>
-            <a className="poster__scroll" href="#about">
-              <span>SCROLL</span>
-              <ScrollMark />
-            </a>
+          <div className="poster__media">
+            <img
+              className="poster__img"
+              src={heroSp}
+              width={941}
+              height={1672}
+              alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。未来の“好き”に、きっと出会える。学生起業家が生み出す、新しい美容のカタチ。COSMETICS、SKINCARE、HAIRCARE、INNERCARE、BEAUTY TOOL、FRAGRANCE、AND MORE。"
+              decoding="async"
+              draggable={false}
+            />
+            <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
           </div>
+          {/* 画像の中の「SCROLL」の位置に、押せる範囲だけを重ねる */}
+          <a className="poster__scroll-hit" href="#about" aria-label="下へスクロール" />
         </div>
       </div>
     </section>
